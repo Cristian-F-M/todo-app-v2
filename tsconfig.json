@@ -4,8 +4,8 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@componentes/*": [
-        "./componentes/*"
+      "@components/*": [
+        "./componets/*"
       ],
       "@icons/*": [
         "./icons/*"
