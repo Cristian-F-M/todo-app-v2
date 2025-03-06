@@ -1,13 +1,13 @@
-import { Slot } from 'expo-router'
+import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { View } from 'react-native'
 import '../global.css'
 
 export default function RootLayout() {
   return (
-    <View className="flex-1 bg-gray-900">
+    <View className="flex-1">
       <StatusBar style="light" />
-      <Slot />
+      <Stack />
     </View>
   )
 }
