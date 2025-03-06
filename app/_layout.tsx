@@ -5,7 +5,7 @@ import '../global.css'
 
 export default function RootLayout() {
   return (
-    <View>
+    <View className="flex-1 bg-gray-900">
       <StatusBar style="light" />
       <Slot />
     </View>
