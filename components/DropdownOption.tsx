@@ -1,5 +1,5 @@
 import { Pressable, Text, View } from 'react-native'
-import type { DropdownOptionProps } from '@types/Dropdown'
+import type { DropdownOptionProps } from 'Dropdown'
 
 export function DropdownOption({
   onPress,
@@ -14,9 +14,9 @@ export function DropdownOption({
 }: DropdownOptionProps) {
   const Icon = icon
 
-  const onPressFC = () => {
-    if (onPress) onPress()
-    handleClose()
+  const onPressFC = (e?: any) => {
+    if (onPress) onPress(e)
+    handleClose(e)
   }
 
   return (
