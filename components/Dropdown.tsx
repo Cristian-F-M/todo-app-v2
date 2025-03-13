@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Modal, Pressable, Text, View } from 'react-native'
 import { DropdownOption } from './DropdownOption'
-import type { DropdownMenuProps } from '@types/Dropdown'
+import type { DropdownMenuProps } from 'Dropdown'
 
 export function DropdownMenu({
   visible,
