@@ -23,5 +23,8 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "typeRoots": [
+      "./types"
+    ]
   },
 }
