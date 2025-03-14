@@ -32,7 +32,7 @@ export default function Index() {
           onPress={openCreateFolderModal}
         />
       </View>
-      <View className="mt-10 items-center justify-center w-11/12 mx-auto">
+      <View className="mt-10 items-center justify-center w-11/12 mx-auto flex-1 mb-6">
         <FlatList
           className="w-full gap-y-2"
           data={folders}
