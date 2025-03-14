@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Modal, Pressable, Text, View } from 'react-native'
+import { Dimensions, Modal, Pressable, Text, View } from 'react-native'
 import { DropdownOption } from './DropdownOption'
 import type { DropdownMenuProps } from 'Dropdown'
 
@@ -12,19 +12,33 @@ export function DropdownMenu({
   children,
 }: DropdownMenuProps) {
   const triggerRef = useRef<View>(null)
-  const [position, setPosition] = useState({ x: 0, y: 0, width: 0 })
+  const [position, setPosition] = useState({
+    x: 0,
+    y: 0,
+    width: 0,
+    flip: false,
+  })
 
   useEffect(() => {
     if (triggerRef.current && visible) {
       triggerRef.current.measure((fx, fy, width, height, px, py) => {
+        const { height: screenHeight } = Dimensions.get('window')
+        const dropdownHeight = 150
+
+        console.log({ py, dropdownHeight, screenHeight })
+
+        const fitsBelow = py + dropdownHeight <= screenHeight
+        const newY = fitsBelow ? py + height : py - dropdownHeight / 1.5
+
         setPosition({
-          x: px,
-          y: py + height,
+          x: px + width / 2 - dropdownWidth / 1.09,
+          y: newY - 30,
           width: width,
+          flip: !fitsBelow,
         })
       })
     }
-  }, [visible])
+  }, [visible, dropdownWidth])
 
   return (
     <View>
@@ -41,8 +55,8 @@ export function DropdownMenu({
             <View
               className="absolute z-50 bg-[#1f2937] border-gray-500 border shadow-lg rounded-lg overflow-hidden"
               style={{
-                top: position.y - 30,
-                left: position.x + position.width / 2 - dropdownWidth / 1.09,
+                top: position.y,
+                left: position.x,
                 width: dropdownWidth,
               }}
             >
