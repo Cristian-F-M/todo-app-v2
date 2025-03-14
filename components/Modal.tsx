@@ -26,31 +26,28 @@ export function ModalTask({
       if (mode === 'CREATE') createTask()
       if (mode === 'EDIT') updateTask()
     }
+    closeModal()
   }
 
   const createFolder = useCallback(() => {
     addFolder(textInput)
-    closeModal()
-  }, [addFolder, closeModal, textInput])
+  }, [addFolder, textInput])
 
   const updateFolder = useCallback(() => {
     if (!item) throw new Error('Item is required')
     console.log('updateFolder', item.id, textInput)
     editFolder(item.id, textInput)
-    closeModal()
-  }, [editFolder, closeModal, textInput, item])
+  }, [editFolder, textInput, item])
 
   const createTask = useCallback(() => {
     if (!folderId) throw new Error('folderId is required')
     addTask(folderId, textInput)
-    closeModal()
-  }, [addTask, closeModal, textInput, folderId])
+  }, [addTask, textInput, folderId])
 
   const updateTask = useCallback(() => {
     if (!item) throw new Error('item is required')
     editTask(item.id, textInput)
-    closeModal()
-  }, [editTask, closeModal, textInput, item])
+  }, [editTask, textInput, item])
 
   useEffect(() => {
     if (mode === 'EDIT' && item) {
