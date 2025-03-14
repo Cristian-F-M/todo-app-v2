@@ -9,6 +9,7 @@ import Edit from '@icons/Edit'
 import { useModal } from '@context/Modal'
 import Trash from '@icons/Trash'
 import { DeleteItem } from './DeleteItem'
+import { router } from 'expo-router'
 
 export function FolderItem({ folder }: { folder: FolderType }) {
   const [dropDownVisible, setDropDownVisible] = useState(false)
@@ -47,7 +48,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
   return (
     <Pressable
       className="flex-row bg-gray-800 px-4 py-4 mb-3 h-16 rounded-lg justify-between active:bg-gray-700"
-      // onPress={() => router.push(`/folder/${folder.id}`)}
+      onPress={() => router.push(`/folder/${folder.id}`)}
     >
       <View className="flex flex-row gap-x-2 items-center justify-center">
         <Folder stroke="#2563eb" />
