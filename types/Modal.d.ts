@@ -14,7 +14,7 @@ export type openModalOptions = {
   type?: ModalType
   item?: Task | Folder
   folderId?: string
-  mode: ModalMode
+  mode?: ModalMode
   defaultModal?: boolean
   content?: React.ReactNode
 }
@@ -23,3 +23,8 @@ export type openModalFC = (
   e?: any,
   { type, item, folderId }: openModalOptions,
 ) => void
+
+export type DeleteItemProps = {
+  item: Task | Folder
+  type?: ModalType
+}
