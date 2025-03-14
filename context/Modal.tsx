@@ -30,13 +30,14 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     e,
     { type, item, folderId, mode, defaultModal = true, content },
   ) => {
+    if (!defaultModal && !content) throw new Error('Content is required')
     if (e) e.persist()
     if (type) setType(type)
     if (item) setItem(item)
     if (folderId) setFolderId(folderId)
     if (mode) setMode(mode)
     if (content) setContent(content)
-    if (defaultModal) setDefaultModal(defaultModal)
+    if (defaultModal != null) setDefaultModal(defaultModal)
 
     modalRef.current?.open()
   }
