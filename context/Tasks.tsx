@@ -77,7 +77,6 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const addFolder = (name: string) => {
-    console.log('addFolder', name)
     const folder: Folder = { id: uuid.v4(), name, taskCount: 0 }
     setFolders(prev => [...prev, folder])
   }
