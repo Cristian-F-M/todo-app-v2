@@ -24,8 +24,6 @@ export function DropdownMenu({
         const { height: screenHeight } = Dimensions.get('window')
         const dropdownHeight = 150
 
-        console.log({ py, dropdownHeight, screenHeight })
-
         const fitsBelow = py + dropdownHeight <= screenHeight
         const newY = fitsBelow ? py + height : py - dropdownHeight / 1.5
 
