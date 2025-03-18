@@ -1,7 +1,7 @@
 import { ModalTask } from '@components/Modal'
 import React, { createContext, useContext, useRef, useState } from 'react'
 import { Modalize } from 'react-native-modalize'
-import type { ModalType, ModalMode, openModalFC } from 'Modal'
+import type { ModalType, ModalMode, openModalFC, ModalProps } from 'Modal'
 import type { Task } from 'Task'
 import type { Folder } from 'Folder'
 
@@ -25,10 +25,13 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [mode, setMode] = useState<ModalMode>('CREATE')
   const [content, setContent] = useState<React.ReactNode>()
   const [defaultModal, setDefaultModal] = useState(true)
+  const [onSubmit, setOnSubmit] = useState<any>()
+  const [onCancel, setOnCancel] = useState<any>()
+  const [onError, setOnError] = useState<any>()
 
   const openModal: openModalFC = (
     e,
-    { type, item, folderId, mode, defaultModal = true, content },
+    { type, item, folderId, mode, defaultModal = true, content, onSubmit, onCancel, onError }, 
   ) => {
     if (!defaultModal && !content) throw new Error('Content is required')
     if (e) e.persist()
@@ -38,6 +41,9 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     if (mode) setMode(mode)
     if (content) setContent(content)
     if (defaultModal != null) setDefaultModal(defaultModal)
+    if (onSubmit) setOnSubmit(() => onSubmit)
+    if (onCancel) setOnCancel(() => onCancel)
+    if (onError) setOnError(() => onError)
 
     modalRef.current?.open()
   }
@@ -62,6 +68,9 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
             item={item}
             folderId={folderId}
             mode={mode}
+            onSubmit={onSubmit}
+            onCancel={onCancel}
+            onError={onError}
           />
         )}
         {!defaultModal && content}
