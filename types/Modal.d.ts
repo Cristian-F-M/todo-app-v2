@@ -8,6 +8,9 @@ export type ModalProps = {
   item?: Task | Folder
   folderId?: string
   mode: ModalMode
+  onSubmit?: () => void
+  onCancel?: () => void
+  onError?: () => void
 }
 
 export type openModalOptions = {
@@ -17,11 +20,14 @@ export type openModalOptions = {
   mode?: ModalMode
   defaultModal?: boolean
   content?: React.ReactNode
+  onSubmit?: () => void
+  onCancel?: () => void
+  onError?: () => void
 }
 
 export type openModalFC = (
   e?: any,
-  { type, item, folderId }: openModalOptions,
+  { type, item, folderId, onSubmit, onCancel, onError }: openModalOptions,
 ) => void
 
 export type DeleteItemProps = {
