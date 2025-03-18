@@ -31,7 +31,17 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
 
   const openModal: openModalFC = (
     e,
-    { type, item, folderId, mode, defaultModal = true, content, onSubmit, onCancel, onError }, 
+    {
+      type,
+      item,
+      folderId,
+      mode,
+      defaultModal = true,
+      content,
+      onSubmit,
+      onCancel,
+      onError,
+    },
   ) => {
     if (!defaultModal && !content) throw new Error('Content is required')
     if (e) e.persist()
