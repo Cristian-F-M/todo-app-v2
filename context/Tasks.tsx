@@ -8,6 +8,16 @@ import {
 import type { Task, Tasks } from 'Task'
 import uuid from 'react-native-uuid'
 import type { Folder, Folders } from 'Folder'
+import {
+  getFoldersFromDB,
+  createFolder,
+  updateFolder,
+  deleteFolder as deleteFolderFromDB,
+  updateTask,
+  aumentTaskCount as aumentTaskCountFromDB,
+  deleteTask as deleteTaskFromDB,
+} from '@utils/database'
+import { ToastAndroid } from 'react-native'
 
 type TaskContextType = {
   tasks: Tasks
@@ -23,29 +33,17 @@ type TaskContextType = {
   aumentTaskCount: (folderId: string) => void
 }
 
-const TaskContext = createContext<TaskContextType>({
-  tasks: [],
-  folders: [],
-  getFolderById: () => undefined,
-  getTasksByFolderId: () => [],
-  addTask: () => {},
-  addFolder: () => {},
-  editTask: () => {},
-  editFolder: () => {},
-  deleteFolder: () => {},
-  deleteTask: () => {},
-  aumentTaskCount: () => {},
-})
+const TaskContext = createContext<TaskContextType>({} as TaskContextType)
 
 export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   const [tasks, setTasks] = useState<Tasks>([])
   const [folders, setFolders] = useState<Folders>([])
 
   const getFolders = useCallback(async () => {
-    const folders: Folders = [
-      { id: uuid.v4(), name: 'Compras', taskCount: 0 },
-      { id: uuid.v4(), name: 'Tareas', taskCount: 0 },
-    ]
+    const folders = await getFoldersFromDB()
+
+    console.log({ foldersDB: folders })
+
     setFolders(folders)
   }, [])
 
@@ -57,7 +55,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   )
 
   const getTasksByFolderId = (folderId: string): Tasks => {
-    return [
+    const tasks: Tasks = [
       {
         id: uuid.v4(),
         name: 'Pollo',
@@ -69,6 +67,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
         folderId,
       },
     ]
+    return tasks
   }
 
   const addTask = (folderId: string, name: string) => {
@@ -76,12 +75,22 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     setTasks([...tasks, task])
   }
 
-  const addFolder = (name: string) => {
+  const addFolder = async (name: string) => {
     const folder: Folder = { id: uuid.v4(), name, taskCount: 0 }
+    const { ok } = await createFolder(folder)
+
+    if (!ok)
+      return ToastAndroid.show('Error al crear la carpeta', ToastAndroid.SHORT)
     setFolders(prev => [...prev, folder])
   }
 
-  const deleteFolder = (folderId: string) => {
+  const deleteFolder = async (folderId: string) => {
+    const { ok } = await deleteFolderFromDB(folderId)
+    if (!ok)
+      return ToastAndroid.show(
+        'Error al eliminar la carpeta',
+        ToastAndroid.SHORT,
+      )
     setFolders([...folders.filter(folder => folder.id !== folderId)])
   }
 
@@ -89,35 +98,55 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     return tasks.filter(task => task.id === taskId)[0]
   }
 
-  const editFolder = (folderId: string, name: string) => {
+  const editFolder = async (folderId: string, name: string) => {
     const index = folders.findIndex(folder => folder.id === folderId)
-    if (index === -1) throw new Error('Folder not found')
+    if (index === -1) return
 
+    const { ok } = await updateFolder(folderId, name)
     const newFolders = [...folders]
+
+    if (!ok)
+      return ToastAndroid.show('Error al editar la carpeta', ToastAndroid.SHORT)
     newFolders[index] = { ...newFolders[index], name }
 
     setFolders(newFolders)
   }
 
-  const editTask = (taskId: string, name: string) => {
-    const task = getTaskById(taskId)
-    if (!task) return
-    const newTasks = [
-      { ...task, name },
-      ...tasks.filter(task => task.id !== taskId),
-    ]
+  const editTask = async (taskId: string, name: string) => {
+    const index = tasks.findIndex(task => task.id === taskId)
+    if (index === -1) return
+
+    const { ok } = await updateTask(taskId, name)
+
+    if (!ok)
+      return ToastAndroid.show('Error al editar la tarea', ToastAndroid.SHORT)
+
+    const newTasks = [...tasks]
+    newTasks[index] = { ...newTasks[index], name }
     setTasks(newTasks)
   }
 
-  const aumentTaskCount = (folderId: string) => {
+  const aumentTaskCount = async (folderId: string) => {
     const folder = getFolderById(folderId)
     if (!folder) return
 
+    const { ok } = await aumentTaskCountFromDB(folderId)
+
+    if (!ok)
+      return ToastAndroid.show(
+        'Error al aumentar el contador',
+        ToastAndroid.SHORT,
+      )
+
     const newFolders = [{ ...folder, taskCount: folder.taskCount + 1 }]
     setFolders(newFolders)
+    aumentTaskCount(folderId)
   }
 
-  const deleteTask = (taskId: string) => {
+  const deleteTask = async (taskId: string) => {
+    const { ok } = await deleteTaskFromDB(taskId)
+    if (!ok)
+      return ToastAndroid.show('Error al eliminar la tarea', ToastAndroid.SHORT)
     setTasks([...tasks.filter(task => task.id !== taskId)])
   }
 
