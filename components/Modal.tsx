@@ -12,6 +12,9 @@ export function ModalTask({
   item,
   folderId,
   mode = 'CREATE',
+  onSubmit,
+  onCancel,
+  onError,
 }: ModalProps) {
   const [textInput, setTextInput] = useState('')
   const { addTask, addFolder, editFolder, editTask } = useTasks()
@@ -26,6 +29,7 @@ export function ModalTask({
       if (mode === 'CREATE') createTask()
       if (mode === 'EDIT') updateTask()
     }
+    if (onSubmit) onSubmit()
     closeModal()
   }
 
