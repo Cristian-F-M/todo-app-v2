@@ -42,8 +42,6 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   const getFolders = useCallback(async () => {
     const folders = await getFoldersFromDB()
 
-    console.log({ foldersDB: folders })
-
     setFolders(folders)
   }, [])
 
