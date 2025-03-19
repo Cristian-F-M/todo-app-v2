@@ -39,7 +39,6 @@ export function ModalTask({
 
   const updateFolder = useCallback(() => {
     if (!item) throw new Error('Item is required')
-    console.log('updateFolder', item.id, textInput)
     editFolder(item.id, textInput)
   }, [editFolder, textInput, item])
 
