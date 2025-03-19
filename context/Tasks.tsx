@@ -18,6 +18,7 @@ import {
   deleteTask as deleteTaskFromDB,
   createTask,
   loadTasks,
+  deleteTasksByFolderId,
 } from '@utils/database'
 import { ToastAndroid } from 'react-native'
 
@@ -85,6 +86,15 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const deleteFolder = async (folderId: string) => {
+    // TODO - Delete tasks with folderId
+    const { ok: okDeleteTasks } = await deleteTasksByFolderId(folderId)
+
+    if (!okDeleteTasks)
+      return ToastAndroid.show(
+        'Error al eliminar las tareas de la carpeta',
+        ToastAndroid.SHORT,
+      )
+
     const { ok } = await deleteFolderFromDB(folderId)
     if (!ok)
       return ToastAndroid.show(
@@ -153,7 +163,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     getFolders()
     getTasks()
-  }, [getFolders])
+  }, [getFolders, getTasks])
 
   return (
     <TaskContext.Provider
