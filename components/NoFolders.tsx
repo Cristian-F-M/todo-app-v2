@@ -1,10 +1,12 @@
 import AddFolder from '@icons/AddFolder'
-import { Pressable, Text, useAnimatedValue, View, Animated } from 'react-native'
+import { Pressable, Text, useAnimatedValue, Animated } from 'react-native'
 import { StyledPressable } from './StyledPressable'
 import { useTasks } from '@context/Tasks'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
+import { useModal } from '@context/Modal'
 
-export function NoFolders({ openModal }: { openModal: (e?: any) => void }) {
+export function NoFolders() {
+  const { openModal } = useModal()
   const { folders } = useTasks()
 
   const thereIsFolders = folders.length > 0
@@ -21,6 +23,16 @@ export function NoFolders({ openModal }: { openModal: (e?: any) => void }) {
 
     opacityAnimation.start()
   }, [opacityValue, thereIsFolders])
+
+  const handleClickOpenModal = useCallback(
+    (e?: any) => {
+      openModal(e, {
+        type: 'FOLDER',
+        mode: 'CREATE',
+      })
+    },
+    [openModal],
+  )
 
   return (
     <Animated.View
@@ -43,7 +55,7 @@ export function NoFolders({ openModal }: { openModal: (e?: any) => void }) {
       <StyledPressable
         text="Agregar primera carpeta"
         pressableClassName="mt-8"
-        onPress={openModal}
+        onPress={handleClickOpenModal}
       />
     </Animated.View>
   )
