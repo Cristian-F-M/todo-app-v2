@@ -10,6 +10,11 @@ import { useModal } from '@context/Modal'
 import Trash from '@icons/Trash'
 import { DeleteItem } from './DeleteItem'
 import { Link } from 'expo-router'
+import Animated, {
+  LinearTransition,
+  FadeInRight,
+  FadeOutLeft,
+} from 'react-native-reanimated'
 
 export function FolderItem({ folder }: { folder: FolderType }) {
   const [dropDownVisible, setDropDownVisible] = useState(false)
@@ -51,7 +56,12 @@ export function FolderItem({ folder }: { folder: FolderType }) {
       asChild
       className="flex-row bg-gray-800 px-4 py-4 mb-3 h-16 rounded-lg justify-between active:bg-gray-700"
     >
-      <View className="flex-1 items-center justify-center">
+      <Animated.View
+        className="flex-1 items-center justify-center"
+        layout={LinearTransition.stiffness(2)}
+        entering={FadeInRight}
+        exiting={FadeOutLeft}
+      >
         <View className="flex flex-row gap-x-2 items-center justify-center">
           <Folder stroke="#2563eb" />
           <Text className="text-white text-lg tracking-wider items-center justify-center">
@@ -93,7 +103,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
             onPress={openDeleteModal}
           />
         </DropdownMenu>
-      </View>
+      </Animated.View>
     </Link>
   )
 }
