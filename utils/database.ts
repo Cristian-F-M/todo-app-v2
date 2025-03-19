@@ -8,6 +8,7 @@ import type {
   UpdateTaskFC,
   DeleteTaskFC,
   AumentTaskCountFC,
+  DeleteTasksByFolderIdFC,
 } from 'Database'
 import type { Tasks } from 'Task'
 
@@ -175,5 +176,25 @@ export const aumentTaskCount: AumentTaskCountFC = async id => {
   } finally {
     await statement.finalizeAsync()
   }
+  return { ok }
+}
+
+export const deleteTasksByFolderId: DeleteTasksByFolderIdFC = async id => {
+  let ok = false
+
+  if (!id) return { ok }
+
+  const db = connectDatabase()
+  const statement = await db.prepareAsync(
+    'DELETE FROM tasks WHERE folderId = $id',
+  )
+
+  try {
+    await statement.executeAsync({ $id: id })
+    ok = true
+  } finally {
+    await statement.finalizeAsync()
+  }
+
   return { ok }
 }
