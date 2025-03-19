@@ -21,3 +21,8 @@ export type DeleteTaskFC = (id: Task['id']) => retunType
 export type AumentTaskCountFC = (id: Folder['id']) => retunType
 
 export type DeleteTasksByFolderIdFC = (id: Folder['id']) => retunType
+
+export enum ChangeTaskCountOperator {
+  SUBTRACTION = 'SUBTRACTION',
+  SUM = 'SUM',
+}
