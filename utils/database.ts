@@ -9,6 +9,7 @@ import type {
   DeleteTaskFC,
   AumentTaskCountFC,
 } from 'Database'
+import type { Tasks } from 'Task'
 
 export function connectDatabase() {
   const db = SQLite.openDatabaseSync('todo-cm.db')
@@ -32,10 +33,10 @@ export async function getFoldersFromDB(): Promise<Folders> {
   return folders as Folders
 }
 
-export async function loadTasks() {
+export async function loadTasks(): Promise<Tasks> {
   const db = connectDatabase()
-  const tasks = db.execAsync('SELECT * FROM tasks')
-  return tasks
+  const tasks = await db.getAllAsync('SELECT * FROM tasks')
+  return tasks as Tasks
 }
 
 export async function deleteDatabase() {
