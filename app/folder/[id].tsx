@@ -40,8 +40,6 @@ export default function Folder() {
   useEffect(() => {
     const tasks = getTasksByFolderId(folderId)
 
-    console.log({ tasks })
-
     setTasks(tasks)
     setTaskCount(tasks.length)
   }, [tasksFromContext, folderId, getTasksByFolderId])
