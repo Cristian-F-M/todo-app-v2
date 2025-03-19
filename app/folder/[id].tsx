@@ -2,7 +2,7 @@ import { Screen } from '@components/Screen'
 import { useTasks } from '@context/Tasks'
 import { Stack, useGlobalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
-import { FlatList, Text, View } from 'react-native'
+import { FlatList, Text, useAnimatedValue, View, Animated } from 'react-native'
 import { StyledPressable } from '@components/StyledPressable'
 import { ScrollView } from 'react-native-gesture-handler'
 import { NoTasks } from '@components/NoTasks'
@@ -25,6 +25,34 @@ export default function Folder() {
   const folder = getFolderById(folderId)
   const [tasks, setTasks] = useState<Tasks>([])
   const [taskCount, setTaskCount] = useState<number>(folder?.taskCount || 0)
+
+  const thereAreTasks = tasks.length > 0
+  const opacityValue = useAnimatedValue(thereAreTasks ? 0 : 1)
+  const opacityValue2 = useAnimatedValue(thereAreTasks ? 1 : 0)
+
+  useEffect(() => {
+    const toValue = thereAreTasks ? 1 : 0
+
+    const opacityAnimation = Animated.timing(opacityValue, {
+      toValue,
+      duration: 200,
+      useNativeDriver: true,
+    })
+
+    opacityAnimation.start()
+  }, [opacityValue, thereAreTasks])
+
+  useEffect(() => {
+    const toValue = thereAreTasks ? 0 : 1
+
+    const opacityAnimation = Animated.timing(opacityValue2, {
+      toValue,
+      duration: 200,
+      useNativeDriver: true,
+    })
+
+    opacityAnimation.start()
+  }, [opacityValue2, thereAreTasks])
 
   const openCreateTaskModal = (e?: any) => {
     openModal(e, {
@@ -64,11 +92,13 @@ export default function Folder() {
         <View className="px-2 flex-1">
           <View className="flex flex-row items-center justify-between mt-3 px-2">
             <Text className="text-gray-400 text-base">{taskCount} tareas</Text>
-            <StyledPressable
-              text="Agregar tarea"
-              pressableClassName="max-w-32"
-              onPress={openCreateTaskModal}
-            />
+            <Animated.View style={{ opacity: opacityValue }}>
+              <StyledPressable
+                text="Agregar tarea"
+                pressableClassName="max-w-32"
+                onPress={openCreateTaskModal}
+              />
+            </Animated.View>
           </View>
 
           {tasks.length > 0 && (
@@ -81,7 +111,11 @@ export default function Folder() {
           )}
 
           <ScrollView>
-            {tasks.length === 0 && <NoTasks openModal={openCreateTaskModal} />}
+            {tasks.length === 0 && (
+              <Animated.View style={{ opacity: opacityValue2 }}>
+                <NoTasks openModal={openCreateTaskModal} />
+              </Animated.View>
+            )}
           </ScrollView>
         </View>
       )}
