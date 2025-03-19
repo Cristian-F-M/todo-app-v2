@@ -19,8 +19,10 @@ import {
   createTask,
   loadTasks,
   deleteTasksByFolderId,
+  changeTaskCount as changeTaskCountFromDB,
 } from '@utils/database'
 import { ToastAndroid } from 'react-native'
+import type { ChangeTaskCountOperator } from 'Database'
 
 type TaskContextType = {
   tasks: Tasks
@@ -33,7 +35,6 @@ type TaskContextType = {
   editFolder: (folderId: string, name: string) => void
   deleteFolder: (folderId: string) => void
   deleteTask: (taskId: string) => void
-  aumentTaskCount: (folderId: string) => void
 }
 
 const TaskContext = createContext<TaskContextType>({} as TaskContextType)
@@ -136,11 +137,16 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     setTasks(newTasks)
   }
 
-  const aumentTaskCount = async (folderId: string) => {
+  const changeTaskCount = async (
+    folderId: string,
+    operator: ChangeTaskCountOperator,
+  ) => {
     const folder = getFolderById(folderId)
     if (!folder) return
 
-    const { ok } = await aumentTaskCountFromDB(folderId)
+    const { ok } = await changeTaskCountFromDB(folderId, operator)
+
+    const value = operator === 'SUM' ? 1 : -1
 
     if (!ok)
       return ToastAndroid.show(
@@ -148,15 +154,29 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
         ToastAndroid.SHORT,
       )
 
-    const newFolders = [{ ...folder, taskCount: folder.taskCount + 1 }]
+    const newFolders = [{ ...folder, taskCount: folder.taskCount + value }]
     setFolders(newFolders)
-    aumentTaskCount(folderId)
   }
 
   const deleteTask = async (taskId: string) => {
+    const task = getTaskById(taskId)
+    if (!task) return
+
     const { ok } = await deleteTaskFromDB(taskId)
     if (!ok)
       return ToastAndroid.show('Error al eliminar la tarea', ToastAndroid.SHORT)
+
+    const { ok: okChangeTaskCount } = await changeTaskCountFromDB(
+      task.folderId,
+      'SUBTRACTION' as ChangeTaskCountOperator,
+    )
+
+    if (!okChangeTaskCount)
+      return ToastAndroid.show(
+        'Error al disminuir el contador',
+        ToastAndroid.SHORT,
+      )
+
     setTasks([...tasks.filter(task => task.id !== taskId)])
   }
 
@@ -174,7 +194,6 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
         getTasksByFolderId,
         addTask,
         addFolder,
-        aumentTaskCount,
         deleteFolder,
         deleteTask,
         editTask,
