@@ -1,7 +1,6 @@
 import AddFolder from '@icons/AddFolder'
 import { Pressable, Text, useAnimatedValue, View, Animated } from 'react-native'
 import { StyledPressable } from './StyledPressable'
-import { useModal } from '@context/Modal'
 import { useTasks } from '@context/Tasks'
 import { useEffect } from 'react'
 
