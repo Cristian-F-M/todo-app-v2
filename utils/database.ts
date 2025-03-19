@@ -1,4 +1,4 @@
-import type { Folders } from 'Folder'
+import type { Folder, Folders } from 'Folder'
 import * as SQLite from 'expo-sqlite'
 import type {
   CreateFolderFC,
@@ -9,6 +9,7 @@ import type {
   DeleteTaskFC,
   AumentTaskCountFC,
   DeleteTasksByFolderIdFC,
+  ChangeTaskCountOperator,
 } from 'Database'
 import type { Tasks } from 'Task'
 
@@ -191,6 +192,29 @@ export const deleteTasksByFolderId: DeleteTasksByFolderIdFC = async id => {
 
   try {
     await statement.executeAsync({ $id: id })
+    ok = true
+  } finally {
+    await statement.finalizeAsync()
+  }
+
+  return { ok }
+}
+
+export async function changeTaskCount(
+  folderId: Folder['id'],
+  operator: ChangeTaskCountOperator,
+) {
+  let ok = false
+  if (!folderId) return { ok }
+
+  const operatorSymbol = operator === 'SUM' ? '+' : '-'
+  const db = connectDatabase()
+  const statement = await db.prepareAsync(
+    `UPDATE folders SET taskCount = taskCount ${operatorSymbol} 1 WHERE id = $folderId`,
+  )
+
+  try {
+    await statement.executeAsync({ $folderId: folderId })
     ok = true
   } finally {
     await statement.finalizeAsync()
