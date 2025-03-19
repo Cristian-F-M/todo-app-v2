@@ -16,6 +16,8 @@ import {
   updateTask,
   aumentTaskCount as aumentTaskCountFromDB,
   deleteTask as deleteTaskFromDB,
+  createTask,
+  loadTasks,
 } from '@utils/database'
 import { ToastAndroid } from 'react-native'
 
@@ -45,6 +47,12 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     setFolders(folders)
   }, [])
 
+  const getTasks = useCallback(async () => {
+    const tasks = await loadTasks()
+    console.log({ tasksDB: tasks })
+    setTasks(tasks)
+  }, [])
+
   const getFolderById = useCallback(
     (folderId: string): Folder | undefined => {
       return folders.filter(folder => folder.id === folderId)[0]
@@ -53,23 +61,17 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   )
 
   const getTasksByFolderId = (folderId: string): Tasks => {
-    const tasks: Tasks = [
-      {
-        id: uuid.v4(),
-        name: 'Pollo',
-        folderId,
-      },
-      {
-        id: uuid.v4(),
-        name: 'Guantes',
-        folderId,
-      },
-    ]
-    return tasks
+    const newTasks = tasks.filter(task => task.folderId === folderId) || []
+    return newTasks as Tasks
   }
 
-  const addTask = (folderId: string, name: string) => {
+  const addTask = async (folderId: string, name: string) => {
     const task: Task = { id: uuid.v4(), name, folderId }
+    const { ok } = await createTask(task)
+
+    if (!ok)
+      return ToastAndroid.show('Error al crear la tarea', ToastAndroid.SHORT)
+
     setTasks([...tasks, task])
   }
 
@@ -150,6 +152,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     getFolders()
+    getTasks()
   }, [getFolders])
 
   return (
