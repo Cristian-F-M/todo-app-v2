@@ -17,9 +17,17 @@ export function ModalTask({
   onError,
 }: ModalProps) {
   const [textInput, setTextInput] = useState('')
+  const [errors, setErrors] = useState<{ [key: string]: string | null }>({
+    textInput: 'El campo es requerido',
+  })
   const { addTask, addFolder, editFolder, editTask } = useTasks()
 
   const handleClickSubmit = () => {
+    if (textInput.trim() === '') {
+      setErrors(prev => ({ ...prev, textInput: 'El campo es requerido' }))
+      return
+    }
+
     if (type === 'FOLDER') {
       if (mode === 'CREATE') createFolder()
       if (mode === 'EDIT') updateFolder()
@@ -33,22 +41,31 @@ export function ModalTask({
     closeModal()
   }
 
+  useEffect(() => {
+    setErrors(prev => ({ ...prev, textInput: null }))
+  }, [])
+
+  const handleClickChangeText = useCallback((text: string) => {
+    setTextInput(text)
+    setErrors(prev => ({ ...prev, textInput: null }))
+  }, [])
+
   const createFolder = useCallback(() => {
     addFolder(textInput)
   }, [addFolder, textInput])
 
   const updateFolder = useCallback(() => {
-    if (!item) throw new Error('Item is required')
+    if (!item) return
     editFolder(item.id, textInput)
   }, [editFolder, textInput, item])
 
   const createTask = useCallback(() => {
-    if (!folderId) throw new Error('folderId is required')
+    if (!folderId) return
     addTask(folderId, textInput)
   }, [addTask, textInput, folderId])
 
   const updateTask = useCallback(() => {
-    if (!item) throw new Error('item is required')
+    if (!item) return
     editTask(item.id, textInput)
   }, [editTask, textInput, item])
 
@@ -90,15 +107,21 @@ export function ModalTask({
           className="text-white px-3 h-14"
           placeholderTextColor="#99a1af"
           placeholder={textPlaceholder}
-          onChangeText={setTextInput}
+          onChangeText={handleClickChangeText}
           value={textInput}
         />
       </View>
+      <Text
+        className="text-red-500 mt-1"
+        style={{ opacity: errors.textInput ? 1 : 0 }}
+      >
+        {errors.textInput}
+      </Text>
 
       <View>
         <StyledPressable
           text={pressableText}
-          pressableClassName="mt-8"
+          pressableClassName="mt-3"
           onPress={handleClickSubmit}
         />
       </View>
