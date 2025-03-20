@@ -7,7 +7,7 @@ import { useCallback, useEffect } from 'react'
 export function Header() {
   const { folders } = useTasks()
   const { openModal } = useModal()
-  const thereIsFolders = folders.length > 0
+  const thereIsFolders = folders && folders.length > 0
   const opacityValue = useAnimatedValue(thereIsFolders ? 0 : 1)
 
   useEffect(() => {

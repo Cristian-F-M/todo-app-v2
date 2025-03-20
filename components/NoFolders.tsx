@@ -9,7 +9,7 @@ export function NoFolders() {
   const { openModal } = useModal()
   const { folders } = useTasks()
 
-  const thereIsFolders = folders.length > 0
+  const thereIsFolders = folders && folders.length > 0
   const opacityValue = useAnimatedValue(thereIsFolders ? 1 : 0)
 
   useEffect(() => {

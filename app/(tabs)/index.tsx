@@ -12,7 +12,7 @@ export default function Index() {
   const { folders } = useTasks()
   const [loading, setLoading] = useState(true)
 
-  const thereIsFolders = folders.length > 0
+  const thereIsFolders = folders && folders.length > 0
 
   useEffect(() => {
     if (folders && folders.length >= 0) setLoading(false)
