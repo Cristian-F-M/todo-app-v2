@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "1.23.1",
     "expo": "~52.0.38",
     "expo-router": "~4.0.19",
     "expo-sqlite": "~15.1.2",
