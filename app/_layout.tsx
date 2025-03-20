@@ -17,7 +17,7 @@ export default function RootLayout() {
       >
         <TasksProvider>
           <ModalProvider>
-            <View className="flex-1 bg-gray-950">
+            <View className="flex-1 bg-gray-900">
               <StatusBar style="light" />
               <Stack
                 screenOptions={{
