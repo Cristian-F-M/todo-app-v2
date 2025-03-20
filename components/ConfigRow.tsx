@@ -51,6 +51,7 @@ export function ConfigRow({
               <TextInput
                 className="text-gray-100 text-sm h-full"
                 placeholder={placeholder}
+                placeholderTextColor={'#6b7280'}
                 keyboardType={keyboardType}
                 editable={!disabled}
                 secureTextEntry={secureTextEntry}
