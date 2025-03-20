@@ -5,6 +5,12 @@ export type Configs = {
   [key: string]: any
 }
 
+const defaultConfigs: Configs = {
+  confirmDeleteTask: true,
+  confirmDeleteFolder: true,
+  clearTaskAfter: 30,
+}
+
 export async function saveConfig({
   name,
   value,
@@ -20,9 +26,8 @@ export function removeConfig({ name }: { name: KeyItem }) {
 }
 
 export async function getConfig({ name }: { name: KeyItem }) {
-  const configs = await getItem({ name: 'configs' })
-  const configsParsed = configs ? JSON.parse(configs) : {}
-  return configsParsed[name] || null
+  const configs = await getAllConfigs()
+  return configs[name] || defaultConfigs[name]
 }
 
 export async function getAllConfigs() {
