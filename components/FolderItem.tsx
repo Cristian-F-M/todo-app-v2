@@ -15,10 +15,13 @@ import Animated, {
   FadeInRight,
   FadeOutLeft,
 } from 'react-native-reanimated'
+import { getConfig } from '@utils/settings'
+import { useTasks } from '@context/Tasks'
 
 export function FolderItem({ folder }: { folder: FolderType }) {
   const [dropDownVisible, setDropDownVisible] = useState(false)
   const { openModal } = useModal()
+  const { deleteFolder } = useTasks()
 
   const openDropdown = (e?: any) => {
     setDropDownVisible(true)
@@ -32,7 +35,13 @@ export function FolderItem({ folder }: { folder: FolderType }) {
     })
   }
 
-  const openDeleteModal = () => {
+  const handleClickDeleteFolder = async () => {
+    const confirmDeleteFolder = await getConfig({ name: 'confirmDeleteFolder' })
+
+    if (!confirmDeleteFolder) {
+      return deleteFolder(folder.id)
+    }
+
     openModal(null, {
       type: 'FOLDER',
       item: folder,
@@ -100,7 +109,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
             textClassName={'!text-red-400'}
             icon={Trash}
             iconProps={{ stroke: '#ff6467', width: 22, height: 22 }}
-            onPress={openDeleteModal}
+            onPress={handleClickDeleteFolder}
           />
         </DropdownMenu>
       </Animated.View>
