@@ -3,7 +3,7 @@ import { Stack } from 'expo-router'
 import { ConfigCard } from '@components/ConfigCard'
 import { ConfigRow } from '@components/ConfigRow'
 import { useCallback, useEffect, useState } from 'react'
-import { ScrollView } from 'react-native'
+import { Animated, useAnimatedValue } from 'react-native'
 import { getAllConfigs, saveAllConfigs } from '@utils/settings'
 import { ConfigsSkeleton } from '@components/ConfigsSkeleton'
 import { useDebounce } from '@utils/useDebounce'
@@ -29,6 +29,18 @@ export default function ConfigPage() {
       saveAllConfigs(debouncedConfigs)
   }, [debouncedConfigs])
 
+  const opacityValue = useAnimatedValue(0)
+
+  const opacityAnimation = Animated.timing(opacityValue, {
+    toValue: 1,
+    duration: 500,
+    useNativeDriver: true,
+  })
+
+  useEffect(() => {
+    if (!isLoading) opacityAnimation.start()
+  }, [isLoading, opacityAnimation])
+
   return (
     <Screen safeArea={false}>
       <Stack.Screen
@@ -36,7 +48,10 @@ export default function ConfigPage() {
       />
       {isLoading && <ConfigsSkeleton />}
       {!isLoading && (
-        <ScrollView className="flex flex-col gap-y-3 w-[95%] mx-auto">
+        <Animated.ScrollView
+          className="flex flex-col gap-y-3 w-[95%] mx-auto"
+          style={{ opacity: opacityValue }}
+        >
           <ConfigCard title="Eliminación">
             <ConfigRow
               text={'Eliminar tarea'}
@@ -73,7 +88,7 @@ export default function ConfigPage() {
               }}
             />
           </ConfigCard>
-        </ScrollView>
+        </Animated.ScrollView>
       )}
     </Screen>
   )
