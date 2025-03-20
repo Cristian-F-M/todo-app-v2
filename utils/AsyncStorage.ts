@@ -17,7 +17,7 @@ export async function getItem({ name }: GetItemProps) {
     // TODO - Do something with the error
   }
 
-  return JSON.stringify(item)
+  return item ? JSON.parse(item) : null
 }
 
 export async function getAllItems() {
@@ -30,7 +30,7 @@ export async function getAllItems() {
     // TODO - Do something with the error
   }
 
-  return JSON.stringify(items)
+  return items
 }
 
 export async function saveItem({ name, value }: SetItemProps) {
