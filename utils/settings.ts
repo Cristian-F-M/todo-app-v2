@@ -1,6 +1,10 @@
 import type { KeyItem, ValueItem } from 'AsyncStorage'
 import { removeItem, saveItem, getItem } from './AsyncStorage'
 
+export type Configs = {
+  [key: string]: any
+}
+
 export async function saveConfig({
   name,
   value,
@@ -23,7 +27,9 @@ export async function getConfig({ name }: { name: KeyItem }) {
 
 export async function getAllConfigs() {
   const configs = await getItem({ name: 'configs' })
-  const configsParsed = configs ? JSON.parse(configs) : {}
+  return configs
+}
 
-  return configsParsed
+export async function saveAllConfigs(configs: Configs) {
+  await saveItem({ name: 'configs', value: configs })
 }
