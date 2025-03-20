@@ -44,7 +44,7 @@ export function ConfigsSkeleton() {
               <View className="w-32 h-2 bg-gray-700 mt-px"></View>
             </View>
             {/* Type */}
-            <View className="w-10 h-6 bg-gray-700 mt-6 rounded-sm"></View>{' '}
+            <View className="w-10 h-6 bg-gray-700 mt-6 rounded-sm"></View>
           </View>
           <View className="flex flex-row items-center justify-between">
             <View className="">
