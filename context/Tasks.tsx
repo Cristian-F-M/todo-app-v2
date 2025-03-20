@@ -26,7 +26,7 @@ import type { ChangeTaskCountOperator } from 'Database'
 
 type TaskContextType = {
   tasks: Tasks
-  folders: Folders
+  folders: Folders | null
   getFolderById: (folderId: string) => Folder | undefined
   getTasksByFolderId: (folderId: string) => Tasks
   addTask: (folderId: string, name: string) => void
@@ -41,7 +41,7 @@ const TaskContext = createContext<TaskContextType>({} as TaskContextType)
 
 export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   const [tasks, setTasks] = useState<Tasks>([])
-  const [folders, setFolders] = useState<Folders>([])
+  const [folders, setFolders] = useState<Folders | null>(null)
 
   const getFolders = useCallback(async () => {
     const folders = await getFoldersFromDB()
@@ -57,6 +57,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
 
   const getFolderById = useCallback(
     (folderId: string): Folder | undefined => {
+      if (!folders) return undefined
       return folders.filter(folder => folder.id === folderId)[0]
     },
     [folders],
@@ -83,7 +84,10 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!ok)
       return ToastAndroid.show('Error al crear la carpeta', ToastAndroid.SHORT)
-    setFolders(prev => [...prev, folder])
+    setFolders(prev => {
+      if (!prev) return [folder]
+      return [...prev, folder]
+    })
   }
 
   const deleteFolder = async (folderId: string) => {
@@ -102,7 +106,10 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
         'Error al eliminar la carpeta',
         ToastAndroid.SHORT,
       )
-    setFolders([...folders.filter(folder => folder.id !== folderId)])
+    setFolders(() => {
+      if (!folders) return []
+      return [...folders.filter(folder => folder.id !== folderId)]
+    })
   }
 
   const getTaskById = (taskId: string): Task | undefined => {
@@ -110,6 +117,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const editFolder = async (folderId: string, name: string) => {
+    if (!folders) return
     const index = folders.findIndex(folder => folder.id === folderId)
     if (index === -1) return
 
