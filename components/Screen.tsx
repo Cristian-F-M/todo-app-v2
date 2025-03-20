@@ -14,7 +14,7 @@ export function Screen({
 
   return (
     <View
-      className={`flex-1 bg-gray-950 ${className}`}
+      className={`flex-1 bg-gray-900 ${className}`}
       style={
         safeArea ? { paddingTop: insets.top, paddingBottom: insets.bottom } : {}
       }
