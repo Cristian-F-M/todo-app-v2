@@ -60,7 +60,7 @@ export default function ConfigPage() {
               value={{
                 value: configs,
                 setValue: setConfigs,
-                valueKey: 'deleteTask',
+                valueKey: 'confirmDeleteTask',
               }}
             />
             <ConfigRow
@@ -70,7 +70,7 @@ export default function ConfigPage() {
               value={{
                 value: configs,
                 setValue: setConfigs,
-                valueKey: 'deleteFolder',
+                valueKey: 'confirmDeleteFolder',
               }}
             />
           </ConfigCard>
@@ -84,7 +84,7 @@ export default function ConfigPage() {
               value={{
                 value: configs,
                 setValue: setConfigs,
-                valueKey: 'clearTask',
+                valueKey: 'clearTaskAfter',
               }}
             />
           </ConfigCard>
