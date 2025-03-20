@@ -9,6 +9,8 @@ export default function TabsLayout() {
       screenOptions={{
         animation: 'fade',
         headerShown: false,
+        headerStyle: { backgroundColor: '#030712' },
+        headerTintColor: '#fff',
         tabBarStyle: {
           backgroundColor: '#0A1E3F',
           borderColor: '#1554bd',
