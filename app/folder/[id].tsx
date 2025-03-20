@@ -9,6 +9,7 @@ import { NoTasks } from '@components/NoTasks'
 import type { Tasks } from 'Task'
 import { TaskItem } from '@components/TaskItem'
 import { useModal } from '@context/Modal'
+import { Folder404 } from '@components/Folder404'
 
 export default function Folder() {
   const { id } = useGlobalSearchParams()
@@ -72,13 +73,11 @@ export default function Folder() {
     setTaskCount(tasks.length)
   }, [tasksFromContext, folderId, getTasksByFolderId])
 
-  const pageTitle = folder ? folder.name : 'No encontrada'
+  const pageTitle = folder ? folder.name : 'Carpeta no encontrada'
 
   return (
     <Screen safeArea={false}>
-      {!folder && (
-        <Text className="text-white text-3xl">No se encontro el folder</Text>
-      )}
+      {!folder && <Folder404 />}
       <Stack.Screen
         options={{
           headerShown: true,
