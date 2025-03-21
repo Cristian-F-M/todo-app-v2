@@ -222,3 +222,23 @@ export async function changeTaskCount(
 
   return { ok }
 }
+
+export async function getFolderById(
+  folderId: string,
+): Promise<Folder | undefined> {
+  const db = connectDatabase()
+  let folder: Folder | undefined
+
+  try {
+    const result = await db.getFirstAsync(
+      'SELECT * FROM folders WHERE id = $id',
+    )
+    if (result) {
+      folder = result as Folder
+    }
+  } finally {
+    await db.closeAsync()
+  }
+
+  return folder
+}
