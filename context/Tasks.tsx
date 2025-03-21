@@ -51,7 +51,6 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
 
   const getTasks = useCallback(async () => {
     const tasks = await loadTasks()
-    console.log({ tasksDB: tasks })
     setTasks(tasks)
   }, [])
 
