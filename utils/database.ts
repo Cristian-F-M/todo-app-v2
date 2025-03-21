@@ -206,15 +206,19 @@ export async function changeTaskCount(
 ) {
   let ok = false
   if (!folderId) return { ok }
+  const folder = await getFolderById(folderId)
+
+  if (!folder) return { ok }
 
   const operatorSymbol = operator === 'SUM' ? '+' : '-'
+  const value = folder?.taskCount <= 0 ? 0 : 1
   const db = connectDatabase()
   const statement = await db.prepareAsync(
-    `UPDATE folders SET taskCount = taskCount ${operatorSymbol} 1 WHERE id = $folderId`,
+    `UPDATE folders SET taskCount = taskCount ${operatorSymbol} $value WHERE id = $folderId`,
   )
 
   try {
-    await statement.executeAsync({ $folderId: folderId })
+    await statement.executeAsync({ $value: value, $folderId: folderId })
     ok = true
   } finally {
     await statement.finalizeAsync()
