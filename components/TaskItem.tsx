@@ -14,11 +14,14 @@ import Animated, {
   FadeInRight,
   FadeOutLeft,
 } from 'react-native-reanimated'
+import { getConfig } from '@utils/settings'
+import { useTasks } from '@context/Tasks'
 
 export function TaskItem({ task }: { task: Task }) {
   const { openModal } = useModal()
   const [dropdownVisible, setDropdownVisible] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
+  const { deleteTask } = useTasks()
 
   const handleOpenDropdown = () => {
     setDropdownVisible(true)
@@ -36,7 +39,13 @@ export function TaskItem({ task }: { task: Task }) {
     })
   }
 
-  const handleDeleteTask = (e?: any) => {
+  const handleDeleteTask = async (e?: any) => {
+    const confirmDeleteFolder = await getConfig({ name: 'confirmDeleteTask' })
+
+    if (!confirmDeleteFolder) {
+      return deleteTask(task.id)
+    }
+
     openModal(e, {
       defaultModal: false,
       type: 'TASK',
