@@ -32,7 +32,7 @@ export function Loader({
         useNativeDriver: true,
       }).start()
     }
-  }, [])
+  }, [opacityValue])
 
   return (
     <Animated.View
