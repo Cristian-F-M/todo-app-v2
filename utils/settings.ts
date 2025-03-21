@@ -38,3 +38,7 @@ export async function getAllConfigs() {
 export async function saveAllConfigs(configs: Configs) {
   await saveItem({ name: 'configs', value: configs })
 }
+
+export async function removeAllConfigs() {
+  await removeItem({ name: 'configs' })
+}
