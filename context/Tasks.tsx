@@ -18,10 +18,10 @@ import {
   createTask,
   loadTasks,
   deleteTasksByFolderId,
-  changeTaskCount as changeTaskCountFromDB,
+  aumentTaskCount as aumentTaskCountFromDB,
+  subtractTaskCount as subtractTaskCountFromDB,
 } from '@utils/database'
 import { ToastAndroid } from 'react-native'
-import type { ChangeTaskCountOperator } from 'Database'
 
 type TaskContextType = {
   tasks: Tasks
@@ -69,6 +69,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
   const addTask = async (folderId: string, name: string) => {
     const task: Task = { id: uuid.v4(), name, folderId }
     const { ok } = await createTask(task)
+    await aumentTaskCount(folderId)
 
     if (!ok)
       return ToastAndroid.show('Error al crear la tarea', ToastAndroid.SHORT)
@@ -143,47 +144,55 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     setTasks(newTasks)
   }
 
-  const changeTaskCount = async (
-    folderId: string,
-    operator: ChangeTaskCountOperator,
-  ) => {
-    const folder = getFolderById(folderId)
-    if (!folder) return
-
-    const { ok } = await changeTaskCountFromDB(folderId, operator)
-
-    const value = operator === 'SUM' ? 1 : -1
-
-    if (!ok)
-      return ToastAndroid.show(
-        'Error al aumentar el contador',
-        ToastAndroid.SHORT,
-      )
-
-    const newFolders = [{ ...folder, taskCount: folder.taskCount + value }]
-    setFolders(newFolders)
-  }
-
   const deleteTask = async (taskId: string) => {
     const task = getTaskById(taskId)
     if (!task) return
 
     const { ok } = await deleteTaskFromDB(taskId)
+    await subtractTaskCount(task.folderId)
     if (!ok)
       return ToastAndroid.show('Error al eliminar la tarea', ToastAndroid.SHORT)
 
-    const { ok: okChangeTaskCount } = await changeTaskCountFromDB(
-      task.folderId,
-      'SUBTRACTION' as ChangeTaskCountOperator,
-    )
-
-    if (!okChangeTaskCount)
-      return ToastAndroid.show(
-        'Error al disminuir el contador',
-        ToastAndroid.SHORT,
-      )
-
     setTasks([...tasks.filter(task => task.id !== taskId)])
+  }
+
+  const aumentTaskCount = async (folderId: string) => {
+    const folder = getFolderById(folderId)
+    if (!folder) return
+
+    const { ok } = await aumentTaskCountFromDB(folderId)
+
+    const newFolders = [...(folders || [])]
+    const folderIndex = newFolders.findIndex(folder => folder.id === folderId)
+    if (folderIndex === -1) return
+
+    const newFolder = newFolders[folderIndex]
+
+    newFolders[folderIndex] = {
+      ...newFolder,
+      taskCount: newFolder.taskCount + 1,
+    }
+
+    setFolders(newFolders)
+  }
+
+  const subtractTaskCount = async (folderId: string) => {
+    const folder = getFolderById(folderId)
+    if (!folder) return
+
+    const newFolders = [...(folders || [])]
+
+    const folderIndex = newFolders.findIndex(folder => folder.id === folderId)
+    if (folderIndex === -1) return
+
+    const { ok } = await subtractTaskCountFromDB(folderId)
+
+    newFolders[folderIndex] = {
+      ...newFolders[folderIndex],
+      taskCount: newFolders[folderIndex].taskCount - 1,
+    }
+
+    setFolders(newFolders)
   }
 
   useEffect(() => {
