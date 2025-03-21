@@ -27,12 +27,12 @@ export function removeConfig({ name }: { name: KeyItem }) {
 
 export async function getConfig({ name }: { name: KeyItem }) {
   const configs = await getAllConfigs()
-  return configs[name] || defaultConfigs[name]
+  return configs[name]
 }
 
 export async function getAllConfigs() {
   const configs = await getItem({ name: 'configs' })
-  return configs
+  return { ...defaultConfigs, ...configs }
 }
 
 export async function saveAllConfigs(configs: Configs) {
