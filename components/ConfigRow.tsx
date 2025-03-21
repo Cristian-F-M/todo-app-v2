@@ -1,4 +1,5 @@
 import { Text, View, Switch, TextInput, TextInputProps } from 'react-native'
+import Sparkles from '@icons/Sparkles'
 
 export function ConfigRow({
   text,
@@ -9,6 +10,7 @@ export function ConfigRow({
   keyboardType = 'default',
   disabled = false,
   secureTextEntry = false,
+  commingSoon = false,
 }: {
   text: string
   description: string
@@ -22,13 +24,14 @@ export function ConfigRow({
   keyboardType?: TextInputProps['keyboardType']
   disabled?: boolean
   secureTextEntry?: boolean
+  commingSoon?: boolean
 }) {
   const handleClickChangeValue = (newValue: any) =>
     value.setValue((prev: any) => ({ ...prev, [value.valueKey]: newValue }))
 
   return (
     <View className="">
-      <View className="flex flex-row justify-between">
+      <View className="flex flex-row justify-between relative">
         <View className="w-[70%]">
           <Text className="text-gray-100 text-base">{text}</Text>
           {description && (
@@ -43,6 +46,7 @@ export function ConfigRow({
               ios_backgroundColor="#3e3e3e"
               onValueChange={handleClickChangeValue}
               value={value.value[value.valueKey]}
+              disabled={disabled || commingSoon}
             />
           )}
 
@@ -53,7 +57,7 @@ export function ConfigRow({
                 placeholder={placeholder}
                 placeholderTextColor={'#6b7280'}
                 keyboardType={keyboardType}
-                editable={!disabled}
+                editable={!disabled && !commingSoon}
                 secureTextEntry={secureTextEntry}
                 value={`${value.value[value.valueKey]}`}
                 onChangeText={handleClickChangeValue}
@@ -61,6 +65,16 @@ export function ConfigRow({
             </View>
           )}
         </View>
+        {commingSoon && (
+          <View className="absolute right-0 -top-4 py-1 px-2 rounded-lg border border-blue-700 bg-blue-900 animate-bounce flex-row gap-x-1">
+            <Sparkles
+              color={'#9ca3af'}
+              width={15}
+              height={15}
+            />
+            <Text className="text-sm text-gray-400">Proximamente</Text>
+          </View>
+        )}
       </View>
     </View>
   )
