@@ -2,28 +2,27 @@
   "expo": {
     "name": "todo-cm",
     "slug": "todo-cm",
+    "owner": "cm-team",
     "version": "1.0.0",
+    "githubUrl": "https://github.com/Cristian-F-M/todo-app-v2",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo-cm-white.png",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "scheme": "todo-cm",
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/logo-cm-white.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
+      "backgroundColor": "#111111"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/logo-cm-small.png",
+        "backgroundColor": "transparent"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logo-cm-small.png"
     },
     "plugins": [
       "expo-router",
