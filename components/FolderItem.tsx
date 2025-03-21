@@ -3,7 +3,7 @@ import MoreVertical from '@icons/MoreVertical'
 import type { Folder as FolderType } from 'Folder'
 import { Text, View, Pressable } from 'react-native'
 import { DropdownMenu } from './Dropdown'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { DropdownOption } from './DropdownOption'
 import Edit from '@icons/Edit'
 import { useModal } from '@context/Modal'
@@ -20,8 +20,9 @@ import { useTasks } from '@context/Tasks'
 
 export function FolderItem({ folder }: { folder: FolderType }) {
   const [dropDownVisible, setDropDownVisible] = useState(false)
+  const [taskCount, setTaskCount] = useState(0)
   const { openModal } = useModal()
-  const { deleteFolder } = useTasks()
+  const { deleteFolder, tasks, getFolderById } = useTasks()
 
   const openDropdown = (e?: any) => {
     setDropDownVisible(true)
@@ -34,6 +35,16 @@ export function FolderItem({ folder }: { folder: FolderType }) {
       item: folder,
     })
   }
+
+  const changeTaskCount = useCallback(async () => {
+    const localFolder = getFolderById(folder.id)
+    console.log({ localFolder })
+    if (localFolder) setTaskCount(localFolder.taskCount)
+  }, [folder, getFolderById])
+
+  useEffect(() => {
+    changeTaskCount()
+  }, [tasks, folder, changeTaskCount])
 
   const handleClickDeleteFolder = async () => {
     const confirmDeleteFolder = await getConfig({ name: 'confirmDeleteFolder' })
@@ -76,9 +87,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
           <Text className="text-white text-lg tracking-wider items-center justify-center">
             {folder.name}
           </Text>
-          <Text className="text-xs text-gray-400">
-            {folder.taskCount} tareas
-          </Text>
+          <Text className="text-xs text-gray-400">{taskCount} tareas</Text>
         </View>
         <DropdownMenu
           itemId={folder.id}
