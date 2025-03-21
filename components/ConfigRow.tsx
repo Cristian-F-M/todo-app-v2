@@ -55,7 +55,7 @@ export function ConfigRow({
                 keyboardType={keyboardType}
                 editable={!disabled}
                 secureTextEntry={secureTextEntry}
-                value={value.value[value.valueKey]}
+                value={`${value.value[value.valueKey]}`}
                 onChangeText={handleClickChangeValue}
               />
             </View>
