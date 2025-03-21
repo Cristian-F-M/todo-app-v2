@@ -14,7 +14,6 @@ import {
   updateFolder,
   deleteFolder as deleteFolderFromDB,
   updateTask,
-  aumentTaskCount as aumentTaskCountFromDB,
   deleteTask as deleteTaskFromDB,
   createTask,
   loadTasks,
