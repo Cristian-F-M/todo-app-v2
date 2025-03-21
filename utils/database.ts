@@ -10,6 +10,7 @@ import type {
   AumentTaskCountFC,
   DeleteTasksByFolderIdFC,
   ChangeTaskCountOperator,
+  SubtractTaskCountFC,
 } from 'Database'
 import type { Tasks } from 'Task'
 
@@ -169,6 +170,29 @@ export const aumentTaskCount: AumentTaskCountFC = async id => {
   const db = connectDatabase()
   const statement = await db.prepareAsync(
     'UPDATE folders SET taskCount = taskCount + 1 WHERE id = $id',
+  )
+
+  try {
+    await statement.executeAsync({ $id: id })
+    ok = true
+  } finally {
+    await statement.finalizeAsync()
+  }
+  return { ok }
+}
+
+export const subtractTaskCount: SubtractTaskCountFC = async id => {
+  let ok = false
+  if (!id) return { ok }
+
+  const folder = await getFolderById(id)
+  if (!folder) return { ok }
+
+  if (folder.taskCount <= 0) return { ok: true }
+
+  const db = connectDatabase()
+  const statement = await db.prepareAsync(
+    'UPDATE folders SET taskCount = taskCount - 1 WHERE id = $id',
   )
 
   try {
