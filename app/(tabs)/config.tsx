@@ -86,6 +86,7 @@ export default function ConfigPage() {
                 setValue: setConfigs,
                 valueKey: 'clearTaskAfter',
               }}
+              commingSoon
             />
           </ConfigCard>
         </Animated.ScrollView>
