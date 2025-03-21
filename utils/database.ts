@@ -260,12 +260,12 @@ export async function getFolderById(
   try {
     const result = await db.getFirstAsync(
       'SELECT * FROM folders WHERE id = $id',
+      { $id: folderId },
     )
     if (result) {
       folder = result as Folder
     }
   } finally {
-    await db.closeAsync()
   }
 
   return folder
