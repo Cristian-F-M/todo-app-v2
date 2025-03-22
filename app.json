@@ -9,6 +9,10 @@
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "scheme": "todo-cm",
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#111827"
+    },
     "splash": {
       "image": "./assets/logo-cm-white.png",
       "resizeMode": "contain",
