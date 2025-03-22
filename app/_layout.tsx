@@ -7,6 +7,11 @@ import { ModalProvider } from '@context/Modal'
 import '../global.css'
 import { SQLiteProvider } from 'expo-sqlite'
 import { initDatabase } from '@utils/database'
+import * as SystemUI from 'expo-system-ui'
+import { SplashScreen } from 'expo-router'
+
+SystemUI.setBackgroundColorAsync('transparent')
+SplashScreen.preventAutoHideAsync()
 
 export default function RootLayout() {
   return (
