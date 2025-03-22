@@ -15,7 +15,7 @@ export default function Index() {
   const thereIsFolders = folders && folders.length > 0
 
   useEffect(() => {
-    if (folders && folders.length >= 0) setLoading(false)
+    if (folders && folders.length >= 0) setTimeout(() => setLoading(false), 500)
   }, [folders])
 
   return (
