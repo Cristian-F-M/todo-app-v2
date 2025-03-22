@@ -82,7 +82,7 @@ export default function Folder() {
         options={{
           headerShown: true,
           title: pageTitle,
-          headerStyle: { backgroundColor: '#030712' },
+          headerStyle: { backgroundColor: '#111827' },
           headerTintColor: '#fff',
         }}
       />
