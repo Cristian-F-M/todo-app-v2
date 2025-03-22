@@ -38,7 +38,6 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 
   const changeTaskCount = useCallback(async () => {
     const localFolder = getFolderById(folder.id)
-    console.log({ localFolder })
     if (localFolder) setTaskCount(localFolder.taskCount)
   }, [folder, getFolderById])
 
