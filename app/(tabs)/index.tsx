@@ -19,7 +19,7 @@ export default function Index() {
   }, [folders])
 
   return (
-    <Screen>
+    <Screen safeArea={false}>
       <BackgroundIcon />
       <Header />
 
