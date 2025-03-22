@@ -1,25 +1,47 @@
 import { Screen } from '@components/Screen'
 import { Header } from '@components/Header'
-import { FlatList, View } from 'react-native'
+import { FlatList, View, Animated, useAnimatedValue } from 'react-native'
 import { BackgroundIcon } from '@components/BackgroundIcon'
 import { FolderItem } from '@components/FolderItem'
 import { useTasks } from '@context/Tasks'
 import { NoFolders } from '@components/NoFolders'
 import { useEffect, useState } from 'react'
 import { Loader } from '@components/Loader'
+import { SplashScreen } from 'expo-router'
 
 export default function Index() {
   const { folders } = useTasks()
   const [loading, setLoading] = useState(true)
-
+  const opacityValue = useAnimatedValue(0)
   const thereIsFolders = folders && folders.length > 0
 
   useEffect(() => {
     if (folders && folders.length >= 0) setTimeout(() => setLoading(false), 500)
   }, [folders])
 
+  useEffect(() => {
+    SplashScreen.hideAsync()
+  }, [])
+
+  useEffect(() => {
+    const animation = Animated.timing(opacityValue, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    })
+
+    animation.start()
+
+    return () => {
+      animation.stop()
+    }
+  }, [opacityValue])
+
   return (
-    <Screen safeArea={false}>
+    <Screen
+      safeArea={false}
+      style={{ opacity: opacityValue }}
+    >
       <BackgroundIcon />
       <Header />
 
