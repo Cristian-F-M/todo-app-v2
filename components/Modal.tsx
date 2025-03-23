@@ -17,9 +17,7 @@ export function ModalTask({
   onError,
 }: ModalProps) {
   const [textInput, setTextInput] = useState('')
-  const [errors, setErrors] = useState<{ [key: string]: string | null }>({
-    textInput: 'El campo es requerido',
-  })
+  const [errors, setErrors] = useState<{ [key: string]: string | null }>({})
   const { addTask, addFolder, editFolder, editTask } = useTasks()
 
   const handleClickSubmit = () => {
