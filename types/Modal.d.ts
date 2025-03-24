@@ -34,3 +34,5 @@ export type DeleteItemProps = {
   item: Task | Folder
   type?: ModalType
 }
+
+export type NotificationTypes = 'TIME' | 'DATE_TIME'
