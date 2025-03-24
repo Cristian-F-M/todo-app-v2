@@ -5,7 +5,7 @@ import { WrapCaretIcon } from '@components/WrapCaretIcon'
 import type { TimeValueType } from 'types/TimePicker'
 import React, { useCallback } from 'react'
 
-export function TimePicker({
+export function SingleTimePicker({
   text,
   value = { minutes: 0, hours: 0 },
   keyValue,
