@@ -60,7 +60,7 @@ export function SingleTimePicker({
         </View>
         <WrapCaretIcon
           className="justify-center"
-          onPress={() => handleChangeTimeValue(keyValue, 'UP')}
+          onPress={() => handleChangeTimeValue(keyValue, 'DOWN')}
         >
           <CaretDown
             color={'#60a5fa'}
