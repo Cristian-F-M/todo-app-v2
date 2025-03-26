@@ -65,7 +65,7 @@ export function ModalTask({
 
       if (notificationType === 'TIME') date = sumDate(new Date(), timeValue)
 
-      sendNotification(textInput, '', {
+      sendNotification(textInput, 'Se completo el timepo de la tarea', {
         type: Notifications.SchedulableTriggerInputTypes.DATE,
         date,
       })
@@ -171,23 +171,25 @@ export function ModalTask({
       </Text>
 
       <View className="bg-blue-500/20 rounded-lg mt-2">
-        <View className="flex-row items-center justify-between rounded-lg px-3 py-1">
-          <View className="flex-row items-center gap-x-2">
-            <Bell
-              color={'#60a5fa'}
-              width={24}
-              height={24}
+        {type === 'TASK' && (
+          <View className="flex-row items-center justify-between rounded-lg px-3 py-1">
+            <View className="flex-row items-center gap-x-2">
+              <Bell
+                color={'#60a5fa'}
+                width={24}
+                height={24}
+              />
+              <Text className="text-white text-base">Notificar</Text>
+            </View>
+            <Switch
+              trackColor={{ false: '#767577', true: '#2563eb' }}
+              thumbColor={'#fff'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleSwitch}
+              value={isNotification}
             />
-            <Text className="text-white text-base">Notificar</Text>
           </View>
-          <Switch
-            trackColor={{ false: '#767577', true: '#2563eb' }}
-            thumbColor={'#fff'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleSwitch}
-            value={isNotification}
-          />
-        </View>
+        )}
 
         {isNotification && (
           <View>
