@@ -4,7 +4,7 @@ import Calendar from '@icons/Calendar'
 import { getDateTime, joinDateTime } from '@utils/DateTime'
 import Alarm from '@icons/Alarm'
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 export function DateTimePicker({
   dateTime,
@@ -13,6 +13,8 @@ export function DateTimePicker({
   dateTime: Date
   setDate: React.Dispatch<React.SetStateAction<Date>>
 }) {
+  const [dateTimeValue] = useState(getDateTime(dateTime))
+
   const handleOpenDatePicker = useCallback(() => {
     DateTimePickerAndroid.open({
       mode: 'date',
@@ -44,11 +46,11 @@ export function DateTimePicker({
         onPress={handleOpenDatePicker}
       >
         <View className="flex-row items-center gap-x-2">
-          <DateItem value={getDateTime(dateTime, 'day')} />
+          <DateItem value={dateTimeValue.day} />
           <Text className="text-gray-300 text-lg">/</Text>
-          <DateItem value={getDateTime(dateTime, 'month')} />
+          <DateItem value={dateTimeValue.month} />
           <Text className="text-gray-300 text-lg">/</Text>
-          <DateItem value={getDateTime(dateTime, 'year')} />
+          <DateItem value={dateTimeValue.year} />
         </View>
         <Calendar
           color={'#60a5fa'}
@@ -61,10 +63,10 @@ export function DateTimePicker({
         onPress={handleOpenTimePicker}
       >
         <View className="flex-row items-center gap-x-2">
-          <DateItem value={getDateTime(dateTime, 'hour')} />
+          <DateItem value={dateTimeValue.hour} />
           <Text className="text-gray-300 text-lg">:</Text>
-          <DateItem value={getDateTime(dateTime, 'minute')} />
-          <DateItem value={getDateTime(dateTime, 'ampm')} />
+          <DateItem value={dateTimeValue.minute} />
+          <DateItem value={dateTimeValue.ampm} />
         </View>
         <Alarm
           color={'#60a5fa'}
