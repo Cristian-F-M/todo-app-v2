@@ -1,4 +1,12 @@
-type DateTimeType = 'year' | 'month' | 'day' | 'hour' | 'minute' | 'ampm'
+type TimeValues = {
+  year: string
+  month: string
+  day: string
+  hour: string
+  minute: string
+  ampm: string
+}
+
 const defaultDateTime = {
   year: '----',
   month: '--',
@@ -8,8 +16,8 @@ const defaultDateTime = {
   ampm: '--------',
 }
 
-export function getDateTime(date: Date | undefined | null, type: DateTimeType) {
-  if (!date) return defaultDateTime[type]
+export function getDateTime(date: Date | undefined | null): TimeValues {
+  if (!date) return defaultDateTime
   const time = date.toLocaleTimeString('en-US', { hour12: true })
   const [day, month, year] = date.toLocaleDateString().split('/')
   const [hour, minute] = date.toLocaleTimeString().split(':')
@@ -24,7 +32,7 @@ export function getDateTime(date: Date | undefined | null, type: DateTimeType) {
     ampm,
   }
 
-  return timeValues[type]
+  return timeValues
 }
 
 export function joinDateTime({ date, time }: { date: Date; time: Date }): Date {
