@@ -10,7 +10,7 @@ import type { TimeValueType, DateTimeValueType } from 'types/TimePicker'
 import { TimePicker } from './TimePicker'
 import { DateTimePicker } from './DateTimePicker'
 import { CheckboxNotificationGroup } from './CheckboxNotificationGroup'
-import { formatDateString, sumDate } from '@utils/DateTime'
+import { getNotificationText, sumDate } from '@utils/DateTime'
 import {
   getNotificationsPermissions,
   sendNotification,
@@ -128,12 +128,12 @@ export function ModalTask({
 
   const timeIsZero = timeValue.hours === 0 && timeValue.minutes === 0
 
-  const notificationAtText =
-    notificationType === 'TIME'
-      ? timeIsZero
-        ? 'No te notificaremos'
-        : `En ${timeValue.hours} horas y ${timeValue.minutes} minutos`
-      : `El ${formatDateString(dateTimeValue)}`
+  const notificationAtText = getNotificationText(
+    notificationType,
+    timeIsZero,
+    timeValue,
+    dateTimeValue,
+  )
 
   return (
     <View className="relative flex-1 mx-auto w-full px-4 py-6">
