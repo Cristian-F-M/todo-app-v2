@@ -5,6 +5,7 @@ import { getDateTime, joinDateTime } from '@utils/DateTime'
 import Alarm from '@icons/Alarm'
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
 import { useCallback, useEffect, useState } from 'react'
+import type { TimeValues } from 'TimePicker'
 
 export function DateTimePicker({
   dateTime,
@@ -13,7 +14,13 @@ export function DateTimePicker({
   dateTime: Date
   setDate: React.Dispatch<React.SetStateAction<Date>>
 }) {
-  const [dateTimeValue] = useState(getDateTime(dateTime))
+  const [dateTimeValue, setDateTimeValue] = useState<TimeValues>(
+    getDateTime(dateTime),
+  )
+
+  useEffect(() => {
+    setDateTimeValue(getDateTime(dateTime))
+  }, [dateTime])
 
   const handleOpenDatePicker = useCallback(() => {
     DateTimePickerAndroid.open({
