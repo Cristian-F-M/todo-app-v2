@@ -1,10 +1,10 @@
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, Text, View, Animated, useAnimatedValue } from 'react-native'
 import { DateItem } from './DateItem'
 import Calendar from '@icons/Calendar'
 import { getDateTime, joinDateTime } from '@utils/DateTime'
 import Alarm from '@icons/Alarm'
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 export function DateTimePicker({
   dateTime,
@@ -39,8 +39,26 @@ export function DateTimePicker({
     })
   }, [dateTime, setDate])
 
+  const animatedValue = useAnimatedValue(0)
+
+  useEffect(() => {
+    const animation = Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    })
+    animation.start()
+
+    return () => {
+      animation.stop()
+    }
+  }, [animatedValue])
+
   return (
-    <View className="gap-y-3">
+    <Animated.View
+      className="gap-y-3"
+      style={{ opacity: animatedValue }}
+    >
       <Pressable
         className="border-resalt/50 border py-2 px-4 rounded-md flex-row items-center justify-between gap-x-3"
         onPress={handleOpenDatePicker}
@@ -74,6 +92,6 @@ export function DateTimePicker({
           height={24}
         />
       </Pressable>
-    </View>
+    </Animated.View>
   )
 }
