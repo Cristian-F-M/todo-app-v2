@@ -16,18 +16,16 @@ export function SingleTimePicker({
   keyValue: keyof TimeValueType
   setValue: React.Dispatch<React.SetStateAction<TimeValueType>>
 }) {
-  const handleChangeTimeValue = useCallback(
-    (key: keyof TimeValueType, action: 'UP' | 'DOWN') => {
-      const currentValue = typeof value[key] === 'string' ? -1 : value[key]
-      let newValue = action === 'UP' ? currentValue + 1 : currentValue - 1
-
-      if (newValue < 0) newValue = 59
-      if (newValue > 59) newValue = 0
-
-      setValue(prev => ({ ...prev, [key]: newValue }))
-    },
-    [setValue, value],
-  )
+  const handleChangeTimeValue = (
+    key: keyof TimeValueType,
+    action: 'UP' | 'DOWN',
+  ) => {
+    setValue(prev => {
+      const currentValue = typeof prev[key] === 'string' ? -1 : prev[key]
+      const newValue = (currentValue + (action === 'UP' ? 1 : -1) + 60) % 60
+      return { ...prev, [key]: newValue }
+    })
+  }
 
   return (
     <View className="flex-col gap-y-1 items-center justify-center">
