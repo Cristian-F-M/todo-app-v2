@@ -73,10 +73,6 @@ export function ModalTask({
   }
 
   useEffect(() => {
-    console.log({ dateTimeValue })
-  }, [dateTimeValue])
-
-  useEffect(() => {
     setErrors(prev => ({ ...prev, textInput: null }))
   }, [])
 
