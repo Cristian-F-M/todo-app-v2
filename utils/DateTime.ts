@@ -1,3 +1,5 @@
+import type { TimeValueType } from 'TimePicker'
+
 type TimeValues = {
   year: string
   month: string
@@ -64,4 +66,15 @@ export const formatDateString = (date: Date) => {
     hour: '2-digit',
     minute: '2-digit',
   }).format(date)
+}
+
+export function sumDate(date: Date, { hours, minutes }: TimeValueType) {
+  const newDate = new Date(date)
+
+  if (typeof hours !== 'string' && hours)
+    newDate.setHours(newDate.getHours() + hours)
+  if (typeof minutes !== 'string' && minutes)
+    newDate.setMinutes(newDate.getMinutes() + minutes)
+
+  return newDate
 }
