@@ -1,13 +1,5 @@
 import type { TimeValueType } from 'TimePicker'
-
-type TimeValues = {
-  year: string
-  month: string
-  day: string
-  hour: string
-  minute: string
-  ampm: string
-}
+import type { TimeValues } from 'TimePicker'
 
 const defaultDateTime = {
   year: '----',
