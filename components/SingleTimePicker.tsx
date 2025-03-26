@@ -27,6 +27,16 @@ export function SingleTimePicker({
     })
   }
 
+  const handleTextChange = useCallback(
+    (text: string) => {
+      setValue(prev => ({
+        ...prev,
+        [keyValue]: text.trim() === '' ? text : Number(text),
+      }))
+    },
+    [keyValue, setValue],
+  )
+
   return (
     <View className="flex-col gap-y-1 items-center justify-center">
       <View className="flex-row items-center rounded-lg p-1 gap-3">
@@ -46,12 +56,7 @@ export function SingleTimePicker({
             placeholderTextColor="#99a1af"
             placeholder="..."
             maxLength={2}
-            onChangeText={text => {
-              if (text.trim() === '')
-                return setValue({ ...value, [keyValue]: text })
-              const localValue = Number(text)
-              setValue({ ...value, [keyValue]: localValue })
-            }}
+            onChangeText={handleTextChange}
             value={value[keyValue]?.toString()}
             keyboardType="number-pad"
           />
