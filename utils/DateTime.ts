@@ -70,3 +70,22 @@ export function sumDate(date: Date, { hours, minutes }: TimeValueType) {
 
   return newDate
 }
+
+export function getNotificationText(
+  notificationType: string,
+  timeIsZero: boolean,
+  timeValue: TimeValueType,
+  dateTimeValue: Date,
+): string {
+  if (notificationType === 'TIME') {
+    if (timeIsZero) return 'No te notificaremos'
+
+    const hoursText = timeValue.hours ? `${timeValue.hours} horas` : ''
+    const minutesText = timeValue.minutes ? `${timeValue.minutes} minutos` : ''
+    const timeText = [hoursText, minutesText].filter(Boolean).join(' y ')
+
+    return `En ${timeText}`
+  }
+
+  return `El ${formatDateString(dateTimeValue)}`
+}
