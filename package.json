@@ -25,8 +25,10 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-community/datetimepicker": "8.2.0",
     "expo": "~52.0.38",
     "expo-dev-client": "~5.0.14",
+    "expo-notifications": "~0.29.14",
     "expo-router": "~4.0.19",
     "expo-splash-screen": "~0.29.22",
     "expo-sqlite": "~15.1.2",
