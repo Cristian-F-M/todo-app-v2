@@ -169,7 +169,7 @@ export function ModalTask({
       <View className="bg-blue-500/20 rounded-lg mt-2">
         {type === 'TASK' && (
           <View className="flex-row items-center justify-between rounded-lg px-3 py-1">
-            <View className="flex-row items-center gap-x-2">
+            <View className="flex-row items-center gap-x-2 h-14">
               <Bell
                 color={'#60a5fa'}
                 width={24}
