@@ -116,7 +116,11 @@ export function FolderItem({ folder }: { folder: FolderType }) {
             text="Editar"
             icon={Edit}
             onPress={openEditModal}
-            iconProps={{ stroke: 'white', width: 22, height: 22 }}
+            iconProps={{
+              stroke: colorScheme === 'dark' ? '#ffffff' : '#1f2937',
+              width: 22,
+              height: 22,
+            }}
           />
           <DropdownOption
             handleClose={closeDropdown}
