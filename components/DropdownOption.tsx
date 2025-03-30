@@ -34,7 +34,9 @@ export function DropdownOption({
             {...iconProps}
           />
         )}
-        <Text className={`text-white text-center ${textClassName}`}>
+        <Text
+          className={`dark:text-white text-gray-800 text-center ${textClassName}`}
+        >
           {text}
         </Text>
         {Icon && showIconOn === 'after' && (
