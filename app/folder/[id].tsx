@@ -94,7 +94,9 @@ export default function Folder() {
       {folder && (
         <View className="px-2 flex-1">
           <View className="flex flex-row items-center justify-between mt-3 px-2">
-            <Text className="text-gray-400 text-base">{taskCount} tareas</Text>
+            <Text className="dark:text-gray-400 text-gray-600 text-base">
+              {taskCount} tareas
+            </Text>
             <Animated.View style={{ opacity: opacityValue }}>
               <StyledPressable
                 text="Agregar tarea"
