@@ -76,7 +76,8 @@ export function FolderItem({ folder }: { folder: FolderType }) {
     <Link
       href={`/folder/${folder.id}`}
       asChild
-      className="flex-row bg-gray-200 dark:bg-gray-800 px-4 py-4 mb-3 h-16 rounded-lg justify-between active:dark:bg-gray-700 active:bg-gray-100"
+      className="flex-row bg-gray-300 dark:bg-gray-800 px-4 py-4 mb-3 h-16 rounded-lg justify-between active:dark:bg-gray-700 active:bg-gray-200 border"
+      style={{ borderColor: colorScheme === 'dark' ? '#4b5563' : '#9ca3af' }}
     >
       <Animated.View
         className="flex-1 items-center justify-center"
