@@ -17,6 +17,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { getConfig } from '@utils/settings'
 import { useTasks } from '@context/Tasks'
+import { useColorScheme } from 'nativewind'
 
 export function FolderItem({ folder }: { folder: FolderType }) {
   const [dropDownVisible, setDropDownVisible] = useState(false)
@@ -69,11 +70,13 @@ export function FolderItem({ folder }: { folder: FolderType }) {
     setDropDownVisible(false)
   }
 
+  const { colorScheme } = useColorScheme()
+
   return (
     <Link
       href={`/folder/${folder.id}`}
       asChild
-      className="flex-row bg-gray-800 px-4 py-4 mb-3 h-16 rounded-lg justify-between active:bg-gray-700"
+      className="flex-row bg-gray-200 dark:bg-gray-800 px-4 py-4 mb-3 h-16 rounded-lg justify-between active:dark:bg-gray-700 active:bg-gray-100"
     >
       <Animated.View
         className="flex-1 items-center justify-center"
@@ -82,11 +85,13 @@ export function FolderItem({ folder }: { folder: FolderType }) {
         exiting={FadeOutLeft}
       >
         <View className="flex flex-row gap-x-2 items-center justify-center">
-          <Folder stroke="#2563eb" />
-          <Text className="text-white text-lg tracking-wider items-center justify-center">
+          <Folder stroke={colorScheme === 'dark' ? '#2563eb' : '#3b82f6'} />
+          <Text className="dark:text-white text-lg tracking-wider items-center justify-center">
             {folder.name}
           </Text>
-          <Text className="text-xs text-gray-400">{taskCount} tareas</Text>
+          <Text className="text-xs dark:text-gray-400 text-gray-500">
+            {taskCount} tareas
+          </Text>
         </View>
         <DropdownMenu
           itemId={folder.id}
@@ -95,10 +100,12 @@ export function FolderItem({ folder }: { folder: FolderType }) {
           visible={dropDownVisible}
           trigger={
             <Pressable
-              className="active:bg-[#4b5563] p-1 rounded-lg"
+              className="active:dark:bg-[#4b5563] p-1 rounded-lg active:bg-gray-400/50"
               onPress={() => setDropDownVisible(true)}
             >
-              <MoreVertical stroke="white" />
+              <MoreVertical
+                stroke={colorScheme === 'dark' ? 'white' : '#1f2937'}
+              />
             </Pressable>
           }
         >
