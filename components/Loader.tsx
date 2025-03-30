@@ -44,7 +44,7 @@ export function Loader({
           size={30}
           color="#2563ebaa"
         />
-        <Text className="text-gray-300 text-lg">{loadingText}</Text>
+        <Text className="dark:text-gray-300 text-lg">{loadingText}</Text>
       </View>
 
       <ScrollView
@@ -55,16 +55,16 @@ export function Loader({
           return (
             <View
               key={index}
-              className="flex flex-row items-center justify-between p-3 bg-gray-700 w-full animate-pulse py-4 mb-3 h-16 rounded-lg"
+              className="flex flex-row items-center justify-between p-3 bg-gray-500 dark:bg-gray-700 w-full animate-pulse py-4 mb-3 h-16 rounded-lg"
             >
               <View className="flex flex-row items-center gap-4">
-                <View className="size-6 bg-gray-500 rounded-sm"></View>
+                <View className="size-6 bg-gray-400 dark:bg-gray-500 rounded-sm"></View>
                 <View className="flex flex-col gap-2">
-                  <View className="h-4 w-52 bg-gray-500 rounded"></View>
-                  <View className="h-3 w-44 bg-gray-500 rounded"></View>
+                  <View className="h-4 w-52 bg-gray-400 dark:bg-gray-500 rounded"></View>
+                  <View className="h-3 w-44 bg-gray-400 dark:bg-gray-500 rounded"></View>
                 </View>
               </View>
-              <View className="size-8 bg-gray-500 rounded-full"></View>
+              <View className="size-8 bg-gray-400 dark:bg-gray-500 rounded-full"></View>
             </View>
           )
         })}
