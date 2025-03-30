@@ -9,6 +9,9 @@
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "scheme": "todo-cm",
+    "platforms": [
+      "android"
+    ],
     "androidStatusBar": {
       "barStyle": "light-content",
       "backgroundColor": "#111827"
