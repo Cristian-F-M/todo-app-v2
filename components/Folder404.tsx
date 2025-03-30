@@ -8,14 +8,14 @@ import { router } from 'expo-router'
 export function Folder404() {
   return (
     <View className="flex-1 items-center mt-36 w-4/5 mx-auto">
-      <Pressable className="flex-row items-center justify-center bg-gray-800 active:bg-gray-700 rounded-full p-7">
+      <Pressable className="flex-row items-center justify-center bg-gray-200 active:bg-gray-100 dark:bg-gray-800 active:dark:bg-gray-700 rounded-full p-7">
         <Folder404Icon
           color="#f87171"
           width={50}
           height={50}
         />
       </Pressable>
-      <Text className="text-2xl font-medium mt-3 mb-2 text-gray-300">
+      <Text className="text-2xl font-medium mt-3 mb-2 dark:text-gray-300">
         Carpeta no disponible
       </Text>
       <Text className="text-gray-600 text-center">
