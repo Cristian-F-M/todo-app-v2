@@ -50,7 +50,7 @@ export function DropdownMenu({
             onPress={handleClose}
           >
             <View
-              className="absolute z-50 bg-[#1f2937] border-gray-500 border shadow-lg rounded-lg overflow-hidden"
+              className="absolute z-50 bg-gray-100 dark:bg-[#1f2937] border-gray-400/60 dark:border-gray-500 border shadow-lg rounded-lg overflow-hidden"
               style={{
                 top: position.y,
                 left: position.x,
