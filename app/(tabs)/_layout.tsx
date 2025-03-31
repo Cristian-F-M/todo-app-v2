@@ -5,6 +5,12 @@ import { useColorScheme } from 'nativewind'
 
 export default function TabsLayout() {
   const { colorScheme } = useColorScheme()
+  const headerBgColor = colorScheme === 'dark' ? '#111827' : '#d1d5db'
+  const headerTintColor = colorScheme === 'dark' ? '#fff' : '#000'
+  const tabBarBgColor = colorScheme === 'dark' ? '#0A1E3F' : '#d1d5db'
+  const tabBarBorderColor = colorScheme === 'dark' ? '#1554bd' : '#9ca3af'
+  const tabBarActiveTintColor = colorScheme === 'dark' ? '#0066CC' : '#2563eb'
+  const tabBarInactiveTintColor = colorScheme === 'dark' ? '#A2B9D9' : '#6b7280'
 
   return (
     <Tabs
@@ -12,15 +18,15 @@ export default function TabsLayout() {
         animation: 'fade',
         headerShown: false,
         headerStyle: {
-          backgroundColor: colorScheme === 'dark' ? '#111827' : '#d1d5db',
+          backgroundColor: headerBgColor,
         },
-        headerTintColor: colorScheme === 'dark' ? '#fff' : '#000',
+        headerTintColor: headerTintColor,
         tabBarStyle: {
-          backgroundColor: '#0A1E3F',
-          borderColor: '#1554bd',
+          backgroundColor: tabBarBgColor,
+          borderColor: tabBarBorderColor,
         },
-        tabBarActiveTintColor: '#0066CC',
-        tabBarInactiveTintColor: '#A2B9D9',
+        tabBarActiveTintColor: tabBarActiveTintColor,
+        tabBarInactiveTintColor: tabBarInactiveTintColor,
       }}
     >
       <Tabs.Screen
