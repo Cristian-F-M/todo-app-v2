@@ -16,12 +16,14 @@ import Animated, {
 } from 'react-native-reanimated'
 import { getConfig } from '@utils/settings'
 import { useTasks } from '@context/Tasks'
+import { useColorScheme } from 'nativewind'
 
 export function TaskItem({ task }: { task: Task }) {
   const { openModal } = useModal()
   const [dropdownVisible, setDropdownVisible] = useState(false)
   const [isChecked, setIsChecked] = useState(false)
   const { deleteTask } = useTasks()
+  const { colorScheme } = useColorScheme()
 
   const handleOpenDropdown = () => {
     setDropdownVisible(true)
@@ -61,7 +63,7 @@ export function TaskItem({ task }: { task: Task }) {
 
   return (
     <Animated.View
-      className={`bg-gray-800 px-4 py-4 mb-4 items-center max-h-16 rounded-lg inline-flex flex-row justify-between active:opacity-75 ${isChecked ? 'opacity-80' : ''}`}
+      className={`bg-gray-400 dark:bg-gray-800 px-4 py-4 mb-4 items-center max-h-16 rounded-lg inline-flex flex-row justify-between active:opacity-75 ${isChecked ? 'dark:opacity-80 opacity-95' : ''}`}
       layout={LinearTransition.stiffness(2)}
       entering={FadeInRight}
       exiting={FadeOutLeft}
@@ -73,8 +75,8 @@ export function TaskItem({ task }: { task: Task }) {
           size={23}
           text={task.name}
           disableText
-          fillColor="#2563eb8f"
-          unFillColor="#172554"
+          fillColor={colorScheme === 'dark' ? '#2563eb8f' : '#6b7280'}
+          unFillColor={colorScheme === 'dark' ? '#172554' : '#d1d5db'}
           iconImageStyle={{ tintColor: '#fff' }}
           textStyle={{
             color: '#fff',
@@ -82,7 +84,7 @@ export function TaskItem({ task }: { task: Task }) {
           }}
         />
         <Text
-          className={`text-gray-300 text-lg ${isChecked ? 'line-through text-gray-400' : ''}  `}
+          className={`text-lg ${isChecked ? 'line-through dark:text-gray-400 text-gray-600' : 'dark:text-gray-300 text-gray-800'}`}
           onPress={() => setIsChecked(!isChecked)}
         >
           {task.name}
@@ -96,10 +98,12 @@ export function TaskItem({ task }: { task: Task }) {
         handleClose={() => setDropdownVisible(false)}
         trigger={
           <Pressable
-            className="active:bg-[#4b5563] p-1 rounded-lg"
+            className="active:dark:bg-[#4b5563] p-1 rounded-lg active:bg-gray-300"
             onPress={() => setDropdownVisible(true)}
           >
-            <MoreVertical stroke="white" />
+            <MoreVertical
+              stroke={colorScheme === 'dark' ? 'white' : '#1f2937'}
+            />
           </Pressable>
         }
       >
@@ -109,7 +113,11 @@ export function TaskItem({ task }: { task: Task }) {
           handleClose={handleCloseDropdown}
           handleOpen={handleOpenDropdown}
           icon={Edit}
-          iconProps={{ stroke: 'white', width: 22, height: 22 }}
+          iconProps={{
+            stroke: colorScheme === 'dark' ? '#ffffff' : '#1f2937',
+            width: 22,
+            height: 22,
+          }}
         />
 
         <DropdownOption
