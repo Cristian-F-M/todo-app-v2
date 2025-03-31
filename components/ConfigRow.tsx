@@ -12,10 +12,11 @@ export function ConfigRow({
   disabled = false,
   secureTextEntry = false,
   commingSoon = false,
+  children,
 }: {
   text: string
   description: string
-  typeConfig: 'switch' | 'text'
+  typeConfig: 'switch' | 'text' | 'other'
   value: {
     value: Record<string, any>
     setValue: React.Dispatch<React.SetStateAction<any>>
@@ -26,6 +27,7 @@ export function ConfigRow({
   disabled?: boolean
   secureTextEntry?: boolean
   commingSoon?: boolean
+  children?: React.ReactNode
 }) {
   const { colorScheme } = useColorScheme()
 
@@ -71,6 +73,7 @@ export function ConfigRow({
               />
             </View>
           )}
+          {typeConfig === 'other' && children}
         </View>
         {commingSoon && (
           <View className="absolute right-0 -top-4 py-1 px-2 rounded-lg border dark:border-blue-700 border-blue-500 dark:bg-blue-900 bg-blue-400 animate-bounce flex-row gap-x-1">
