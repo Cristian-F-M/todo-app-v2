@@ -35,7 +35,7 @@ export function TimePicker({
         value={timeValue}
         setValue={setTimeValue}
       />
-      <View className="w-px h-full bg-resalt/30 rounded"></View>
+      <View className="w-px h-full dark:bg-resalt/30 bg-blue-600 rounded"></View>
       <SingleTimePicker
         text="Minutos"
         keyValue="minutes"
