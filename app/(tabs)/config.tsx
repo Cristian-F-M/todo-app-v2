@@ -51,7 +51,7 @@ export default function ConfigPage() {
 
   useEffect(() => {
     async function getTheme() {
-      const theme = await getItem({ name: 'colorScheme' })
+      const theme = (await getItem({ name: 'colorScheme' })) || 'system'
       setSelectedTheme(theme as keyof typeof THEMES)
     }
     getTheme()
