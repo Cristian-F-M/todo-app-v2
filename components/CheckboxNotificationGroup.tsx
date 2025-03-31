@@ -4,6 +4,7 @@ import { Text, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import { CheckboxIcon } from './CheckboxIcon'
 import type { TimeValueType } from 'TimePicker'
+import { useColorScheme } from 'nativewind'
 
 export function CheckboxNotificationGroup({
   notificationType,
@@ -16,6 +17,7 @@ export function CheckboxNotificationGroup({
   setDateTimeValue: React.Dispatch<React.SetStateAction<Date>>
   setTimeValue: React.Dispatch<React.SetStateAction<TimeValueType>>
 }) {
+  const { colorScheme } = useColorScheme()
   const resetDateTimeValue = useCallback(() => {
     setDateTimeValue(new Date())
   }, [setDateTimeValue])
@@ -45,15 +47,15 @@ export function CheckboxNotificationGroup({
           }}
           useBuiltInState={false}
           size={20}
-          fillColor="#2563eb8f"
-          unFillColor="#172554"
+          fillColor={colorScheme === 'dark' ? '#2563eb8f' : '#6b7280'}
+          unFillColor={colorScheme === 'dark' ? '#172554' : '#d1d5db'}
           disableText
           iconComponent={
             <CheckboxIcon isChecked={notificationType === 'TIME'} />
           }
         />
         <Text
-          className="text-white"
+          className="dark:text-white"
           onPress={() => {
             handleChangeNotificationType('TIME')
           }}
@@ -77,7 +79,7 @@ export function CheckboxNotificationGroup({
           }
         />
         <Text
-          className="text-white"
+          className="dark:text-white"
           onPress={() => {
             handleChangeNotificationType('DATE_TIME')
           }}
