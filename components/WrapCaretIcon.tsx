@@ -11,7 +11,7 @@ export function WrapCaretIcon({
 }) {
   return (
     <Pressable
-      className={`justify-center bg-primary/30 p-px rounded-lg active:opacity-50 ${className}`}
+      className={`justify-center bg-primary/30 p-px rounded-lg active:dark:bg-primary/60 active:bg-primary/50 ${className}`}
       onPress={onPress}
     >
       {children}
