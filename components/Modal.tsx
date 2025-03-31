@@ -168,16 +168,16 @@ export function ModalTask({
         {errors.textInput}
       </Text>
 
-      <View className="bg-blue-500/20 rounded-lg mt-2">
+      <View className="dark:bg-blue-500/20 bg-blue-300/60 rounded-lg mt-2">
         {type === 'TASK' && (
           <View className="flex-row items-center justify-between rounded-lg px-3 py-1">
-            <View className="flex-row items-center gap-x-2 h-14">
+            <View className="flex-row items-center gap-x-2 h-14 color-blue-600">
               <Bell
-                color={'#60a5fa'}
+                color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
                 width={24}
                 height={24}
               />
-              <Text className="text-white text-base">Notificar</Text>
+              <Text className="dark:text-white text-base">Notificar</Text>
             </View>
             <Switch
               trackColor={{ false: '#767577', true: '#2563eb' }}
@@ -192,7 +192,7 @@ export function ModalTask({
         {isNotification && (
           <View>
             <View className="flex-row items-center justify-between rounded-lg px-3 py-1">
-              <View className="w-1 h-full bg-blue-500/70 rounded"></View>
+              <View className="w-1 h-full dark:bg-blue-500/70 bg-blue-700/70 rounded"></View>
               <View className="w-full flex-col pl-5 py-3">
                 <CheckboxNotificationGroup
                   notificationType={notificationType}
@@ -216,10 +216,10 @@ export function ModalTask({
                   )}
                 </View>
 
-                <View className="mt-6 bg-resalt/20 px-2 py-2 rounded-md flex-row gap-x-2 items-center">
+                <View className="mt-6 dark:bg-resalt/20 bg-blue-500/50 px-2 py-2 rounded-md flex-row gap-x-2 items-center">
                   <View>
                     <Bell
-                      color={'#60a5fa'}
+                      color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
                       width={17}
                       height={17}
                     />
@@ -231,7 +231,7 @@ export function ModalTask({
                           Te notificaremos:{' '}
                         </Text>
                       ))}
-                    <Text className="text-white text-base">
+                    <Text className="dark:text-white text-base">
                       {notificationAtText}
                     </Text>
                   </View>
