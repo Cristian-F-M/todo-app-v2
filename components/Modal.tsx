@@ -16,6 +16,7 @@ import {
   sendNotification,
 } from '@utils/notifications'
 import * as Notifications from 'expo-notifications'
+import { useColorScheme } from 'nativewind'
 
 export function ModalTask({
   openModal,
@@ -41,6 +42,7 @@ export function ModalTask({
   const [dateTimeValue, setDateTimeValue] = useState<DateTimeValueType>(
     new Date(),
   )
+  const { colorScheme } = useColorScheme()
 
   const handleClickSubmit = () => {
     if (textInput.trim() === '') {
@@ -134,26 +136,26 @@ export function ModalTask({
   return (
     <View className="relative flex-1 mx-auto w-full px-4 py-6">
       <View className="flex-row items-center justify-between relative">
-        <Text className="text-start text-3xl text-white font-semibold tracking-wider">
+        <Text className="text-start text-3xl dark:text-white text-gray-800 font-semibold tracking-wider">
           {modalTitle}
         </Text>
         <View className="absolute right-0">
           <Pressable
-            className="active:bg-blue-900 p-1 rounded-lg"
+            className="active:dark:bg-blue-900 active:bg-blue-400 p-1 rounded-lg"
             onPress={closeModal}
           >
             <Close
-              stroke="#7e8aae"
+              stroke={colorScheme === 'dark' ? '#7e8aae' : '#1f2937'}
               width={24}
               height={24}
             />
           </Pressable>
         </View>
       </View>
-      <View className="bg-blue-900/30 border-blue-800 mt-6 rounded-lg border">
+      <View className="dark:bg-blue-900/30 bg-blue-200/40 border-blue-800 mt-6 rounded-lg border">
         <TextInput
-          className="text-white px-3 h-14"
-          placeholderTextColor="#99a1af"
+          className="dark:text-white text-gray-800 px-3 h-14"
+          placeholderTextColor={colorScheme === 'dark' ? '#99a1af' : '#6b7280'}
           placeholder={textPlaceholder}
           onChangeText={handleClickChangeText}
           value={textInput}
