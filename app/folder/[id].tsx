@@ -10,9 +10,11 @@ import type { Tasks } from 'Task'
 import { TaskItem } from '@components/TaskItem'
 import { useModal } from '@context/Modal'
 import { Folder404 } from '@components/Folder404'
+import { useColorScheme } from 'nativewind'
 
 export default function Folder() {
   const { id } = useGlobalSearchParams()
+  const { colorScheme } = useColorScheme()
 
   const {
     tasks: tasksFromContext,
@@ -82,15 +84,19 @@ export default function Folder() {
         options={{
           headerShown: true,
           title: pageTitle,
-          headerStyle: { backgroundColor: '#111827' },
-          headerTintColor: '#fff',
+          headerStyle: {
+            backgroundColor: colorScheme === 'dark' ? '#111827' : '#d1d5db',
+          },
+          headerTintColor: colorScheme === 'dark' ? '#fff' : '#000',
         }}
       />
 
       {folder && (
         <View className="px-2 flex-1">
           <View className="flex flex-row items-center justify-between mt-3 px-2">
-            <Text className="text-gray-400 text-base">{taskCount} tareas</Text>
+            <Text className="dark:text-gray-400 text-gray-600 text-base">
+              {taskCount} tareas
+            </Text>
             <Animated.View style={{ opacity: opacityValue }}>
               <StyledPressable
                 text="Agregar tarea"

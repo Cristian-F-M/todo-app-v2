@@ -10,6 +10,9 @@ import { initDatabase } from '@utils/database'
 import * as SystemUI from 'expo-system-ui'
 import { SplashScreen } from 'expo-router'
 import * as Notifications from 'expo-notifications'
+import { useColorScheme } from 'nativewind'
+import { useEffect } from 'react'
+import { getItem } from '@utils/AsyncStorage'
 
 SystemUI.setBackgroundColorAsync('transparent')
 SplashScreen.preventAutoHideAsync()
@@ -23,6 +26,20 @@ Notifications.setNotificationHandler({
 })
 
 export default function RootLayout() {
+  const { colorScheme: currentColorScheme, setColorScheme } = useColorScheme()
+  const themeStyle = currentColorScheme === 'dark' ? 'light' : 'dark'
+
+  useEffect(() => {
+    async function colorScheme() {
+      const currentColorScheme =
+        (await getItem({ name: 'colorScheme' })) || 'system'
+
+      setColorScheme(currentColorScheme)
+    }
+
+    colorScheme()
+  }, [setColorScheme])
+
   return (
     <GestureHandlerRootView>
       <SQLiteProvider
@@ -31,8 +48,8 @@ export default function RootLayout() {
       >
         <TasksProvider>
           <ModalProvider>
-            <View className="flex-1 bg-gray-900">
-              <StatusBar style="light" />
+            <View className="flex-1 dark:bg-gray-900 bg-gray-300">
+              <StatusBar style={themeStyle} />
               <Stack
                 screenOptions={{
                   headerShown: false,

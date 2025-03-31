@@ -8,11 +8,13 @@ import { getAllConfigs, saveAllConfigs } from '@utils/settings'
 import { ConfigsSkeleton } from '@components/ConfigsSkeleton'
 import { useDebounce } from '@utils/useDebounce'
 import type { Configs as ConfigsType } from '@utils/settings'
+import { useColorScheme } from 'nativewind'
 
 export default function ConfigPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [configs, setConfigs] = useState<ConfigsType>({})
   const debouncedConfigs = useDebounce<ConfigsType>(configs, 500)
+  const { colorScheme } = useColorScheme()
 
   const loadConfigs = useCallback(async () => {
     const configs = await getAllConfigs()
@@ -44,7 +46,15 @@ export default function ConfigPage() {
   return (
     <Screen safeArea={false}>
       <Stack.Screen
-        options={{ headerShown: true, headerTitleAlign: 'center' }}
+        options={{
+          headerShown: true,
+          headerTitleAlign: 'center',
+
+          headerStyle: {
+            backgroundColor: colorScheme === 'dark' ? '#111827' : '#d1d5db',
+          },
+          headerTintColor: colorScheme === 'dark' ? '#fff' : '#000',
+        }}
       />
       {isLoading && <ConfigsSkeleton />}
       {!isLoading && (

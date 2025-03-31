@@ -16,6 +16,7 @@ import {
   sendNotification,
 } from '@utils/notifications'
 import * as Notifications from 'expo-notifications'
+import { useColorScheme } from 'nativewind'
 
 export function ModalTask({
   openModal,
@@ -41,6 +42,7 @@ export function ModalTask({
   const [dateTimeValue, setDateTimeValue] = useState<DateTimeValueType>(
     new Date(),
   )
+  const { colorScheme } = useColorScheme()
 
   const handleClickSubmit = () => {
     if (textInput.trim() === '') {
@@ -134,26 +136,26 @@ export function ModalTask({
   return (
     <View className="relative flex-1 mx-auto w-full px-4 py-6">
       <View className="flex-row items-center justify-between relative">
-        <Text className="text-start text-3xl text-white font-semibold tracking-wider">
+        <Text className="text-start text-3xl dark:text-white text-gray-800 font-semibold tracking-wider">
           {modalTitle}
         </Text>
         <View className="absolute right-0">
           <Pressable
-            className="active:bg-blue-900 p-1 rounded-lg"
+            className="active:dark:bg-blue-900 active:bg-blue-400 p-1 rounded-lg"
             onPress={closeModal}
           >
             <Close
-              stroke="#7e8aae"
+              stroke={colorScheme === 'dark' ? '#7e8aae' : '#1f2937'}
               width={24}
               height={24}
             />
           </Pressable>
         </View>
       </View>
-      <View className="bg-blue-900/30 border-blue-800 mt-6 rounded-lg border">
+      <View className="dark:bg-blue-900/30 bg-blue-200/40 border-blue-800 mt-6 rounded-lg border">
         <TextInput
-          className="text-white px-3 h-14"
-          placeholderTextColor="#99a1af"
+          className="dark:text-white text-gray-800 px-3 h-14"
+          placeholderTextColor={colorScheme === 'dark' ? '#99a1af' : '#6b7280'}
           placeholder={textPlaceholder}
           onChangeText={handleClickChangeText}
           value={textInput}
@@ -166,16 +168,16 @@ export function ModalTask({
         {errors.textInput}
       </Text>
 
-      <View className="bg-blue-500/20 rounded-lg mt-2">
+      <View className="dark:bg-blue-500/20 bg-blue-300/60 rounded-lg mt-2">
         {type === 'TASK' && (
           <View className="flex-row items-center justify-between rounded-lg px-3 py-1">
-            <View className="flex-row items-center gap-x-2 h-14">
+            <View className="flex-row items-center gap-x-2 h-14 color-blue-600">
               <Bell
-                color={'#60a5fa'}
+                color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
                 width={24}
                 height={24}
               />
-              <Text className="text-white text-base">Notificar</Text>
+              <Text className="dark:text-white text-base">Notificar</Text>
             </View>
             <Switch
               trackColor={{ false: '#767577', true: '#2563eb' }}
@@ -190,7 +192,7 @@ export function ModalTask({
         {isNotification && (
           <View>
             <View className="flex-row items-center justify-between rounded-lg px-3 py-1">
-              <View className="w-1 h-full bg-blue-500/70 rounded"></View>
+              <View className="w-1 h-full dark:bg-blue-500/70 bg-blue-700/70 rounded"></View>
               <View className="w-full flex-col pl-5 py-3">
                 <CheckboxNotificationGroup
                   notificationType={notificationType}
@@ -214,10 +216,10 @@ export function ModalTask({
                   )}
                 </View>
 
-                <View className="mt-6 bg-resalt/20 px-2 py-2 rounded-md flex-row gap-x-2 items-center">
+                <View className="mt-6 dark:bg-resalt/20 bg-blue-500/50 px-2 py-2 rounded-md flex-row gap-x-2 items-center">
                   <View>
                     <Bell
-                      color={'#60a5fa'}
+                      color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
                       width={17}
                       height={17}
                     />
@@ -229,7 +231,7 @@ export function ModalTask({
                           Te notificaremos:{' '}
                         </Text>
                       ))}
-                    <Text className="text-white text-base">
+                    <Text className="dark:text-white text-base">
                       {notificationAtText}
                     </Text>
                   </View>

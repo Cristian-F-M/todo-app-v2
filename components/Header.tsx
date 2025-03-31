@@ -35,7 +35,9 @@ export function Header() {
   return (
     <View className="header flex-row w-full py-4 px-3 flex items-center justify-between mt-14">
       <View className="items-center justify-center">
-        <Text className="text-white text-3xl text-center">Mis Carpetas</Text>
+        <Text className="dark:text-white text-3xl text-center">
+          Mis Carpetas
+        </Text>
       </View>
       <Animated.View
         className={`max-w-32 flex-row items-center justify-center ${!thereIsFolders ? 'opacity-100' : ''}`}

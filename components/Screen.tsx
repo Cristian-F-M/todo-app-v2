@@ -19,7 +19,7 @@ export function Screen({
 
   return (
     <Animated.View
-      className={`flex-1 bg-gray-900 ${className}`}
+      className={`flex-1 dark:bg-gray-900 bg-gray-300 ${className}`}
       style={[styles, style]}
     >
       {children}

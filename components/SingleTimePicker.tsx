@@ -4,6 +4,7 @@ import { Text, TextInput, View } from 'react-native'
 import { WrapCaretIcon } from '@components/WrapCaretIcon'
 import type { TimeValueType } from 'types/TimePicker'
 import React, { useCallback } from 'react'
+import { useColorScheme } from 'nativewind'
 
 export function SingleTimePicker({
   text,
@@ -16,6 +17,7 @@ export function SingleTimePicker({
   keyValue: keyof TimeValueType
   setValue: React.Dispatch<React.SetStateAction<TimeValueType>>
 }) {
+  const { colorScheme } = useColorScheme()
   const handleChangeTimeValue = (
     key: keyof TimeValueType,
     action: 'UP' | 'DOWN',
@@ -45,14 +47,14 @@ export function SingleTimePicker({
           onPress={() => handleChangeTimeValue(keyValue, 'UP')}
         >
           <CaretUp
-            color={'#60a5fa'}
+            color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
             width={24}
             height={24}
           />
         </WrapCaretIcon>
-        <View className="bg-blue-900/30 border-blue-800 rounded-lg border h-12 w-12">
+        <View className="dark:bg-blue-900/30 bg-blue-600/20 dark:border-blue-800 border-blue-500 rounded-lg border h-12 w-12">
           <TextInput
-            className="text-white px-3 h-full text-center"
+            className="dark:text-white px-3 h-full text-center"
             placeholderTextColor="#99a1af"
             placeholder="..."
             maxLength={2}
@@ -66,13 +68,13 @@ export function SingleTimePicker({
           onPress={() => handleChangeTimeValue(keyValue, 'DOWN')}
         >
           <CaretDown
-            color={'#60a5fa'}
+            color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
             width={24}
             height={24}
           />
         </WrapCaretIcon>
       </View>
-      <Text className="text-gray-400">{text}</Text>
+      <Text className="dark:text-gray-400 text-gray-800">{text}</Text>
     </View>
   )
 }

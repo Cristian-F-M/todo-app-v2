@@ -4,6 +4,7 @@ import { Modalize } from 'react-native-modalize'
 import type { ModalType, ModalMode, openModalFC, ModalProps } from 'Modal'
 import type { Task } from 'Task'
 import type { Folder } from 'Folder'
+import { useColorScheme } from 'nativewind'
 
 type ModalContextProps = {
   openModal: openModalFC
@@ -18,6 +19,7 @@ const ModalContext = createContext<ModalContextProps>({
 })
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
+  const { colorScheme } = useColorScheme()
   const modalRef = useRef<Modalize>(null)
   const [type, setType] = useState<ModalType>('TASK')
   const [item, setItem] = useState<Task | Folder>()
@@ -67,7 +69,9 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     <ModalContext.Provider value={{ openModal, closeModal, modalRef }}>
       <Modalize
         ref={modalRef}
-        modalStyle={{ backgroundColor: '#172554' }}
+        modalStyle={{
+          backgroundColor: colorScheme === 'dark' ? '#111827' : '#d1d5db',
+        }}
         adjustToContentHeight
       >
         {defaultModal && (
