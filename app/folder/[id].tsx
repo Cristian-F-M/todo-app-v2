@@ -100,7 +100,7 @@ export default function Folder() {
             <Animated.View style={{ opacity: opacityValue }}>
               <StyledPressable
                 text="Agregar tarea"
-                pressableClassName="max-w-32"
+                pressableClassName="max-w-40"
                 onPress={openCreateTaskModal}
               />
             </Animated.View>
