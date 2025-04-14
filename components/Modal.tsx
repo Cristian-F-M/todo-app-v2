@@ -117,10 +117,10 @@ export function ModalTask({
   const pressableText = mode === 'CREATE' ? 'Agregar' : 'Guardar'
 
   const toggleSwitch = async () => {
-    if (isNotification) {
-      await getNotificationsPermissions()
+    if (!isNotification) {
+      const { granted } = await getNotificationsPermissions()
+      if (!granted) return
     }
-    setNotificationType('TIME')
     setIsNotification(previousState => !previousState)
   }
 
