@@ -50,7 +50,8 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
 
   const getTasks = useCallback(async () => {
     const tasks = await loadTasks()
-    setTasks(tasks)
+    const reversedTasks = tasks.toReversed()
+    setTasks(reversedTasks)
   }, [])
 
   const getFolderById = useCallback(
@@ -74,7 +75,7 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     if (!ok)
       return ToastAndroid.show('Error al crear la tarea', ToastAndroid.SHORT)
 
-    setTasks([...tasks, task])
+    setTasks([task, ...tasks])
   }
 
   const addFolder = async (name: string) => {
