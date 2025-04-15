@@ -35,12 +35,12 @@ export function DeleteItem({ type, item }: DeleteItemProps) {
           width={25}
           height={25}
         />
-        <Text className="text-2xl font-semibold text-gray-300">
+        <Text className="text-2xl font-semibold dark:text-gray-300 text-gray-800">
           {modalTitle}
         </Text>
         <View className="absolute right-0">
           <Pressable
-            className="active:bg-blue-900 p-1 rounded-lg"
+            className="dark:active:bg-blue-900 active:bg-blue-300 p-1 rounded-lg"
             onPress={closeModal}
           >
             <Close
@@ -52,10 +52,12 @@ export function DeleteItem({ type, item }: DeleteItemProps) {
         </View>
       </View>
       <View className="mt-4 w-full">
-        <Text className="text-gray-400 text-base">
+        <Text className="dark:text-gray-400 text-gray-800 text-base">
           ¿Estás seguro de que deseas eliminar la {modalType}{' '}
-          <Text className="font-semibold text-white">{item.name}</Text>? Esta
-          acción no se puede deshacer.
+          <Text className="font-semibold dark:text-white text-black">
+            {item.name}
+          </Text>
+          ? Esta acción no se puede deshacer.
         </Text>
       </View>
       <View className="flex flex-row justify-between mt-5 w-full">
@@ -63,12 +65,14 @@ export function DeleteItem({ type, item }: DeleteItemProps) {
           text="Cancelar"
           backgroundColor="transparent"
           pressableClassName="!w-[48%] border-gray-500 border"
+          textClassName="!text-gray-800 dark:!text-gray-300"
           onPress={cancelItem}
         />
         <StyledPressable
           text="Eliminar"
           backgroundColor="#ff6467"
           pressableClassName="!w-[48%]"
+          textClassName="!text-gray-100 dark:!text-gray-300"
           onPress={deleteItem}
         />
       </View>
