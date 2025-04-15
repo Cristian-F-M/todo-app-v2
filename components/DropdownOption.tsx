@@ -24,7 +24,7 @@ export function DropdownOption({
       className={`option flex-row items-center justify-between border-gray-500 p-1 ${className}`}
     >
       <Pressable
-        className="w-full h-full px-5 py-2 active:bg-gray-700 flex flex-row items-center justify-evenly"
+        className="w-full h-full px-5 py-2 active:dark:bg-gray-700 active:bg-blue-200  flex flex-row items-center justify-evenly"
         onPress={onPressFC}
       >
         {Icon && showIconOn === 'before' && (
