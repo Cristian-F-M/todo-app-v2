@@ -11,6 +11,7 @@ import { TaskItem } from '@components/TaskItem'
 import { useModal } from '@context/Modal'
 import { Folder404 } from '@components/Folder404'
 import { useColorScheme } from 'nativewind'
+import { StatusBar } from 'expo-status-bar'
 
 export default function Folder() {
   const { id } = useGlobalSearchParams()
@@ -76,9 +77,17 @@ export default function Folder() {
   }, [tasksFromContext, folderId, getTasksByFolderId])
 
   const pageTitle = folder ? folder.name : 'Carpeta no encontrada'
+  const statusBarBackgroundColor =
+    colorScheme === 'dark' ? '#111827' : '#d1d5db'
+  const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
 
   return (
     <Screen safeArea={false}>
+      <StatusBar
+        translucent={false}
+        style={themeStyle}
+        backgroundColor={statusBarBackgroundColor}
+      />
       {!folder && <Folder404 />}
       <Stack.Screen
         options={{
