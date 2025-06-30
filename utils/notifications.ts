@@ -14,7 +14,7 @@ const DEFAULT_NOTIFICATIONS_TRIGGER: Notifications.SchedulableNotificationTrigge
     date: new Date(),
   }
 
-let openSettingsTimeout: null | NodeJS.Timeout = null
+let openSettingsTimeout: null | NodeJS.Timeout | number = null
 
 export async function getNotificationsPermissions(): Promise<{
   status: PermissionStatus
