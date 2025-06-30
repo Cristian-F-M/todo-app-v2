@@ -89,3 +89,24 @@ export function getNotificationText(
 
   return `El ${formatDateString(dateTimeValue)}`
 }
+/**
+ *
+ * @param one Date to use year/month/day
+ * @param two Date to use hh:mm:ss
+ * @returns new Date with dates merged
+ */
+export function mergeDates(one: Date, two: Date) {
+  const date = new Date(one)
+  const time = new Date(two)
+
+  const mergedDate = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    time.getHours(),
+    time.getMinutes(),
+    time.getSeconds(),
+  )
+
+  return mergedDate
+}
