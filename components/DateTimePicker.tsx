@@ -1,7 +1,7 @@
 import { Pressable, Text, View, Animated, useAnimatedValue } from 'react-native'
 import { DateItem } from './DateItem'
 import Calendar from '@icons/Calendar'
-import { getDateTime, joinDateTime } from '@utils/DateTime'
+import { getDateTime, mergeDates } from '@utils/DateTime'
 import Alarm from '@icons/Alarm'
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
 import { useCallback, useEffect, useState } from 'react'
@@ -29,7 +29,7 @@ export function DateTimePicker({
       minimumDate: new Date(),
       onChange(event, date) {
         if (event.type === 'dismissed' || !date) return
-        setDate(prev => joinDateTime({ date: date, time: prev }))
+        setDate(prev => mergeDates(date, prev))
       },
     })
   }, [dateTime, setDate])
@@ -41,7 +41,7 @@ export function DateTimePicker({
       minimumDate: new Date(),
       onChange(event, date) {
         if (event.type === 'dismissed' || !date) return
-        setDate(prev => joinDateTime({ date: prev, time: date }))
+        setDate(prev => mergeDates(prev, date))
       },
     })
   }, [dateTime, setDate])
