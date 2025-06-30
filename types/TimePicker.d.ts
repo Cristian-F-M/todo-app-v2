@@ -1,6 +1,6 @@
 export type TimeValueType = {
-  minutes: number | string
-  hours: number | string
+  minutes: number
+  hours: number
 }
 
 export type DateTimeValueType = Date
