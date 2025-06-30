@@ -10,7 +10,7 @@ import type { TimeValueType, DateTimeValueType } from 'types/TimePicker'
 import { TimePicker } from './TimePicker'
 import { DateTimePicker } from './DateTimePicker'
 import { CheckboxNotificationGroup } from './CheckboxNotificationGroup'
-import { getNotificationText, sumDate } from '@utils/DateTime'
+import { getNotificationText } from '@utils/DateTime'
 import {
   getNotificationsPermissions,
   sendNotification,
@@ -65,11 +65,19 @@ export function ModalTask({
     if (isNotification) {
       let date = dateTimeValue
 
-      if (notificationType === 'TIME') date = sumDate(new Date(), timeValue)
+      if (notificationType === 'TIME') {
+        const newDate = new Date()
+        newDate.setHours(newDate.getHours() + Number(timeValue.hours))
+        newDate.setMinutes(newDate.getMinutes() + Number(timeValue.minutes))
+        newDate.setSeconds(0)
+        date = newDate
+      }
+
+      console.log({ date })
 
       sendNotification(textInput, 'Se completo el timepo de la tarea', {
         type: Notifications.SchedulableTriggerInputTypes.DATE,
-        date,
+        date: new Date(date),
       })
     }
   }
