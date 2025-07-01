@@ -34,7 +34,12 @@
     "plugins": [
       "expo-router",
       "expo-sqlite",
-      "expo-notifications"
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/logo-cm-white.png"
+        }
+      ]
     ],
     "extra": {
       "router": {
