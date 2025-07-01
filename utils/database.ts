@@ -15,7 +15,9 @@ import type {
 import type { Tasks } from 'Task'
 
 export function connectDatabase() {
-  const db = SQLite.openDatabaseSync('todo-cm.db')
+  const db = SQLite.openDatabaseSync('todo-cm.db', {
+    useNewConnection: true,
+  })
   return db
 }
 
