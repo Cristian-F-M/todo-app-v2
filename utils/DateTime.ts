@@ -105,7 +105,7 @@ export function mergeDates(one: Date, two: Date) {
     date.getDate(),
     time.getHours(),
     time.getMinutes(),
-    time.getSeconds(),
+    0,
   )
 
   return mergedDate
