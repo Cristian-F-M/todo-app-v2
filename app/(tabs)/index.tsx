@@ -44,7 +44,7 @@ export default function Index() {
 
   return (
     <Screen
-      safeArea={false}
+      safeArea={true}
       style={{ opacity: opacityValue }}
     >
       <StatusBar
