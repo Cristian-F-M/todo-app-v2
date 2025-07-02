@@ -44,23 +44,13 @@ export function ModalTask({
   )
   const { colorScheme } = useColorScheme()
 
-  const handleClickSubmit = () => {
+  const handleClickSubmit = async () => {
     if (textInput.trim() === '') {
       setErrors(prev => ({ ...prev, textInput: 'El campo es requerido' }))
       return
     }
 
-    if (type === 'FOLDER') {
-      if (mode === 'CREATE') createFolder()
-      if (mode === 'EDIT') updateFolder()
-    }
-
-    if (type === 'TASK') {
-      if (mode === 'CREATE') createTask()
-      if (mode === 'EDIT') updateTask()
-    }
-    if (onSubmit) onSubmit()
-    closeModal()
+    let notificationId = null
 
     if (isNotification) {
       let date = dateTimeValue
@@ -73,13 +63,27 @@ export function ModalTask({
         date = newDate
       }
 
-      console.log({ date })
-
-      sendNotification(textInput, 'Se completo el timepo de la tarea', {
-        type: Notifications.SchedulableTriggerInputTypes.DATE,
-        date: new Date(date),
-      })
+      notificationId = await sendNotification(
+        textInput,
+        'Se completo el timepo de la tarea',
+        {
+          type: Notifications.SchedulableTriggerInputTypes.DATE,
+          date: new Date(date),
+        },
+      )
     }
+
+    if (type === 'FOLDER') {
+      if (mode === 'CREATE') createFolder()
+      if (mode === 'EDIT') updateFolder()
+    }
+
+    if (type === 'TASK') {
+      if (mode === 'CREATE') createTask(notificationId)
+      if (mode === 'EDIT') updateTask()
+    }
+    if (onSubmit) onSubmit()
+    closeModal()
   }
 
   useEffect(() => {
@@ -100,10 +104,13 @@ export function ModalTask({
     editFolder(item.id, textInput)
   }, [editFolder, textInput, item])
 
-  const createTask = useCallback(() => {
-    if (!folderId) return
-    addTask(folderId, textInput)
-  }, [addTask, textInput, folderId])
+  const createTask = useCallback(
+    (notificationId: string | null) => {
+      if (!folderId) return
+      addTask(folderId, textInput, notificationId)
+    },
+    [addTask, textInput, folderId],
+  )
 
   const updateTask = useCallback(() => {
     if (!item) return
