@@ -6,7 +6,7 @@ import { TasksProvider } from '@context/Tasks'
 import { ModalProvider } from '@context/Modal'
 import '../global.css'
 import { SQLiteProvider } from 'expo-sqlite'
-import { initDatabase } from '@utils/database'
+import { initDatabase, removeNotificationId } from '@utils/database'
 import * as SystemUI from 'expo-system-ui'
 import * as SplashScreen from 'expo-splash-screen'
 import * as Notifications from 'expo-notifications'
@@ -25,6 +25,7 @@ Notifications.setNotificationHandler({
     shouldShowList: true,
     priority: Notifications.AndroidNotificationPriority.HIGH,
   }),
+  handleSuccess: removeNotificationId,
 })
 
 export default function RootLayout() {
