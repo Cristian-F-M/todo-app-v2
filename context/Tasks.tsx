@@ -20,15 +20,21 @@ import {
   deleteTasksByFolderId,
   aumentTaskCount as aumentTaskCountFromDB,
   subtractTaskCount as subtractTaskCountFromDB,
+  setNotificationId as setNotificationIdFromDb,
 } from '@utils/database'
 import { ToastAndroid } from 'react-native'
+import { removeNotification } from '@utils/notifications'
 
 type TaskContextType = {
   tasks: Tasks
   folders: Folders | null
   getFolderById: (folderId: string) => Folder | undefined
   getTasksByFolderId: (folderId: string) => Tasks
-  addTask: (folderId: string, name: string) => void
+  addTask: (
+    folderId: string,
+    name: string,
+    notificationId: string | null,
+  ) => void
   addFolder: (name: string) => void
   editTask: (taskId: string, name: string) => void
   editFolder: (folderId: string, name: string) => void
@@ -67,13 +73,19 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
     return newTasks as Tasks
   }
 
-  const addTask = async (folderId: string, name: string) => {
-    const task: Task = { id: uuid.v4(), name, folderId }
+  const addTask = async (
+    folderId: string,
+    name: string,
+    notificationId: string | null,
+  ) => {
+    const task: Task = { id: uuid.v4(), name, folderId, notificationId }
     const { ok } = await createTask(task)
     await aumentTaskCount(folderId)
 
     if (!ok)
       return ToastAndroid.show('Error al crear la tarea', ToastAndroid.SHORT)
+
+    await setNotificationIdFromDb(task.id, notificationId)
 
     setTasks([task, ...tasks])
   }
@@ -155,6 +167,8 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
       return ToastAndroid.show('Error al eliminar la tarea', ToastAndroid.SHORT)
 
     setTasks([...tasks.filter(task => task.id !== taskId)])
+
+    if (task.notificationId) removeNotification(task.notificationId)
   }
 
   const aumentTaskCount = async (folderId: string) => {
