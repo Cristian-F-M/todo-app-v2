@@ -33,7 +33,7 @@ export function Header() {
   )
 
   return (
-    <View className="header flex-row w-full py-4 px-3 flex items-center justify-between mt-14">
+    <View className="header flex-row w-full py-4 px-3 flex items-center justify-between">
       <View className="items-center justify-center">
         <Text className="dark:text-white text-3xl text-center">
           Mis Carpetas
