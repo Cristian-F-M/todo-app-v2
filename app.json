@@ -2,7 +2,7 @@
   "expo": {
     "name": "todo cm",
     "slug": "todo-cm",
-    "version": "1.0.0",
+    "version": "1.2.1",
     "githubUrl": "https://github.com/Cristian-F-M/todo-app-v2",
     "orientation": "portrait",
     "icon": "./assets/logo-cm-white.png",
