@@ -6,7 +6,7 @@ type SendNotificationFC = (
   title: string,
   body: string,
   trigger: Notifications.SchedulableNotificationTriggerInput,
-) => void
+) => Promise<string>
 
 const DEFAULT_NOTIFICATIONS_TRIGGER: Notifications.SchedulableNotificationTriggerInput =
   {
@@ -52,13 +52,19 @@ export const sendNotification: SendNotificationFC = async (
 ) => {
   const { granted } = await getNotificationsPermissions()
 
-  if (!granted) return
+  if (!granted) return ''
 
-  Notifications.scheduleNotificationAsync({
+  const notificationId = await Notifications.scheduleNotificationAsync({
     content: {
       title,
       body,
     },
     trigger,
   })
+
+  return notificationId
+}
+
+export async function removeNotification(notificationId: string) {
+  await Notifications.cancelScheduledNotificationAsync(notificationId)
 }
