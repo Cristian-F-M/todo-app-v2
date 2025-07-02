@@ -20,7 +20,6 @@ import {
   deleteTasksByFolderId,
   aumentTaskCount as aumentTaskCountFromDB,
   subtractTaskCount as subtractTaskCountFromDB,
-  setNotificationId as setNotificationIdFromDb,
 } from '@utils/database'
 import { ToastAndroid } from 'react-native'
 import { removeNotification } from '@utils/notifications'
@@ -84,8 +83,6 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!ok)
       return ToastAndroid.show('Error al crear la tarea', ToastAndroid.SHORT)
-
-    await setNotificationIdFromDb(task.id, notificationId)
 
     setTasks([task, ...tasks])
   }
