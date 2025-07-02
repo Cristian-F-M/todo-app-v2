@@ -28,7 +28,7 @@ export async function initDatabase() {
     'CREATE TABLE IF NOT EXISTS folders (id TEXT PRIMARY KEY, name TEXT, taskCount INTEGER)',
   )
   await db.execAsync(
-    'CREATE TABLE IF NOT EXISTS tasks (id TEXT PRIMARY KEY, name TEXT, folderId TEXT, FOREIGN KEY(folderId) REFERENCES folders(id))',
+    'CREATE TABLE IF NOT EXISTS tasks (id TEXT PRIMARY KEY, name TEXT, folderId TEXT, notificationId TEXT, FOREIGN KEY(folderId) REFERENCES folders(id))',
   )
 }
 
@@ -271,4 +271,21 @@ export async function getFolderById(
   }
 
   return folder
+}
+export async function removeNotificationId(notificationId: string) {
+  if (!notificationId) return
+
+  const db = connectDatabase()
+  const statement = await db.prepareAsync(
+    'UPDATE tasks SET notificationId = null WHERE notificationId = $notificationId',
+  )
+  let ok = false
+
+  try {
+    await statement.executeAsync({ $notificationId: notificationId })
+    ok = true
+  } finally {
+    await statement.finalizeAsync()
+  }
+  return { ok }
 }
