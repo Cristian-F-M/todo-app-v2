@@ -5,7 +5,7 @@
     "version": "1.2.2",
     "githubUrl": "https://github.com/Cristian-F-M/todo-app-v2",
     "orientation": "portrait",
-    "icon": "./assets/logo-cm-white.png",
+    "icon": "./src/assets/logo-cm-white.png",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "scheme": "todo-cm",
@@ -17,19 +17,19 @@
       "backgroundColor": "#111827"
     },
     "splash": {
-      "image": "./assets/logo-cm-white.png",
+      "image": "./src/assets/logo-cm-white.png",
       "resizeMode": "contain",
       "backgroundColor": "#111827"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo-cm-small.png",
+        "foregroundImage": "./src/assets/logo-cm-small.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.morales.todocm"
     },
     "web": {
-      "favicon": "./assets/logo-cm-small.png"
+      "favicon": "./src/assets/logo-cm-small.png"
     },
     "plugins": [
       "expo-router",
@@ -37,7 +37,7 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/logo-cm-white.png"
+          "icon": "./src/assets/logo-cm-white.png"
         }
       ],
       "@react-native-community/datetimepicker"
