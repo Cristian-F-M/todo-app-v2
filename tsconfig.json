@@ -1,33 +1,16 @@
 {
-  "extends": "expo/tsconfig.base",
-  "compilerOptions": {
-    "strict": true,
-    "baseUrl": "./",
-    "paths": {
-      "@components/*": [
-        "./components/*"
-      ],
-      "@icons/*": [
-        "./icons/*"
-      ],
-      "@context/*": [
-        "./context/*"
-      ],
-      "@types/*": [
-        "./types/*"
-      ],
-      "@constants/*": [
-        "./constants/*"
-      ],
-      "@utils/*": [
-        "./utils/*"
-      ]
-    },
-    "moduleResolution": "node",
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "typeRoots": [
-      "./types"
-    ]
-  },
+	"extends": "expo/tsconfig.base",
+	"compilerOptions": {
+		"strict": true,
+		"baseUrl": "./",
+		"paths": {
+			"@/*": [
+				"./src/*",
+				"./*"
+			]
+		},
+		"moduleResolution": "bundler",
+		"skipLibCheck": true,
+		"resolveJsonModule": true,
+	},
 }
