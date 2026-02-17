@@ -37,3 +37,6 @@ yarn-error.*
 
 # build
 android/
+
+bun.lockb
+bun.lock
