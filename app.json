@@ -39,7 +39,8 @@
         {
           "icon": "./assets/logo-cm-white.png"
         }
-      ]
+      ],
+      "@react-native-community/datetimepicker"
     ],
     "extra": {
       "router": {
