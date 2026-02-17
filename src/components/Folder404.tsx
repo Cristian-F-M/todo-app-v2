@@ -1,8 +1,8 @@
 import { Pressable, Text } from 'react-native'
 import { View } from 'react-native'
-import Folder404Icon from '@icons/Folder404'
-import { StyledPressable } from './StyledPressable'
-import Back from '@icons/Back'
+import Folder404Icon from '@/icons/Folder404'
+import { StyledPressable } from '@/components/StyledPressable'
+import Back from '@/icons/Back'
 import { router } from 'expo-router'
 
 export function Folder404() {

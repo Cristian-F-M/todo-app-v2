@@ -1,22 +1,22 @@
-import Folder from '@icons/Folder'
-import MoreVertical from '@icons/MoreVertical'
-import type { Folder as FolderType } from 'Folder'
+import Folder from '@/icons/Folder'
+import MoreVertical from '@/icons/MoreVertical'
+import type { Folder as FolderType } from '@/types/Folder'
 import { Text, View, Pressable } from 'react-native'
-import { DropdownMenu } from './Dropdown'
+import { DropdownMenu } from '@/components/Dropdown'
 import { useCallback, useEffect, useState } from 'react'
-import { DropdownOption } from './DropdownOption'
-import Edit from '@icons/Edit'
-import { useModal } from '@context/Modal'
-import Trash from '@icons/Trash'
-import { DeleteItem } from './DeleteItem'
+import { DropdownOption } from '@/components/DropdownOption'
+import Edit from '@/icons/Edit'
+import { useModal } from '@/context/Modal'
+import Trash from '@/icons/Trash'
+import { DeleteItem } from '@/components/DeleteItem'
 import { Link } from 'expo-router'
 import Animated, {
   LinearTransition,
   FadeInRight,
   FadeOutLeft,
 } from 'react-native-reanimated'
-import { getConfig } from '@utils/settings'
-import { useTasks } from '@context/Tasks'
+import { getConfig } from '@/utils/settings'
+import { useTasks } from '@/context/Tasks'
 import { useColorScheme } from 'nativewind'
 
 export function FolderItem({ folder }: { folder: FolderType }) {

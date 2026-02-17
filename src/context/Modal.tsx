@@ -1,9 +1,9 @@
-import { ModalTask } from '@components/Modal'
+import { ModalTask } from '@/components/Modal'
 import React, { createContext, useContext, useRef, useState } from 'react'
 import { Modalize } from 'react-native-modalize'
-import type { ModalType, ModalMode, openModalFC, ModalProps } from 'Modal'
-import type { Task } from 'Task'
-import type { Folder } from 'Folder'
+import type { ModalType, ModalMode, openModalFC, ModalProps } from '@/types/Modal'
+import type { Task } from '@/types/Task'
+import type { Folder } from '@/types/Folder'
 import { useColorScheme } from 'nativewind'
 
 type ModalContextProps = {

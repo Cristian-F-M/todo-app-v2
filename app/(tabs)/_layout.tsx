@@ -1,5 +1,5 @@
-import Home from '@icons/Home'
-import Settings from '@icons/Settings'
+import Home from '@/icons/Home'
+import Settings from '@/icons/Settings'
 import { Tabs } from 'expo-router'
 import { useColorScheme } from 'nativewind'
 

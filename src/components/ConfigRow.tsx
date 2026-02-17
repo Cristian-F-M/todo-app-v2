@@ -1,5 +1,5 @@
 import { Text, View, Switch, TextInput, TextInputProps } from 'react-native'
-import Sparkles from '@icons/Sparkles'
+import Sparkles from '@/icons/Sparkles'
 import { useColorScheme } from 'nativewind'
 
 export function ConfigRow({

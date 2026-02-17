@@ -1,4 +1,4 @@
-import CMLogo from '@icons/CMLogo'
+import CMLogo from '@/icons/CMLogo'
 import { View } from 'react-native'
 import { useColorScheme } from 'nativewind'
 

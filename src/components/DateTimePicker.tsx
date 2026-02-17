@@ -1,11 +1,11 @@
 import { Pressable, Text, View, Animated, useAnimatedValue } from 'react-native'
-import { DateItem } from './DateItem'
-import Calendar from '@icons/Calendar'
-import { getDateTime, mergeDates } from '@utils/DateTime'
-import Alarm from '@icons/Alarm'
+import { DateItem } from '@/components/DateItem'
+import Calendar from '@/icons/Calendar'
+import { getDateTime, mergeDates } from '@/utils/DateTime'
+import Alarm from '@/icons/Alarm'
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
 import { useCallback, useEffect, useState } from 'react'
-import type { TimeValues } from 'TimePicker'
+import type { TimeValues } from '@/types/TimePicker'
 
 export function DateTimePicker({
   dateTime,

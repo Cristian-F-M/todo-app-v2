@@ -1,6 +1,6 @@
-import Folder from '@icons/Folder'
+import Folder from '@/icons/Folder'
 import { Pressable, Text, View } from 'react-native'
-import { StyledPressable } from './StyledPressable'
+import { StyledPressable } from '@/components/StyledPressable'
 
 export function NoTasks({ openModal }: { openModal: (e?: any) => void }) {
   return (

@@ -1,5 +1,5 @@
-import type { TimeValueType } from 'TimePicker'
-import type { TimeValues } from 'TimePicker'
+import type { TimeValueType } from '@/types/TimePicker'
+import type { TimeValues } from '@/types/TimePicker'
 
 const defaultDateTime = {
   year: '----',

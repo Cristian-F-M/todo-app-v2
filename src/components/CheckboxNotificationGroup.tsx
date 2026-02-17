@@ -1,9 +1,9 @@
-import type { NotificationTypes } from 'Modal'
+import type { NotificationTypes } from '@/types/Modal'
 import { useCallback } from 'react'
 import { Text, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import { CheckboxIcon } from './CheckboxIcon'
-import type { TimeValueType } from 'TimePicker'
+import type { TimeValueType } from '@/types/TimePicker'
 import { useColorScheme } from 'nativewind'
 
 export function CheckboxNotificationGroup({

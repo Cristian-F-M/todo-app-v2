@@ -1,7 +1,7 @@
 import { Text, View, Animated, useAnimatedValue } from 'react-native'
-import { StyledPressable } from './StyledPressable'
-import { useTasks } from '@context/Tasks'
-import { useModal } from '@context/Modal'
+import { StyledPressable } from '@/components/StyledPressable'
+import { useTasks } from '@/context/Tasks'
+import { useModal } from '@/context/Modal'
 import { useCallback, useEffect } from 'react'
 
 export function Header() {

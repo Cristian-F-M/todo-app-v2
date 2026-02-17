@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import type { GetItemProps, RemoveItemProps, SetItemProps } from 'AsyncStorage'
+import type { GetItemProps, RemoveItemProps, SetItemProps } from '@/types/AsyncStorage'
 
 export async function removeItem({ name }: RemoveItemProps) {
   try {

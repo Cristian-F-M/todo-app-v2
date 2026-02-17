@@ -1,5 +1,5 @@
-import type { KeyItem, ValueItem } from 'AsyncStorage'
-import { removeItem, saveItem, getItem } from './AsyncStorage'
+import type { KeyItem, ValueItem } from '@/types/AsyncStorage'
+import { removeItem, saveItem, getItem } from '@/utils/AsyncStorage'
 
 export type Configs = {
   [key: string]: any

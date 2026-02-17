@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Dimensions, Modal, Pressable, View } from 'react-native'
-import type { DropdownMenuProps } from 'Dropdown'
+import type { DropdownMenuProps } from '@/types/Dropdown'
 
 export function DropdownMenu({
   visible,

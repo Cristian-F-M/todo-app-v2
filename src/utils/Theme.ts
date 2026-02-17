@@ -1,9 +1,9 @@
 import { colorScheme } from 'nativewind'
-import { saveItem } from './AsyncStorage'
-import Sun from '@icons/Sun'
-import Moon from '@icons/Moon'
-import Mobile from '@icons/deviceMobile'
-import type { ThemeString, Theme } from 'Theme'
+import { saveItem } from '@/utils/AsyncStorage'
+import Sun from '@/icons/Sun'
+import Moon from '@/icons/Moon'
+import Mobile from '@/icons/deviceMobile'
+import type { ThemeString, Theme } from '@/types/Theme'
 
 export const THEMES: Record<ThemeString, Theme> = {
   light: {

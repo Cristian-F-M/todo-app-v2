@@ -1,4 +1,4 @@
-import type { Folder, Folders } from 'Folder'
+import type { Folder, Folders } from '@/types/Folder'
 import * as SQLite from 'expo-sqlite'
 import type {
   CreateFolderFC,
@@ -11,8 +11,8 @@ import type {
   DeleteTasksByFolderIdFC,
   ChangeTaskCountOperator,
   SubtractTaskCountFC,
-} from 'Database'
-import type { Tasks } from 'Task'
+} from '@/types/Database'
+import type { Tasks } from '@/types/Task'
 
 export function connectDatabase() {
   const db = SQLite.openDatabaseSync('todo-cm.db', {

@@ -1,9 +1,9 @@
-import AddFolder from '@icons/AddFolder'
+import AddFolder from '@/icons/AddFolder'
 import { Pressable, Text, useAnimatedValue, Animated } from 'react-native'
-import { StyledPressable } from './StyledPressable'
-import { useTasks } from '@context/Tasks'
+import { StyledPressable } from '@/components/StyledPressable'
+import { useTasks } from '@/context/Tasks'
 import { useCallback, useEffect } from 'react'
-import { useModal } from '@context/Modal'
+import { useModal } from '@/context/Modal'
 
 export function NoFolders() {
   const { openModal } = useModal()

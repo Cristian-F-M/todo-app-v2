@@ -1,21 +1,21 @@
-import MoreVertical from '@icons/MoreVertical'
-import type { Task } from 'Task'
+import MoreVertical from '@/icons/MoreVertical'
+import type { Task } from '@/types/Task'
 import { useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
-import { DropdownMenu } from './Dropdown'
-import { DropdownOption } from './DropdownOption'
-import Edit from '@icons/Edit'
-import Trash from '@icons/Trash'
-import { useModal } from '@context/Modal'
+import { DropdownMenu } from '@/components/Dropdown'
+import { DropdownOption } from '@/components/DropdownOption'
+import Edit from '@/icons/Edit'
+import Trash from '@/icons/Trash'
+import { useModal } from '@/context/Modal'
 import { DeleteItem } from './DeleteItem'
 import Animated, {
   LinearTransition,
   FadeInRight,
   FadeOutLeft,
 } from 'react-native-reanimated'
-import { getConfig } from '@utils/settings'
-import { useTasks } from '@context/Tasks'
+import { getConfig } from '@/utils/settings'
+import { useTasks } from '@/context/Tasks'
 import { useColorScheme } from 'nativewind'
 
 export function TaskItem({ task }: { task: Task }) {

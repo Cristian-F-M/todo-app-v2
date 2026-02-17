@@ -1,10 +1,10 @@
-import AlertTriangle from '@icons/AlertTriangle'
+import AlertTriangle from '@/icons/AlertTriangle'
 import { Pressable, Text, View } from 'react-native'
-import Close from '@icons/Close'
-import type { DeleteItemProps } from 'Modal'
-import { useModal } from '@context/Modal'
-import { StyledPressable } from './StyledPressable'
-import { useTasks } from '@context/Tasks'
+import Close from '@/icons/Close'
+import type { DeleteItemProps } from '@/types/Modal'
+import { useModal } from '@/context/Modal'
+import { StyledPressable } from '@/components/StyledPressable'
+import { useTasks } from '@/context/Tasks'
 
 export function DeleteItem({ type, item }: DeleteItemProps) {
   const { closeModal } = useModal()

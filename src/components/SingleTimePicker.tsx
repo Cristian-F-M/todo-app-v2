@@ -1,8 +1,8 @@
-import CaretDown from '@icons/CaretDown'
-import CaretUp from '@icons/CaretUp'
+import CaretDown from '@/icons/CaretDown'
+import CaretUp from '@/icons/CaretUp'
 import { Text, TextInput, View } from 'react-native'
-import { WrapCaretIcon } from '@components/WrapCaretIcon'
-import type { TimeValueType } from 'types/TimePicker'
+import { WrapCaretIcon } from '@/components/WrapCaretIcon'
+import type { TimeValueType } from '@/types/TimePicker'
 import React, { useCallback } from 'react'
 import { useColorScheme } from 'nativewind'
 

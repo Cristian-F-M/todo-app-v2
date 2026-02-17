@@ -5,9 +5,9 @@ import {
   useEffect,
   useState,
 } from 'react'
-import type { Task, Tasks } from 'Task'
+import type { Task, Tasks } from '@/types/Task'
 import uuid from 'react-native-uuid'
-import type { Folder, Folders } from 'Folder'
+import type { Folder, Folders } from '@/types/Folder'
 import {
   getFoldersFromDB,
   createFolder,
@@ -20,9 +20,9 @@ import {
   deleteTasksByFolderId,
   aumentTaskCount as aumentTaskCountFromDB,
   subtractTaskCount as subtractTaskCountFromDB,
-} from '@utils/database'
+} from '@/utils/database'
 import { ToastAndroid } from 'react-native'
-import { removeNotification } from '@utils/notifications'
+import { removeNotification } from '@/utils/notifications'
 
 type TaskContextType = {
   tasks: Tasks
