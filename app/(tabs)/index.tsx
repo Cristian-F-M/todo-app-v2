@@ -1,75 +1,72 @@
-import { Screen } from '@/components/Screen'
-import { Header } from '@/components/Header'
-import { FlatList, View, Animated, useAnimatedValue } from 'react-native'
-import { BackgroundIcon } from '@/components/BackgroundIcon'
-import { FolderItem } from '@/components/FolderItem'
-import { useTasks } from '@/context/Tasks'
-import { NoFolders } from '@/components/NoFolders'
-import { useEffect, useState } from 'react'
-import { Loader } from '@/components/Loader'
 import { SplashScreen } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useColorScheme } from 'nativewind'
+import { useEffect, useState } from 'react'
+import { Animated, FlatList, useAnimatedValue, View } from 'react-native'
+import { BackgroundIcon } from '@/components/BackgroundIcon'
+import { FolderItem } from '@/components/FolderItem'
+import { Header } from '@/components/Header'
+import { Loader } from '@/components/Loader'
+import { NoFolders } from '@/components/NoFolders'
+import { Screen } from '@/components/Screen'
+import { useTasks } from '@/context/Tasks'
 
 export default function Index() {
-  const { folders } = useTasks()
-  const [loading, setLoading] = useState(true)
-  const opacityValue = useAnimatedValue(0)
-  const thereIsFolders = folders && folders.length > 0
+	const { folders } = useTasks()
+	const [loading, setLoading] = useState(true)
+	const opacityValue = useAnimatedValue(0)
+	const thereIsFolders = folders && folders.length > 0
 
-  useEffect(() => {
-    if (folders && folders.length >= 0) setTimeout(() => setLoading(false), 500)
-  }, [folders])
+	useEffect(() => {
+		if (folders && folders.length >= 0) setTimeout(() => setLoading(false), 500)
+	}, [folders])
 
-  useEffect(() => {
-    SplashScreen.hideAsync()
-  }, [])
+	useEffect(() => {
+		SplashScreen.hideAsync()
+	}, [])
 
-  useEffect(() => {
-    const animation = Animated.timing(opacityValue, {
-      toValue: 1,
-      duration: 300,
-      useNativeDriver: true,
-    })
+	useEffect(() => {
+		const animation = Animated.timing(opacityValue, {
+			toValue: 1,
+			duration: 300,
+			useNativeDriver: true
+		})
 
-    animation.start()
+		animation.start()
 
-    return () => {
-      animation.stop()
-    }
-  }, [opacityValue])
+		return () => {
+			animation.stop()
+		}
+	}, [opacityValue])
 
-  const { colorScheme } = useColorScheme()
-  const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
+	const { colorScheme } = useColorScheme()
+	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
 
-  return (
-    <Screen
-      safeArea={true}
-      style={{ opacity: opacityValue }}
-    >
-      <StatusBar
-        translucent={false}
-        style={themeStyle}
-        backgroundColor={'transparent'}
-      />
+	return (
+		<Screen safeArea={true} style={{ opacity: opacityValue }}>
+			<StatusBar
+				translucent={false}
+				style={themeStyle}
+				backgroundColor={'transparent'}
+			/>
 
-      <BackgroundIcon />
-      <Header />
+			<BackgroundIcon />
+			<Header />
 
-      {loading && <Loader cantItems={6} />}
+			{loading && <Loader cantItems={6} />}
 
-      {!loading && !thereIsFolders && <NoFolders />}
+			{!loading && !thereIsFolders && <NoFolders />}
 
-      {!loading && thereIsFolders && (
-        <View className="mt-10 items-center justify-center w-11/12 mx-auto flex-1 mb-6">
-          <FlatList
-            className="w-full gap-y-2"
-            data={folders}
-            renderItem={({ item }) => <FolderItem folder={item} />}
-            keyExtractor={item => item.id}
-          />
-        </View>
-      )}
-    </Screen>
-  )
+			{!loading && thereIsFolders && (
+				<View className="mt-10 items-center justify-center w-11/12 mx-auto flex-1 mb-6">
+					<FlatList
+						className="w-full gap-y-2"
+						data={folders}
+						renderItem={({ item }) => <FolderItem folder={item} />}
+						keyExtractor={(item) => item.id}
+					/>
+				</View>
+			)}
+		</Screen>
+	)
 }

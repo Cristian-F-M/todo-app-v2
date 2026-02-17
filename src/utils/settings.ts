@@ -1,44 +1,44 @@
 import type { KeyItem, ValueItem } from '@/types/AsyncStorage'
-import { removeItem, saveItem, getItem } from '@/utils/AsyncStorage'
+import { getItem, removeItem, saveItem } from '@/utils/AsyncStorage'
 
 export type Configs = {
-  [key: string]: any
+	[key: string]: any
 }
 
 const defaultConfigs: Configs = {
-  confirmDeleteTask: true,
-  confirmDeleteFolder: true,
-  clearTaskAfter: 30,
+	confirmDeleteTask: true,
+	confirmDeleteFolder: true,
+	clearTaskAfter: 30
 }
 
 export async function saveConfig({
-  name,
-  value,
+	name,
+	value
 }: {
-  name: KeyItem
-  value: ValueItem
+	name: KeyItem
+	value: ValueItem
 }) {
-  await saveItem({ name: 'configs', value: { name, value } })
+	await saveItem({ name: 'configs', value: { name, value } })
 }
 
 export function removeConfig({ name }: { name: KeyItem }) {
-  removeItem({ name })
+	removeItem({ name })
 }
 
 export async function getConfig({ name }: { name: KeyItem }) {
-  const configs = await getAllConfigs()
-  return configs[name]
+	const configs = await getAllConfigs()
+	return configs[name]
 }
 
 export async function getAllConfigs() {
-  const configs = await getItem({ name: 'configs' })
-  return { ...defaultConfigs, ...configs }
+	const configs = await getItem({ name: 'configs' })
+	return { ...defaultConfigs, ...configs }
 }
 
 export async function saveAllConfigs(configs: Configs) {
-  await saveItem({ name: 'configs', value: configs })
+	await saveItem({ name: 'configs', value: configs })
 }
 
 export async function removeAllConfigs() {
-  await removeItem({ name: 'configs' })
+	await removeItem({ name: 'configs' })
 }

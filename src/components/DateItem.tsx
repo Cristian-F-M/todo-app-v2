@@ -1,16 +1,15 @@
-import { Text } from 'react-native'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 
 export function DateItem({
-  value,
-  className,
+	value,
+	className
 }: {
-  value: string
-  className?: string
+	value: string
+	className?: string
 }) {
-  return (
-    <View>
-      <Text className="text-gray-300">{value}</Text>
-    </View>
-  )
+	return (
+		<View>
+			<Text className="text-gray-300">{value}</Text>
+		</View>
+	)
 }

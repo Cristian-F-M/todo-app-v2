@@ -1,47 +1,47 @@
-import { View, Animated, useAnimatedValue } from 'react-native'
+import { useEffect } from 'react'
+import { Animated, useAnimatedValue, View } from 'react-native'
 import { SingleTimePicker } from '@/components/SingleTimePicker'
 import type { TimeValueType } from '@/types/TimePicker'
-import { useEffect } from 'react'
 
 export function TimePicker({
-  timeValue,
-  setTimeValue,
+	timeValue,
+	setTimeValue
 }: {
-  timeValue: TimeValueType
-  setTimeValue: React.Dispatch<React.SetStateAction<TimeValueType>>
+	timeValue: TimeValueType
+	setTimeValue: React.Dispatch<React.SetStateAction<TimeValueType>>
 }) {
-  const animatedValue = useAnimatedValue(0)
+	const animatedValue = useAnimatedValue(0)
 
-  useEffect(() => {
-    const animation = Animated.timing(animatedValue, {
-      toValue: 1,
-      duration: 300,
-      useNativeDriver: true,
-    })
+	useEffect(() => {
+		const animation = Animated.timing(animatedValue, {
+			toValue: 1,
+			duration: 300,
+			useNativeDriver: true
+		})
 
-    animation.start()
+		animation.start()
 
-    return () => animation.stop()
-  }, [animatedValue])
+		return () => animation.stop()
+	}, [animatedValue])
 
-  return (
-    <Animated.View
-      className="flex-row justify-between"
-      style={{ opacity: animatedValue }}
-    >
-      <SingleTimePicker
-        text="Horas"
-        keyValue="hours"
-        value={timeValue}
-        setValue={setTimeValue}
-      />
-      <View className="w-px h-full dark:bg-resalt/30 bg-blue-600 rounded"></View>
-      <SingleTimePicker
-        text="Minutos"
-        keyValue="minutes"
-        value={timeValue}
-        setValue={setTimeValue}
-      />
-    </Animated.View>
-  )
+	return (
+		<Animated.View
+			className="flex-row justify-between"
+			style={{ opacity: animatedValue }}
+		>
+			<SingleTimePicker
+				text="Horas"
+				keyValue="hours"
+				value={timeValue}
+				setValue={setTimeValue}
+			/>
+			<View className="w-px h-full dark:bg-resalt/30 bg-blue-600 rounded"></View>
+			<SingleTimePicker
+				text="Minutos"
+				keyValue="minutes"
+				value={timeValue}
+				setValue={setTimeValue}
+			/>
+		</Animated.View>
+	)
 }

@@ -6,8 +6,8 @@ type retunType = Promise<{ ok: boolean }>
 export type CreateFolderFC = (folder: Folder) => retunType
 
 export type UpdateFolderFC = (
-  id: Folder['id'],
-  name: Folder['name'],
+	id: Folder['id'],
+	name: Folder['name']
 ) => retunType
 
 export type DeleteFolderFC = (id: Folder['id']) => retunType
@@ -25,6 +25,6 @@ export type DeleteTasksByFolderIdFC = (id: Folder['id']) => retunType
 export type SubtractTaskCountFC = (id: Folder['id']) => retunType
 
 export enum ChangeTaskCountOperator {
-  SUBTRACTION = 'SUBTRACTION',
-  SUM = 'SUM',
+	SUBTRACTION = 'SUBTRACTION',
+	SUM = 'SUM'
 }
