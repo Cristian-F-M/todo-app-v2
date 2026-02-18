@@ -1,3 +1,6 @@
+import type { Folder } from './Folder'
+import type { Task } from './Task'
+
 export type ModalType = 'TASK' | 'FOLDER'
 export type ModalMode = 'CREATE' | 'EDIT'
 
