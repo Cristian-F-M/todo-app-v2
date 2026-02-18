@@ -10,7 +10,9 @@ import * as SplashScreen from 'expo-splash-screen'
 import { SQLiteProvider } from 'expo-sqlite'
 import * as SystemUI from 'expo-system-ui'
 import { useColorScheme } from 'nativewind'
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
+import useFolder from '@/state/Folder'
+import useTask from '@/state/Task'
 import { getItem } from '@/utils/AsyncStorage'
 import { initDatabase, removeNotificationId } from '@/utils/database'
 
@@ -31,6 +33,8 @@ Notifications.setNotificationHandler({
 export default function RootLayout() {
 	const { colorScheme: currentColorScheme, setColorScheme } = useColorScheme()
 	const themeStyle = currentColorScheme === 'dark' ? 'light' : 'dark'
+	const { load: loadFolders } = useFolder()
+	const { load: loadTasks } = useTask()
 
 	useEffect(() => {
 		async function colorScheme() {
@@ -42,6 +46,14 @@ export default function RootLayout() {
 
 		colorScheme()
 	}, [setColorScheme])
+
+	useLayoutEffect(() => {
+		function init() {
+			loadFolders()
+			loadTasks()
+		}
+		init()
+	}, [loadFolders, loadTasks])
 
 	return (
 		<GestureHandlerRootView>
