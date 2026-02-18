@@ -28,6 +28,11 @@ export default function Folder() {
 		return getTasksByFolderId(folderId).toReversed()
 	}, [folderId, getTasksByFolderId, tasksFromContext])
 
+	const completedTasks = useMemo(
+		() => tasks.filter((task) => task.isCompleted),
+		[tasks]
+	)
+
 	const thereAreTasks = tasks.length > 0
 	const opacityValue = useAnimatedValue(thereAreTasks ? 0 : 1)
 	const opacityValue2 = useAnimatedValue(thereAreTasks ? 1 : 0)
@@ -89,7 +94,7 @@ export default function Folder() {
 			/>
 
 			{folder && (
-				<View className="px-2 flex-1">
+				<View className="px-2">
 					<View className="flex flex-row items-center justify-between mt-3 px-2">
 						<Text className="dark:text-gray-400 text-gray-600 text-base">
 							{folder.taskCount} tareas
@@ -104,12 +109,29 @@ export default function Folder() {
 					</View>
 
 					{tasks.length > 0 && (
-						<FlatList
-							className="mt-7"
-							data={tasks}
-							renderItem={({ item }) => <TaskItem task={item} />}
-							keyExtractor={(item) => item.id}
-						/>
+						<>
+							<FlatList
+								className="mt-7"
+								data={tasks.filter((task) => !task.isCompleted)}
+								renderItem={({ item }) => <TaskItem task={item} />}
+								keyExtractor={(item) => item.id}
+							/>
+							<View className="mt-4 mb-2">
+								<Text className="dark:text-gray-500 text-gray-700">
+									Completadas
+								</Text>
+							</View>
+							{!completedTasks.length && (
+								<Text className="text-gray-500 dark:text-gray-400 text-sm">
+									No hay tareas completadas
+								</Text>
+							)}
+							<FlatList
+								data={completedTasks}
+								renderItem={({ item }) => <TaskItem task={item} />}
+								keyExtractor={(item) => item.id}
+							/>
+						</>
 					)}
 
 					<ScrollView>
