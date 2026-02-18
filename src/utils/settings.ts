@@ -2,14 +2,14 @@ import type { KeyItem, ValueItem } from '@/types/AsyncStorage'
 import { getItem, removeItem, saveItem } from '@/utils/AsyncStorage'
 
 export type Configs = {
-	[key: string]: any
+	[key: string]: unknown
 }
 
-const defaultConfigs: Configs = {
+const defaultConfigs = {
 	confirmDeleteTask: true,
 	confirmDeleteFolder: true,
 	clearTaskAfter: 30
-}
+} satisfies Configs
 
 export async function saveConfig({
 	name,
