@@ -114,7 +114,7 @@ export default function ConfigPage() {
 									onValueChange={handleChangeColorScheme}
 									mode="dialog"
 								>
-									{Object.entries(THEMES).map(([key, theme], index) => (
+									{Object.entries(THEMES).map(([key, theme]) => (
 										<Picker.Item
 											key={key}
 											label={theme.label}
