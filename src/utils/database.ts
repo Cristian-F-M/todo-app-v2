@@ -10,6 +10,19 @@ export async function initDatabase() {
 	)
 }
 
+export function createTables() {
+	const { succes, message } = executeQuery(
+		`
+		CREATE TABLE IF NOT EXISTS folders (id TEXT PRIMARY KEY, name TEXT, taskCount INTEGER);
+		CREATE TABLE IF NOT EXISTS tasks (id TEXT PRIMARY KEY, name TEXT, folderId TEXT, notificationId TEXT, FOREIGN KEY(folderId) REFERENCES folders(id));
+		`
+	)
+
+	executeQuery('PRAGMA user_version = 1;')
+
+	return { succes, message }
+}
+
 export async function removeNotificationId(notificationId: string) {
 	if (!notificationId) return
 
