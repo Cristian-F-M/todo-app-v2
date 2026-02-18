@@ -3,6 +3,7 @@ export interface Task {
 	name: string
 	folderId: string
 	notificationId?: string | null
+	isCompleted: boolean
 }
 
 export type Tasks = Task[] | []
