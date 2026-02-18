@@ -65,7 +65,8 @@ export function TaskItem({ task }: { task: Task }) {
 
 	return (
 		<Animated.View
-			className={`bg-gray-400 dark:bg-gray-800 px-4 py-4 mb-4 items-center  rounded-lg inline-flex flex-row justify-between active:opacity-75 ${isChecked ? 'dark:opacity-80 opacity-95' : ''}`}
+			className={`bg-gray-200 dark:bg-gray-800 px-4 py-4 mb-4 items-center  rounded-lg inline-flex flex-row justify-between active:opacity-75 border ${isChecked ? 'dark:opacity-80 opacity-95' : ''}`}
+			style={{ borderColor: colorScheme === 'dark' ? '#4b5563' : '#cbd0d6' }}
 			layout={LinearTransition.stiffness(2)}
 			entering={FadeInRight}
 			exiting={FadeOutLeft}

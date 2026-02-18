@@ -8,12 +8,12 @@ export function BackgroundIcon() {
 	return (
 		<View
 			style={{ filter: 'blur(15px)' }}
-			className="absolute bg-gray-400 dark:bg-black w-full h-full flex items-center justify-center backdrop-blur-3xl blur-3xl"
+			className="absolute bg-gray-200 dark:bg-black w-full h-full flex items-center justify-center backdrop-blur-3xl blur-3xl"
 		>
 			<CMLogo
 				width={300}
 				height={300}
-				color={colorScheme === 'dark' ? 'white' : 'black'}
+				color={colorScheme === 'dark' ? 'white' : '#000000af'}
 			/>
 		</View>
 	)
