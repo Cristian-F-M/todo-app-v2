@@ -9,10 +9,10 @@ import { Header } from '@/components/Header'
 import { Loader } from '@/components/Loader'
 import { NoFolders } from '@/components/NoFolders'
 import { Screen } from '@/components/Screen'
-import { useTasks } from '@/context/Tasks'
+import useFolder from '@/state/Folder'
 
 export default function Index() {
-	const { folders } = useTasks()
+	const { folders } = useFolder()
 	const [loading, setLoading] = useState(true)
 	const opacityValue = useAnimatedValue(0)
 	const thereIsFolders = folders && folders.length > 0
