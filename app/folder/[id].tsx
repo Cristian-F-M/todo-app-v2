@@ -20,7 +20,7 @@ export default function Folder() {
 	const { tasks: tasksFromContext } = useTask()
 	const { openModal } = useModal()
 
-	const folderId = id instanceof Array ? id[0] : id
+	const folderId = id as string
 	const folder = getById(folderId)
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: Is necessary add tasksFromContext to the dependency array to update the tasks when a new task is created
