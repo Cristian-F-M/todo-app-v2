@@ -1,5 +1,5 @@
-import * as SQLite from 'expo-sqlite'
-import { executeQuery } from '@/database/querys'
+import { BackHandler, ToastAndroid } from 'react-native'
+import { executeQuery, select } from '@/database/querys'
 
 export async function initDatabase() {
 	executeQuery(
@@ -33,6 +33,33 @@ export async function removeNotificationId(notificationId: string) {
 	return { ok: succes, message }
 }
 
-export function migrateDB() {
-	
+export async function migrateDB() {
+	const { succes, message, result } = select<{ user_version: number }>(
+		'PRAGMA user_version;'
+	)
+	if (!succes || !result) return console.log({ succes, message })
+
+	const { user_version } = result[0]
+
+	if (user_version < 1) {
+		const { succes } = createTables()
+		if (!succes) {
+			ToastAndroid.show('No se pudo crear la base de datos', ToastAndroid.LONG)
+			BackHandler.exitApp()
+			return
+		}
+	}
+
+	if (user_version === 1) {
+		const { succes } = executeQuery(
+			'ALTER TABLE tasks ADD COLUMN isCompleted BOOLEAN DEFAULT false;'
+		)
+
+		if (!succes) {
+			ToastAndroid.show('No se pudo migrar la base de datos', ToastAndroid.LONG)
+			BackHandler.exitApp()
+			return
+		}
+		executeQuery('PRAGMA user_version = 2;')
+	}
 }
