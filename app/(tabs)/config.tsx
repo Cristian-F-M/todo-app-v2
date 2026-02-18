@@ -1,23 +1,29 @@
 import { Picker } from '@react-native-picker/picker'
 import { Stack } from 'expo-router'
-import { useColorScheme } from 'nativewind'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+	useCallback,
+	useEffect,
+	useLayoutEffect,
+	useRef,
+	useState
+} from 'react'
 import { Animated, Pressable, useAnimatedValue, View } from 'react-native'
 import { ConfigCard } from '@/components/ConfigCard'
 import { ConfigRow } from '@/components/ConfigRow'
 import { ConfigsSkeleton } from '@/components/ConfigsSkeleton'
 import { Screen } from '@/components/Screen'
-import { getItem } from '@/utils/AsyncStorage'
+import { useTheme } from '@/state/theme'
+import type { ThemeString } from '@/types/Theme'
 import type { Configs as ConfigsType } from '@/utils/settings'
 import { getAllConfigs, saveAllConfigs } from '@/utils/settings'
-import { changeTheme, THEMES } from '@/utils/Theme'
+import { THEMES } from '@/utils/Theme'
 import { useDebounce } from '@/utils/useDebounce'
 
 export default function ConfigPage() {
 	const [isLoading, setIsLoading] = useState(true)
 	const [configs, setConfigs] = useState<ConfigsType>({})
 	const debouncedConfigs = useDebounce<ConfigsType>(configs, 500)
-	const { colorScheme } = useColorScheme()
+	const { theme, setTheme } = useTheme()
 
 	const loadConfigs = useCallback(async () => {
 		const configs = await getAllConfigs()
@@ -49,19 +55,17 @@ export default function ConfigPage() {
 	const [selectedTheme, setSelectedTheme] =
 		useState<keyof typeof THEMES>('system')
 
-	useEffect(() => {
-		async function getTheme() {
-			const theme = (await getItem({ name: 'colorScheme' })) || 'system'
-			setSelectedTheme(theme as keyof typeof THEMES)
-		}
-		getTheme()
-	}, [])
+	useLayoutEffect(() => {
+		setSelectedTheme(theme)
+	}, [theme])
 
-	const pickerRef = useRef<Picker<string>>(null)
-	const handleChangeColorScheme = useCallback((itemValue: string) => {
-		changeTheme(itemValue as keyof typeof THEMES)
-		setSelectedTheme(itemValue as keyof typeof THEMES)
-	}, [])
+	const pickerRef = useRef<Picker<ThemeString>>(null)
+	const handleChangeColorScheme = useCallback(
+		(itemValue: ThemeString) => {
+			setTheme(itemValue)
+		},
+		[setTheme]
+	)
 
 	const ThemeIcon = THEMES[selectedTheme].icon
 
@@ -73,9 +77,9 @@ export default function ConfigPage() {
 					headerTitleAlign: 'center',
 
 					headerStyle: {
-						backgroundColor: colorScheme === 'dark' ? '#111827' : '#d1d5db'
+						backgroundColor: theme === 'light' ? '#d1d5db' : '#111827'
 					},
-					headerTintColor: colorScheme === 'dark' ? '#fff' : '#000'
+					headerTintColor: theme === 'light' ? '#000' : '#fff'
 				}}
 			/>
 			{isLoading && <ConfigsSkeleton />}
@@ -100,11 +104,7 @@ export default function ConfigPage() {
 									className="p-2 rounded-lg dark:bg-blue-600 bg-blue-400 active:dark:bg-blue-400 active:bg-blue-300 w-12 items-center justify-center self-end mr-1"
 									onPress={() => pickerRef.current?.focus()}
 								>
-									{
-										<ThemeIcon
-											color={colorScheme === 'dark' ? '#fff' : '#000'}
-										/>
-									}
+									{<ThemeIcon color={theme === 'dark' ? '#fff' : '#000'} />}
 								</Pressable>
 								<Picker
 									style={{ display: 'none' }}

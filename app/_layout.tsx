@@ -8,11 +8,10 @@ import * as Notifications from 'expo-notifications'
 import * as SplashScreen from 'expo-splash-screen'
 import { SQLiteProvider } from 'expo-sqlite'
 import * as SystemUI from 'expo-system-ui'
-import { useColorScheme } from 'nativewind'
-import { useEffect, useLayoutEffect } from 'react'
+import { useLayoutEffect } from 'react'
 import useFolder from '@/state/Folder'
 import useTask from '@/state/Task'
-import { getItem } from '@/utils/AsyncStorage'
+import { useTheme } from '@/state/theme'
 import { migrateDB, removeNotificationId } from '@/utils/database'
 
 SystemUI.setBackgroundColorAsync('transparent')
@@ -30,21 +29,14 @@ Notifications.setNotificationHandler({
 })
 
 export default function RootLayout() {
-	const { colorScheme: currentColorScheme, setColorScheme } = useColorScheme()
-	const themeStyle = currentColorScheme === 'dark' ? 'light' : 'dark'
+	const { theme } = useTheme()
+	const themeStyle = theme === 'dark' ? 'light' : 'dark'
 	const { load: loadFolders } = useFolder()
 	const { load: loadTasks } = useTask()
 
-	useEffect(() => {
-		async function colorScheme() {
-			const currentColorScheme =
-				(await getItem({ name: 'colorScheme' })) || 'system'
-
-			setColorScheme(currentColorScheme)
-		}
-
-		colorScheme()
-	}, [setColorScheme])
+	useLayoutEffect(() => {
+		useTheme.getState().load()
+	}, [])
 
 	useLayoutEffect(() => {
 		function init() {
