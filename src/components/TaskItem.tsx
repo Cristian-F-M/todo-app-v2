@@ -86,7 +86,7 @@ export function TaskItem({ task }: { task: Task }) {
 					}}
 				/>
 				<Text
-					className={`text-lg ${isChecked ? 'line-through dark:text-gray-400 text-gray-600' : 'dark:text-gray-300 text-gray-800'}`}
+					className={`text-lg ${isChecked ? 'opacity-75 dark:text-gray-400 text-gray-600' : 'dark:text-gray-300 text-gray-800'}`}
 					onPress={handleCompleteTask}
 				>
 					{task.name}
