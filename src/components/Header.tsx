@@ -2,12 +2,12 @@ import { useCallback, useEffect } from 'react'
 import { Animated, Text, useAnimatedValue, View } from 'react-native'
 import { StyledPressable } from '@/components/StyledPressable'
 import { useModal } from '@/context/Modal'
-import { useTasks } from '@/context/Tasks'
+import useFolder from '@/state/Folder'
 
 export function Header() {
-	const { folders } = useTasks()
+	const { folders } = useFolder()
 	const { openModal } = useModal()
-	const thereIsFolders = folders && folders.length > 0
+	const thereIsFolders = folders.length > 0
 	const opacityValue = useAnimatedValue(thereIsFolders ? 0 : 1)
 
 	useEffect(() => {

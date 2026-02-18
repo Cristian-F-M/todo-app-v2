@@ -2,14 +2,14 @@ import { useCallback, useEffect } from 'react'
 import { Animated, Pressable, Text, useAnimatedValue } from 'react-native'
 import { StyledPressable } from '@/components/StyledPressable'
 import { useModal } from '@/context/Modal'
-import { useTasks } from '@/context/Tasks'
 import AddFolder from '@/icons/AddFolder'
+import useFolder from '@/state/Folder'
 
 export function NoFolders() {
 	const { openModal } = useModal()
-	const { folders } = useTasks()
+	const { folders } = useFolder()
 
-	const thereIsFolders = folders && folders.length > 0
+	const thereIsFolders = folders.length > 0
 	const opacityValue = useAnimatedValue(thereIsFolders ? 1 : 0)
 
 	useEffect(() => {

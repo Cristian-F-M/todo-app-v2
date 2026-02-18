@@ -3,7 +3,6 @@ import { StatusBar } from 'expo-status-bar'
 import { View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { ModalProvider } from '@/context/Modal'
-import { TasksProvider } from '@/context/Tasks'
 import '../global.css'
 import * as Notifications from 'expo-notifications'
 import * as SplashScreen from 'expo-splash-screen'
@@ -58,19 +57,17 @@ export default function RootLayout() {
 	return (
 		<GestureHandlerRootView>
 			<SQLiteProvider databaseName="todo-cm.db" onInit={initDatabase}>
-				<TasksProvider>
-					<ModalProvider>
-						<View className="flex-1 dark:bg-gray-900 bg-gray-300">
-							<StatusBar style={themeStyle} />
-							<Stack
-								screenOptions={{
-									headerShown: false,
-									animation: 'slide_from_right'
-								}}
-							/>
-						</View>
-					</ModalProvider>
-				</TasksProvider>
+				<ModalProvider>
+					<View className="flex-1 dark:bg-gray-900 bg-gray-300">
+						<StatusBar style={themeStyle} />
+						<Stack
+							screenOptions={{
+								headerShown: false,
+								animation: 'slide_from_right'
+							}}
+						/>
+					</View>
+				</ModalProvider>
 			</SQLiteProvider>
 		</GestureHandlerRootView>
 	)
