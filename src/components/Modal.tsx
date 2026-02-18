@@ -1,15 +1,20 @@
 import * as Notifications from 'expo-notifications'
 import { useColorScheme } from 'nativewind'
 import { useCallback, useEffect, useState } from 'react'
-import { Pressable, Text, TextInput, View } from 'react-native'
+import { Pressable, Text, TextInput, ToastAndroid, View } from 'react-native'
 import { Switch } from 'react-native-gesture-handler'
+import uuid from 'react-native-uuid'
 import { CheckboxNotificationGroup } from '@/components/CheckboxNotificationGroup'
 import { DateTimePicker } from '@/components/DateTimePicker'
 import { TimePicker } from '@/components/TimePicker'
 import { useTasks } from '@/context/Tasks'
 import Bell from '@/icons/Bell'
 import Close from '@/icons/Close'
+import useFolder from '@/state/Folder'
+import useTask from '@/state/Task'
+import type { Folder } from '@/types/Folder'
 import type { ModalProps, NotificationTypes } from '@/types/Modal'
+import type { Task } from '@/types/Task'
 import type { DateTimeValueType, TimeValueType } from '@/types/TimePicker'
 import { getNotificationText } from '@/utils/DateTime'
 import {
@@ -34,7 +39,7 @@ export function ModalTask({
 	const [isNotification, setIsNotification] = useState(false)
 	const [notificationType, setNotificationType] =
 		useState<NotificationTypes>('TIME')
-	const { addTask, addFolder, editFolder, editTask } = useTasks()
+	// const { addTask, addFolder, editFolder, editTask } = useTasks()
 	const [timeValue, setTimeValue] = useState<TimeValueType>({
 		minutes: 0,
 		hours: 0
@@ -43,6 +48,8 @@ export function ModalTask({
 		new Date()
 	)
 	const { colorScheme } = useColorScheme()
+	const folderState = useFolder()
+	const taskState = useTask()
 
 	const handleClickSubmit = async () => {
 		if (textInput.trim() === '') {
@@ -96,26 +103,45 @@ export function ModalTask({
 	}, [])
 
 	const createFolder = useCallback(() => {
-		addFolder(textInput)
-	}, [addFolder, textInput])
+		folderState.create({
+			id: uuid.v4(),
+			name: textInput,
+			taskCount: 0
+		})
+	}, [folderState, textInput])
 
 	const updateFolder = useCallback(() => {
 		if (!item) return
-		editFolder(item.id, textInput)
-	}, [editFolder, textInput, item])
+		const folder = item as unknown as Folder
+
+		folderState.update({
+			...folder,
+			name: textInput
+		})
+	}, [folderState, textInput, item])
 
 	const createTask = useCallback(
 		(notificationId: string | null) => {
 			if (!folderId) return
-			addTask(folderId, textInput, notificationId)
+			taskState.create({
+				id: uuid.v4(),
+				name: textInput,
+				folderId,
+				notificationId
+			})
 		},
-		[addTask, textInput, folderId]
+		[taskState, textInput, folderId]
 	)
 
 	const updateTask = useCallback(() => {
 		if (!item) return
-		editTask(item.id, textInput)
-	}, [editTask, textInput, item])
+		const task = item as unknown as Task
+
+		taskState.update({
+			...task,
+			name: textInput
+		})
+	}, [taskState, textInput, item])
 
 	useEffect(() => {
 		if (mode === 'EDIT' && item) {

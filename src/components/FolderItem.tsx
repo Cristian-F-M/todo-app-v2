@@ -16,14 +16,14 @@ import Edit from '@/icons/Edit'
 import Folder from '@/icons/Folder'
 import MoreVertical from '@/icons/MoreVertical'
 import Trash from '@/icons/Trash'
+import useFolder from '@/state/Folder'
 import type { Folder as FolderType } from '@/types/Folder'
 import { getConfig } from '@/utils/settings'
 
 export function FolderItem({ folder }: { folder: FolderType }) {
 	const [dropDownVisible, setDropDownVisible] = useState(false)
-	const [taskCount, setTaskCount] = useState(0)
 	const { openModal } = useModal()
-	const { deleteFolder, tasks, getFolderById } = useTasks()
+	const { delete: deleteFolder } = useFolder()
 
 	const openDropdown = (e?: any) => {
 		setDropDownVisible(true)
@@ -36,15 +36,6 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 			item: folder
 		})
 	}
-
-	const changeTaskCount = useCallback(async () => {
-		const localFolder = getFolderById(folder.id)
-		if (localFolder) setTaskCount(localFolder.taskCount)
-	}, [folder, getFolderById])
-
-	useEffect(() => {
-		changeTaskCount()
-	}, [tasks, folder, changeTaskCount])
 
 	const handleClickDeleteFolder = async () => {
 		const confirmDeleteFolder = await getConfig({ name: 'confirmDeleteFolder' })
@@ -86,7 +77,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 						{folder.name}
 					</Text>
 					<Text className="text-xs dark:text-gray-400 text-gray-500">
-						{taskCount} tareas
+						{folder.taskCount} tareas
 					</Text>
 				</View>
 				<DropdownMenu

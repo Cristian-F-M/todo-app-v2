@@ -1,14 +1,16 @@
 import { Pressable, Text, View } from 'react-native'
 import { StyledPressable } from '@/components/StyledPressable'
 import { useModal } from '@/context/Modal'
-import { useTasks } from '@/context/Tasks'
 import AlertTriangle from '@/icons/AlertTriangle'
 import Close from '@/icons/Close'
+import useFolder from '@/state/Folder'
+import useTask from '@/state/Task'
 import type { DeleteItemProps } from '@/types/Modal'
 
 export function DeleteItem({ type, item }: DeleteItemProps) {
 	const { closeModal } = useModal()
-	const { deleteFolder, deleteTask } = useTasks()
+	const { delete: deleteTask } = useTask()
+	const { delete: deleteFolder } = useFolder()
 
 	const handleClickDelete = () => {
 		if (type === 'FOLDER') deleteFolder(item.id)

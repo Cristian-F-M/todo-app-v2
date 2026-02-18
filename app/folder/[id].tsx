@@ -1,7 +1,7 @@
 import { Stack, useGlobalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useColorScheme } from 'nativewind'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Animated, FlatList, Text, useAnimatedValue, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Folder404 } from '@/components/Folder404'
@@ -10,25 +10,23 @@ import { Screen } from '@/components/Screen'
 import { StyledPressable } from '@/components/StyledPressable'
 import { TaskItem } from '@/components/TaskItem'
 import { useModal } from '@/context/Modal'
-import { useTasks } from '@/context/Tasks'
-import type { Tasks } from '@/types/Task'
+import useFolder from '@/state/Folder'
+import useTask from '@/state/Task'
 
 export default function Folder() {
 	const { id } = useGlobalSearchParams()
 	const { colorScheme } = useColorScheme()
-
-	const {
-		tasks: tasksFromContext,
-		getFolderById,
-		getTasksByFolderId
-	} = useTasks()
-
+	const { getTasksByFolderId, getById } = useFolder()
+	const { tasks: tasksFromContext } = useTask()
 	const { openModal } = useModal()
 
 	const folderId = id instanceof Array ? id[0] : id
-	const folder = getFolderById(folderId)
-	const [tasks, setTasks] = useState<Tasks>([])
-	const [taskCount, setTaskCount] = useState<number>(folder?.taskCount || 0)
+	const folder = getById(folderId)
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: Is necessary add tasksFromContext to the dependency array to update the tasks when a new task is created
+	const tasks = useMemo(() => {
+		return getTasksByFolderId(folderId).toReversed()
+	}, [folderId, getTasksByFolderId, tasksFromContext])
 
 	const thereAreTasks = tasks.length > 0
 	const opacityValue = useAnimatedValue(thereAreTasks ? 0 : 1)
@@ -62,19 +60,9 @@ export default function Folder() {
 		openModal(e, {
 			mode: 'CREATE',
 			type: 'TASK',
-			folderId: folderId,
-			onSubmit: () => {
-				setTaskCount((prev) => prev + 1)
-			}
+			folderId: folderId
 		})
 	}
-
-	useEffect(() => {
-		const tasks = getTasksByFolderId(folderId)
-
-		setTasks(tasks)
-		setTaskCount(tasks.length)
-	}, [tasksFromContext, folderId, getTasksByFolderId])
 
 	const pageTitle = folder ? folder.name : 'Carpeta no encontrada'
 	const statusBarBackgroundColor =
@@ -104,7 +92,7 @@ export default function Folder() {
 				<View className="px-2 flex-1">
 					<View className="flex flex-row items-center justify-between mt-3 px-2">
 						<Text className="dark:text-gray-400 text-gray-600 text-base">
-							{taskCount} tareas
+							{folder.taskCount} tareas
 						</Text>
 						<Animated.View style={{ opacity: opacityValue }}>
 							<StyledPressable

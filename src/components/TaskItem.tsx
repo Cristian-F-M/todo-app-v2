@@ -10,10 +10,10 @@ import Animated, {
 import { DropdownMenu } from '@/components/Dropdown'
 import { DropdownOption } from '@/components/DropdownOption'
 import { useModal } from '@/context/Modal'
-import { useTasks } from '@/context/Tasks'
 import Edit from '@/icons/Edit'
 import MoreVertical from '@/icons/MoreVertical'
 import Trash from '@/icons/Trash'
+import useTask from '@/state/Task'
 import type { Task } from '@/types/Task'
 import { getConfig } from '@/utils/settings'
 import { DeleteItem } from './DeleteItem'
@@ -22,7 +22,7 @@ export function TaskItem({ task }: { task: Task }) {
 	const { openModal } = useModal()
 	const [dropdownVisible, setDropdownVisible] = useState(false)
 	const [isChecked, setIsChecked] = useState(false)
-	const { deleteTask } = useTasks()
+	const { delete: deleteTask } = useTask()
 	const { colorScheme } = useColorScheme()
 
 	const handleOpenDropdown = () => {
