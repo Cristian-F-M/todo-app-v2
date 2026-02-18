@@ -5,42 +5,33 @@ import type {
 	SetItemProps
 } from '@/types/AsyncStorage'
 
-export async function removeItem({ name }: RemoveItemProps) {
+export async function safeExecution<T>(fn: () => T): Promise<T | undefined> {
 	try {
-		await AsyncStorage.removeItem(name)
-	} catch (e) {
+		return await fn()
+	} catch (error) {
 		// TODO - Do something with the error
 	}
+}
+
+export async function removeItem({ name }: RemoveItemProps) {
+	await safeExecution(() => AsyncStorage.removeItem(name))
 }
 
 export async function getItem({ name }: GetItemProps) {
-	let item = null
-	try {
-		item = await AsyncStorage.getItem(name)
-	} catch (e) {
-		// TODO - Do something with the error
-	}
-
-	return item ? JSON.parse(item) : null
+	const item = await safeExecution(() => AsyncStorage.getItem(name))
+	return item && JSON.parse(item)
 }
 
 export async function getAllItems() {
-	let items = null
-
-	try {
+	const items = await safeExecution(async () => {
 		const keys = await AsyncStorage.getAllKeys()
-		items = await AsyncStorage.multiGet(keys)
-	} catch (e) {
-		// TODO - Do something with the error
-	}
+		const items = await AsyncStorage.multiGet(keys)
+		return items
+	})
 
-	return items
+	return items ?? []
 }
 
 export async function saveItem({ name, value }: SetItemProps) {
-	try {
-		await AsyncStorage.setItem(name, JSON.stringify(value))
-	} catch (e) {
-		// TODO - Do something with the error
-	}
+	await safeExecution(() => AsyncStorage.setItem(name, JSON.stringify(value)))
 }
