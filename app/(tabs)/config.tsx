@@ -28,10 +28,10 @@ export default function ConfigPage() {
 	const loadConfigs = useCallback(async () => {
 		const configs = await getAllConfigs()
 		setConfigs(configs)
-		setTimeout(() => setIsLoading(false), 500)
+		setIsLoading(false)
 	}, [])
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		loadConfigs()
 	}, [loadConfigs])
 
