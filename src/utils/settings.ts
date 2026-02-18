@@ -27,12 +27,13 @@ export function removeConfig({ name }: { name: KeyItem }) {
 
 export async function getConfig({ name }: { name: KeyItem }) {
 	const configs = await getAllConfigs()
-	return configs[name]
+	// biome-ignore lint/suspicious/noExplicitAny: It does not matter
+	return name in configs ? (configs as any)[name] : undefined
 }
 
 export async function getAllConfigs() {
-	const configs = await getItem({ name: 'configs' })
-	return { ...defaultConfigs, ...configs }
+	const configs = await getItem<typeof defaultConfigs>({ name: 'configs' })
+	return { ...defaultConfigs, ...(configs || {}) }
 }
 
 export async function saveAllConfigs(configs: Configs) {
