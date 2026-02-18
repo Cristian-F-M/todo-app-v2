@@ -59,7 +59,7 @@ export default function RootLayout() {
 			<SQLiteProvider databaseName="todo-cm.db" onInit={migrateDB}>
 				<ModalProvider>
 					<View className="flex-1 dark:bg-gray-900 bg-gray-300">
-						<StatusBar style={themeStyle} />
+						<StatusBar style={themeStyle} backgroundColor="transparent" />
 						<Stack
 							screenOptions={{
 								headerShown: false,
