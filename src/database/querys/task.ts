@@ -49,8 +49,8 @@ export function create(task: Task) {
 
 export function update(task: Task) {
 	const { succes, message, result } = executeQuery(
-		'UPDATE tasks SET name = ?, folderId = ? WHERE id = ?',
-		[task.name, task.folderId, task.id]
+		'UPDATE tasks SET name = ?, folderId = ?, isCompleted = ? WHERE id = ?',
+		[task.name, task.folderId, task.isCompleted, task.id]
 	)
 
 	if (!succes || !result) {
