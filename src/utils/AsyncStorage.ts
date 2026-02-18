@@ -19,7 +19,7 @@ export async function removeItem({ name }: RemoveItemProps) {
 
 export async function getItem({ name }: GetItemProps) {
 	const item = await safeExecution(() => AsyncStorage.getItem(name))
-	return item && JSON.parse(item)
+	return item ? (JSON.parse(item) as T) : null
 }
 
 export async function getAllItems() {
