@@ -72,12 +72,14 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 			>
 				<View className="flex flex-row gap-x-2 items-center justify-center">
 					<Folder stroke={colorScheme === 'dark' ? '#2563eb' : '#3b82f6'} />
-					<Text className="dark:text-white text-lg tracking-wider items-center justify-center">
-						{folder.name}
-					</Text>
-					<Text className="text-xs dark:text-gray-400 text-gray-500">
-						{folder.taskCount} tareas
-					</Text>
+					<View className="flex flex-col">
+						<Text className="dark:text-white text-lg tracking-wider leading-tight items-center justify-center">
+							{folder.name}
+						</Text>
+						<Text className="text-xs dark:text-gray-400 text-gray-500 leading-tight">
+							{folder.taskCount} tareas
+						</Text>
+					</View>
 				</View>
 				<DropdownMenu
 					itemId={folder.id}
