@@ -17,19 +17,23 @@ export async function removeItem({ name }: RemoveItemProps) {
 	await safeExecution(() => AsyncStorage.removeItem(name))
 }
 
-export async function getItem({ name }: GetItemProps) {
+export async function getItem<T = Record<string, unknown>>({
+	name
+}: GetItemProps) {
 	const item = await safeExecution(() => AsyncStorage.getItem(name))
 	return item ? (JSON.parse(item) as T) : null
 }
 
-export async function getAllItems() {
+export async function getAllItems<
+	T extends object = Record<string, unknown>
+>() {
 	const items = await safeExecution(async () => {
 		const keys = await AsyncStorage.getAllKeys()
 		const items = await AsyncStorage.multiGet(keys)
 		return items
 	})
 
-	return items ?? []
+	return Object.fromEntries(items ?? []) as T
 }
 
 export async function saveItem({ name, value }: SetItemProps) {
