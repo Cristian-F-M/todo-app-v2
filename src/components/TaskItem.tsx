@@ -1,5 +1,5 @@
 import { useColorScheme } from 'nativewind'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import Animated, {
@@ -21,8 +21,8 @@ import { DeleteItem } from './DeleteItem'
 export function TaskItem({ task }: { task: Task }) {
 	const { openModal } = useModal()
 	const [dropdownVisible, setDropdownVisible] = useState(false)
-	const [isChecked, setIsChecked] = useState(false)
-	const { delete: deleteTask } = useTask()
+	const [isChecked, setIsChecked] = useState(task.isCompleted)
+	const { delete: deleteTask, update } = useTask()
 	const { colorScheme } = useColorScheme()
 
 	const handleOpenDropdown = () => {
@@ -56,6 +56,13 @@ export function TaskItem({ task }: { task: Task }) {
 		})
 	}
 
+	const handleCompleteTask = useCallback(() => {
+		setIsChecked((prev) => {
+			update({ ...task, isCompleted: !prev })
+			return !prev
+		})
+	}, [task, update])
+
 	return (
 		<Animated.View
 			className={`bg-gray-400 dark:bg-gray-800 px-4 py-4 mb-4 items-center max-h-16 rounded-lg inline-flex flex-row justify-between active:opacity-75 ${isChecked ? 'dark:opacity-80 opacity-95' : ''}`}
@@ -66,7 +73,7 @@ export function TaskItem({ task }: { task: Task }) {
 			<View className="flex flex-row max-w-60 gap-x-3">
 				<BouncyCheckbox
 					isChecked={isChecked}
-					onPress={() => setIsChecked(!isChecked)}
+					onPress={handleCompleteTask}
 					size={23}
 					text={task.name}
 					disableText
@@ -80,7 +87,7 @@ export function TaskItem({ task }: { task: Task }) {
 				/>
 				<Text
 					className={`text-lg ${isChecked ? 'line-through dark:text-gray-400 text-gray-600' : 'dark:text-gray-300 text-gray-800'}`}
-					onPress={() => setIsChecked(!isChecked)}
+					onPress={handleCompleteTask}
 				>
 					{task.name}
 				</Text>
