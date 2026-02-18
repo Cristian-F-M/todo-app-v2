@@ -13,7 +13,7 @@ import { useEffect, useLayoutEffect } from 'react'
 import useFolder from '@/state/Folder'
 import useTask from '@/state/Task'
 import { getItem } from '@/utils/AsyncStorage'
-import { initDatabase, removeNotificationId } from '@/utils/database'
+import { migrateDB, removeNotificationId } from '@/utils/database'
 
 SystemUI.setBackgroundColorAsync('transparent')
 SplashScreen.preventAutoHideAsync()
@@ -56,7 +56,7 @@ export default function RootLayout() {
 
 	return (
 		<GestureHandlerRootView>
-			<SQLiteProvider databaseName="todo-cm.db" onInit={initDatabase}>
+			<SQLiteProvider databaseName="todo-cm.db" onInit={migrateDB}>
 				<ModalProvider>
 					<View className="flex-1 dark:bg-gray-900 bg-gray-300">
 						<StatusBar style={themeStyle} />
