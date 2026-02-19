@@ -17,11 +17,13 @@ import type { ThemeString } from '@/types/Theme'
 import type { Configs as ConfigsType } from '@/utils/settings'
 import { THEMES } from '@/utils/Theme'
 import { useDebounce } from '@/utils/useDebounce'
+import { useColorScheme } from 'nativewind'
 
 export default function ConfigPage() {
 	const { configs, setConfigs } = useConfig()
 	const debouncedConfigs = useDebounce<ConfigsType>(configs, 500)
 	const { theme, setTheme } = useTheme()
+	const { colorScheme } = useColorScheme()
 
 	useEffect(() => {
 		setConfigs(debouncedConfigs)
@@ -52,9 +54,9 @@ export default function ConfigPage() {
 					headerTitleAlign: 'center',
 
 					headerStyle: {
-						backgroundColor: theme === 'light' ? '#d1d5db' : '#111827'
+						backgroundColor: colorScheme === 'light' ? '#d1d5db' : '#111827'
 					},
-					headerTintColor: theme === 'light' ? '#000' : '#fff'
+					headerTintColor: colorScheme === 'light' ? '#000' : '#fff'
 				}}
 			/>
 
@@ -75,7 +77,7 @@ export default function ConfigPage() {
 								className="p-2 rounded-lg dark:bg-blue-600 bg-blue-400 active:dark:bg-blue-400 active:bg-blue-300 w-12 items-center justify-center self-end mr-1"
 								onPress={() => pickerRef.current?.focus()}
 							>
-								{<ThemeIcon color={theme === 'dark' ? '#fff' : '#000'} />}
+								{<ThemeIcon color={colorScheme === 'dark' ? '#fff' : '#000'} />}
 							</Pressable>
 							<Picker
 								style={{ display: 'none' }}
