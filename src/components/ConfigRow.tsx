@@ -1,44 +1,29 @@
 import { useColorScheme } from 'nativewind'
-import {
-	Switch,
-	Text,
-	TextInput,
-	type TextInputProps,
-	View
-} from 'react-native'
+import { useCallback } from 'react'
+import { Switch, Text, TextInput, View } from 'react-native'
 import Sparkles from '@/icons/Sparkles'
+import type { ConfigRowProps } from '@/types/Config'
 
 export function ConfigRow({
 	text,
 	description,
-	typeConfig,
-	value,
 	placeholder = '',
-	keyboardType = 'default',
 	disabled = false,
-	secureTextEntry = false,
 	commingSoon = false,
-	children
-}: {
-	text: string
-	description: string
-	typeConfig: 'switch' | 'text' | 'other'
-	value: {
-		value: Record<string, any>
-		setValue: React.Dispatch<React.SetStateAction<any>>
-		valueKey: string
-	}
-	placeholder?: string
-	keyboardType?: TextInputProps['keyboardType']
-	disabled?: boolean
-	secureTextEntry?: boolean
-	commingSoon?: boolean
-	children?: React.ReactNode
-}) {
+	onChangeValue,
+	...props
+}: ConfigRowProps) {
 	const { colorScheme } = useColorScheme()
 
-	const handleClickChangeValue = (newValue: any) =>
-		value.setValue((prev: any) => ({ ...prev, [value.valueKey]: newValue }))
+	const handleClickChangeValue = useCallback(
+		(value: string | boolean | unknown) => {
+			if (!onChangeValue) return
+
+			if (props.typeConfig === 'switch') onChangeValue(value as boolean)
+			if (props.typeConfig === 'text') onChangeValue(value as string)
+		},
+		[onChangeValue, props.typeConfig]
+	)
 
 	return (
 		<View className="">
@@ -54,32 +39,32 @@ export function ConfigRow({
 					)}
 				</View>
 				<View className="w-[30%]">
-					{typeConfig === 'switch' && (
+					{props.typeConfig === 'switch' && (
 						<Switch
 							trackColor={{ false: '#767577', true: '#2563eb' }}
 							thumbColor={'#fff'}
 							ios_backgroundColor="#3e3e3e"
 							onValueChange={handleClickChangeValue}
-							value={value.value[value.valueKey]}
+							value={props.value}
 							disabled={disabled || commingSoon}
 						/>
 					)}
 
-					{typeConfig === 'text' && (
+					{props.typeConfig === 'text' && (
 						<View className="border dark:bg-gray-800 bg-gray-400 dark:border-gray-600 border-gray-200 rounded-lg px-2 h-12">
 							<TextInput
 								className="dark:text-gray-100 text-gray-900 text-sm h-full"
 								placeholder={placeholder}
 								placeholderTextColor={'#6b7280'}
-								keyboardType={keyboardType}
+								keyboardType={props.textInputProps?.keyboardType ?? 'default'}
 								editable={!disabled && !commingSoon}
-								secureTextEntry={secureTextEntry}
-								value={`${value.value[value.valueKey]}`}
+								secureTextEntry={props.textInputProps?.secureTextEntry}
+								value={props.value}
 								onChangeText={handleClickChangeValue}
 							/>
 						</View>
 					)}
-					{typeConfig === 'other' && children}
+					{props.typeConfig === 'other' && props.children}
 				</View>
 				{commingSoon && (
 					<View className="absolute right-0 -top-4 py-1 px-2 rounded-lg border dark:border-blue-700 border-blue-500 dark:bg-blue-900 bg-blue-400 animate-bounce flex-row gap-x-1">
