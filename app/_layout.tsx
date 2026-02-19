@@ -8,7 +8,8 @@ import * as Notifications from 'expo-notifications'
 import * as SplashScreen from 'expo-splash-screen'
 import { SQLiteProvider } from 'expo-sqlite'
 import * as SystemUI from 'expo-system-ui'
-import { useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
+import { useConfig } from '@/state/config'
 import useFolder from '@/state/Folder'
 import useTask from '@/state/Task'
 import { useTheme } from '@/state/theme'
@@ -30,6 +31,7 @@ Notifications.setNotificationHandler({
 
 export default function RootLayout() {
 	const { theme } = useTheme()
+	const { configs, load: loadConfigs } = useConfig()
 	const themeStyle = theme === 'dark' ? 'light' : 'dark'
 	const { load: loadFolders } = useFolder()
 	const { load: loadTasks } = useTask()
@@ -42,9 +44,10 @@ export default function RootLayout() {
 		function init() {
 			loadFolders()
 			loadTasks()
+			loadConfigs()
 		}
 		init()
-	}, [loadFolders, loadTasks])
+	}, [loadFolders, loadTasks, loadConfigs])
 
 	return (
 		<GestureHandlerRootView>
