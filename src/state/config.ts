@@ -1,10 +1,5 @@
 import { create } from 'zustand'
-import {
-	type Configs,
-	defaultConfigs,
-	getAllConfigs,
-	saveAllConfigs
-} from '@/utils/settings'
+import { type Configs, defaultConfigs, getAllConfigs } from '@/utils/settings'
 
 interface ConfigState {
 	configs: Configs
@@ -14,10 +9,7 @@ interface ConfigState {
 
 export const useConfig = create<ConfigState>((set) => ({
 	configs: defaultConfigs,
-	setConfigs: (configs) => {
-		saveAllConfigs(configs)
-		set({ configs })
-	},
+	setConfigs: (configs) => set({ configs }),
 	load: async () => {
 		const configs = await getAllConfigs()
 		set({ configs })
