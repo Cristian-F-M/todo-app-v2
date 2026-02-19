@@ -1,5 +1,6 @@
 import { Picker } from '@react-native-picker/picker'
 import { Stack } from 'expo-router'
+import { useColorScheme } from 'nativewind'
 import {
 	useCallback,
 	useEffect,
@@ -14,10 +15,9 @@ import { Screen } from '@/components/Screen'
 import { useConfig } from '@/state/config'
 import { useTheme } from '@/state/theme'
 import type { ThemeString } from '@/types/Theme'
-import type { Configs as ConfigsType } from '@/utils/settings'
+import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
 import { THEMES } from '@/utils/Theme'
 import { useDebounce } from '@/utils/useDebounce'
-import { useColorScheme } from 'nativewind'
 
 export default function ConfigPage() {
 	const { configs, setConfigs } = useConfig()
@@ -26,8 +26,8 @@ export default function ConfigPage() {
 	const { colorScheme } = useColorScheme()
 
 	useEffect(() => {
-		setConfigs(debouncedConfigs)
-	}, [debouncedConfigs, setConfigs])
+		saveAllConfigs(debouncedConfigs)
+	}, [debouncedConfigs])
 
 	const [selectedTheme, setSelectedTheme] =
 		useState<keyof typeof THEMES>('system')
@@ -45,6 +45,14 @@ export default function ConfigPage() {
 	)
 
 	const ThemeIcon = THEMES[selectedTheme].icon
+
+	const handleChangeConfig = useCallback(
+		(value: boolean | string, key: keyof ConfigsType) => {
+			const newConfigs = { ...configs, [key]: value }
+			setConfigs(newConfigs)
+		},
+		[configs, setConfigs]
+	)
 
 	return (
 		<Screen safeArea={false}>
@@ -66,11 +74,11 @@ export default function ConfigPage() {
 						text={'Tema'}
 						description="Define el tema de la aplicación."
 						typeConfig="other"
-						value={{
-							value: configs,
-							setValue: setConfigs,
-							valueKey: 'colorScheme'
-						}}
+						// value={{
+						// 	value: configs,
+						// 	setValue: setConfigs,
+						// 	valueKey: 'colorScheme'
+						// }}
 					>
 						<View className="">
 							<Pressable
@@ -104,20 +112,18 @@ export default function ConfigPage() {
 						text={'Eliminar tarea'}
 						description="Preguntar antes de eliminar una tarea."
 						typeConfig="switch"
-						value={{
-							value: configs,
-							setValue: setConfigs,
-							valueKey: 'confirmDeleteTask'
+						value={configs.confirmDeleteTask}
+						onChangeValue={(value: boolean | string) => {
+							handleChangeConfig(value, 'confirmDeleteTask')
 						}}
 					/>
 					<ConfigRow
 						text={'Eliminar carpeta'}
 						description="Preguntar antes de eliminar una carpeta."
 						typeConfig="switch"
-						value={{
-							value: configs,
-							setValue: setConfigs,
-							valueKey: 'confirmDeleteFolder'
+						value={configs.confirmDeleteFolder}
+						onChangeValue={(value: boolean | string) => {
+							handleChangeConfig(value, 'confirmDeleteFolder')
 						}}
 					/>
 				</ConfigCard>
@@ -126,14 +132,13 @@ export default function ConfigPage() {
 						text={'Autoeliminar tras completar'}
 						description="Tiempo antes de borrar tareas completadas."
 						typeConfig="text"
-						keyboardType="number-pad"
+						textInputProps={{ keyboardType: 'number-pad' }}
 						placeholder="Minutos"
-						value={{
-							value: configs,
-							setValue: setConfigs,
-							valueKey: 'clearTaskAfter'
-						}}
+						value={String(configs.clearTaskAfter)}
 						commingSoon
+						onChangeValue={(value: boolean | string) => {
+							handleChangeConfig(value, 'clearTaskAfter')
+						}}
 					/>
 				</ConfigCard>
 			</ScrollView>
