@@ -4,12 +4,13 @@ import type {
 	RemoveItemProps,
 	SetItemProps
 } from '@/types/AsyncStorage'
+import { LOGGER } from '@/utils/logger'
 
 export async function safeExecution<T>(fn: () => T): Promise<T | undefined> {
 	try {
 		return await fn()
 	} catch (error) {
-		// TODO - Do something with the error
+		LOGGER.error(error)
 	}
 }
 
