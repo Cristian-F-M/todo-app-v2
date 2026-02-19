@@ -1,8 +1,16 @@
+import { useCallback } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { StyledPressable } from '@/components/StyledPressable'
 import Folder from '@/icons/Folder'
+import { useModal } from '@/state/modal'
 
-export function NoTasks({ openModal }: { openModal: (e?: any) => void }) {
+export function NoTasks() {
+	const { openModal } = useModal()
+
+	const handleClickOpenModal = useCallback(() => {
+		openModal('task')
+	}, [openModal])
+
 	return (
 		<View className="flex-1 items-center justify-center mt-24 w-4/5 mx-auto">
 			<Pressable className="flex-row items-center justify-center bg-gray-200 dark:bg-gray-800 active:bg-gray-100 active:dark:bg-gray-700 rounded-full p-7">
@@ -15,7 +23,7 @@ export function NoTasks({ openModal }: { openModal: (e?: any) => void }) {
 			<StyledPressable
 				text="Agregar primera tarea"
 				pressableClassName="mt-8"
-				onPress={openModal}
+				onPress={handleClickOpenModal}
 			/>
 		</View>
 	)

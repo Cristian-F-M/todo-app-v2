@@ -1,9 +1,9 @@
 import { useCallback, useEffect } from 'react'
 import { Animated, Pressable, Text, useAnimatedValue } from 'react-native'
 import { StyledPressable } from '@/components/StyledPressable'
-import { useModal } from '@/context/Modal'
 import AddFolder from '@/icons/AddFolder'
 import useFolder from '@/state/Folder'
+import { useModal } from '@/state/modal'
 
 export function NoFolders() {
 	const { openModal } = useModal()
@@ -24,15 +24,9 @@ export function NoFolders() {
 		opacityAnimation.start()
 	}, [opacityValue, thereIsFolders])
 
-	const handleClickOpenModal = useCallback(
-		(e?: any) => {
-			openModal(e, {
-				type: 'FOLDER',
-				mode: 'CREATE'
-			})
-		},
-		[openModal]
-	)
+	const handleClickOpenModal = useCallback(() => {
+		openModal('folder')
+	}, [openModal])
 
 	return (
 		<Animated.View
