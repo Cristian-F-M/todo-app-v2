@@ -1,21 +1,37 @@
 import { SplashScreen } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useColorScheme } from 'nativewind'
-import { useEffect, useState } from 'react'
-import { Animated, FlatList, useAnimatedValue, View } from 'react-native'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import {
+	Animated,
+	FlatList,
+	Pressable,
+	Text,
+	TextInput,
+	useAnimatedValue,
+	View
+} from 'react-native'
+import type { Modalize } from 'react-native-modalize'
+import { Portal } from 'react-native-portalize'
 import { BackgroundIcon } from '@/components/BackgroundIcon'
 import { FolderItem } from '@/components/FolderItem'
+import { FolderModal } from '@/components/FolderModal'
 import { Header } from '@/components/Header'
 import { Loader } from '@/components/Loader'
+import { Modal2 } from '@/components/Modal2'
 import { NoFolders } from '@/components/NoFolders'
 import { Screen } from '@/components/Screen'
+import { StyledPressable } from '@/components/StyledPressable'
 import useFolder from '@/state/Folder'
+import { useModal } from '@/state/modal'
 
 export default function Index() {
 	const { folders } = useFolder()
 	const [loading, setLoading] = useState(true)
 	const opacityValue = useAnimatedValue(0)
 	const thereIsFolders = folders && folders.length > 0
+	const modalRef = useRef<Modalize>(null)
+	const { openModal, setModal } = useModal()
 
 	useEffect(() => {
 		if (folders && folders.length >= 0) setTimeout(() => setLoading(false), 500)
@@ -42,6 +58,10 @@ export default function Index() {
 	const { colorScheme } = useColorScheme()
 	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
 
+	useLayoutEffect(() => {
+		setModal('folder', modalRef)
+	}, [setModal])
+
 	return (
 		<Screen safeArea={true} style={{ opacity: opacityValue }}>
 			<StatusBar
@@ -67,6 +87,10 @@ export default function Index() {
 					/>
 				</View>
 			)}
+
+			<Modal2 modalRef={modalRef}>
+				<FolderModal handleClose={() => modalRef.current?.close()} />
+			</Modal2>
 		</Screen>
 	)
 }

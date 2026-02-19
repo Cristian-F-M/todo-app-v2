@@ -1,8 +1,8 @@
 import { useCallback, useEffect } from 'react'
 import { Animated, Text, useAnimatedValue, View } from 'react-native'
 import { StyledPressable } from '@/components/StyledPressable'
-import { useModal } from '@/context/Modal'
 import useFolder from '@/state/Folder'
+import { useModal } from '@/state/modal'
 
 export function Header() {
 	const { folders } = useFolder()
@@ -22,15 +22,9 @@ export function Header() {
 		opacityAnimation.start()
 	}, [opacityValue, thereIsFolders])
 
-	const openCreateFolderModal = useCallback(
-		(e?: any) => {
-			openModal(e, {
-				type: 'FOLDER',
-				mode: 'CREATE'
-			})
-		},
-		[openModal]
-	)
+	const openCreateFolderModal = useCallback(() => {
+		openModal('folder')
+	}, [openModal])
 
 	return (
 		<View className="header flex-row w-full py-4 px-3 flex items-center justify-between">

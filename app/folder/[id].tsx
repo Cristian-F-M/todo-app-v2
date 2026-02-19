@@ -1,16 +1,19 @@
 import { Stack, useGlobalSearchParams } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useColorScheme } from 'nativewind'
-import { useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { Animated, FlatList, Text, useAnimatedValue, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import type { Modalize } from 'react-native-modalize'
 import { Folder404 } from '@/components/Folder404'
+import { Modal2 } from '@/components/Modal2'
 import { NoTasks } from '@/components/NoTasks'
 import { Screen } from '@/components/Screen'
 import { StyledPressable } from '@/components/StyledPressable'
 import { TaskItem } from '@/components/TaskItem'
-import { useModal } from '@/context/Modal'
+import { TaskModal } from '@/components/TaskModal'
 import useFolder from '@/state/Folder'
+import { useModal as useModal2 } from '@/state/modal'
 import useTask from '@/state/Task'
 
 export default function Folder() {
@@ -18,8 +21,8 @@ export default function Folder() {
 	const { colorScheme } = useColorScheme()
 	const { getTasksByFolderId, getById } = useFolder()
 	const { tasks: tasksFromContext } = useTask()
-	const { openModal } = useModal()
-
+	const { setModal, openModal } = useModal2()
+	const modalRef = useRef<Modalize>(null)
 	const folderId = id as string
 	const folder = getById(folderId)
 
@@ -61,18 +64,18 @@ export default function Folder() {
 		opacityAnimation.start()
 	}, [opacityValue2, thereAreTasks])
 
-	const openCreateTaskModal = (e?: any) => {
-		openModal(e, {
-			mode: 'CREATE',
-			type: 'TASK',
-			folderId: folderId
-		})
-	}
+	const openCreateTaskModal = useCallback(() => {
+		openModal('task')
+	}, [openModal])
 
 	const pageTitle = folder ? folder.name : 'Carpeta no encontrada'
 	const statusBarBackgroundColor =
 		colorScheme === 'dark' ? '#111827' : '#d1d5db'
 	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
+
+	useLayoutEffect(() => {
+		setModal('task', modalRef)
+	}, [setModal])
 
 	return (
 		<Screen safeArea={false}>
@@ -143,6 +146,18 @@ export default function Folder() {
 					</ScrollView>
 				</View>
 			)}
+			<StyledPressable
+				text="Click"
+				onPress={() => {
+					openModal('task')
+				}}
+			/>
+			<Modal2 modalRef={modalRef}>
+				<TaskModal
+					folderId={folderId}
+					handleClose={() => modalRef.current?.close()}
+				/>
+			</Modal2>
 		</Screen>
 	)
 }
