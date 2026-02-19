@@ -9,6 +9,7 @@ import * as SplashScreen from 'expo-splash-screen'
 import { SQLiteProvider } from 'expo-sqlite'
 import * as SystemUI from 'expo-system-ui'
 import { useEffect, useLayoutEffect } from 'react'
+import { Host } from 'react-native-portalize'
 import { useConfig } from '@/state/config'
 import useFolder from '@/state/Folder'
 import useTask from '@/state/Task'
@@ -52,17 +53,19 @@ export default function RootLayout() {
 	return (
 		<GestureHandlerRootView>
 			<SQLiteProvider databaseName="todo-cm.db" onInit={migrateDB}>
-				<ModalProvider>
-					<View className="flex-1 dark:bg-gray-900 bg-gray-300">
-						<StatusBar style={themeStyle} backgroundColor="transparent" />
-						<Stack
-							screenOptions={{
-								headerShown: false,
-								animation: 'slide_from_right'
-							}}
-						/>
-					</View>
-				</ModalProvider>
+				<Host>
+					<ModalProvider>
+						<View className="flex-1 dark:bg-gray-900 bg-gray-300">
+							<StatusBar style={themeStyle} backgroundColor="transparent" />
+							<Stack
+								screenOptions={{
+									headerShown: false,
+									animation: 'slide_from_right'
+								}}
+							/>
+						</View>
+					</ModalProvider>
+				</Host>
 			</SQLiteProvider>
 		</GestureHandlerRootView>
 	)
