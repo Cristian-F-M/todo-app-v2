@@ -140,7 +140,7 @@ export default function Folder() {
 					<ScrollView>
 						{tasks.length === 0 && (
 							<Animated.View style={{ opacity: opacityValue2 }}>
-								<NoTasks openModal={openCreateTaskModal} />
+								<NoTasks />
 							</Animated.View>
 						)}
 					</ScrollView>
