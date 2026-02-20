@@ -130,12 +130,6 @@ export default function Folder() {
 					</ScrollView>
 				</View>
 			)}
-			<StyledPressable
-				text="Click"
-				onPress={() => {
-					openModal('task')
-				}}
-			/>
 			<Modal2 modalRef={modalRef}>
 				<TaskModal
 					folderId={folderId}
