@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Animated, useAnimatedValue, View } from 'react-native'
-import { SingleTimePicker } from '@/components/SingleTimePicker'
+import { SingleTimePicker } from '@/components/TimePicker/SingleTimePicker'
 import type { TimeValueType } from '@/types/TimePicker'
 
 export interface TimePickerProps {
