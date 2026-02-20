@@ -3,13 +3,12 @@ import { Animated, useAnimatedValue, View } from 'react-native'
 import { SingleTimePicker } from '@/components/SingleTimePicker'
 import type { TimeValueType } from '@/types/TimePicker'
 
-export function TimePicker({
-	timeValue,
-	setTimeValue
-}: {
-	timeValue: TimeValueType
-	setTimeValue: React.Dispatch<React.SetStateAction<TimeValueType>>
-}) {
+export interface TimePickerProps {
+	value: TimeValueType
+	onChange: (value: TimeValueType) => void
+}
+
+export function TimePicker({ value, onChange }: TimePickerProps) {
 	const animatedValue = useAnimatedValue(0)
 
 	useEffect(() => {
@@ -26,21 +25,22 @@ export function TimePicker({
 
 	return (
 		<Animated.View
-			className="flex-row justify-between"
+			className="flex flex-row w-full"
 			style={{ opacity: animatedValue }}
 		>
 			<SingleTimePicker
 				text="Horas"
-				keyValue="hours"
-				value={timeValue}
-				setValue={setTimeValue}
+				value={value.hours}
+				onChange={(hours) => onChange({ ...value, hours })}
+				min={0}
 			/>
-			<View className="w-px h-full dark:bg-resalt/30 bg-blue-600 rounded"></View>
+			<View className="w-1 h-full dark:bg-resalt/30 bg-blue-600 rounded mx-3" />
 			<SingleTimePicker
 				text="Minutos"
-				keyValue="minutes"
-				value={timeValue}
-				setValue={setTimeValue}
+				value={value.minutes}
+				onChange={(minutes) => onChange({ ...value, minutes })}
+				min={0}
+				max={59}
 			/>
 		</Animated.View>
 	)

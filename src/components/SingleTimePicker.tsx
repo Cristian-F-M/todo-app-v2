@@ -1,52 +1,76 @@
 import { useColorScheme } from 'nativewind'
-import type React from 'react'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { Text, TextInput, View } from 'react-native'
 import { WrapCaretIcon } from '@/components/WrapCaretIcon'
 import CaretDown from '@/icons/CaretDown'
 import CaretUp from '@/icons/CaretUp'
-import type { TimeValueType } from '@/types/TimePicker'
+
+export interface SingleTimePickerProps {
+	text: string
+	value: number
+	onChange: (value: number) => void
+	min?: number
+	max?: number
+}
 
 export function SingleTimePicker({
 	text,
-	value = { minutes: 0, hours: 0 },
-	keyValue,
-	setValue
-}: {
-	text: string
-	value: TimeValueType
-	keyValue: keyof TimeValueType
-	setValue: React.Dispatch<React.SetStateAction<TimeValueType>>
-}) {
+	value = 0,
+	min,
+	max,
+	onChange
+}: SingleTimePickerProps) {
 	const { colorScheme } = useColorScheme()
-	const handleChangeTimeValue = (
-		key: keyof TimeValueType,
-		action: 'UP' | 'DOWN'
-	) => {
-		setValue((prev) => {
-			const currentValue = typeof prev[key] === 'string' ? -1 : prev[key]
-			const newValue = (currentValue + (action === 'UP' ? 1 : -1) + 60) % 60
-			return { ...prev, [key]: newValue }
-		})
-	}
+	let timeout: NodeJS.Timeout | undefined
+	const [localValue, setLocalValue] = useState<string | number>(value)
+
+	const handleChange = useCallback(
+		(value: number) => {
+			onChange(value)
+			setLocalValue(value)
+		},
+		[onChange]
+	)
+
+	const handleUp = useCallback(() => {
+		if (max != null && value >= max) return
+		const newValue = value + 1
+		handleChange(newValue)
+	}, [value, handleChange, max])
+
+	const handleDown = useCallback(() => {
+		if (min != null && value <= min) return
+
+		const newValue = value - 1
+		handleChange(newValue)
+	}, [value, handleChange, min])
 
 	const handleTextChange = useCallback(
 		(text: string) => {
-			setValue((prev) => ({
-				...prev,
-				[keyValue]: text.trim() === '' ? text : Number(text)
-			}))
-		},
-		[keyValue, setValue]
-	)
+			clearTimeout(timeout)
+			timeout = undefined
 
+			setLocalValue(text)
+
+			if (text.trim() === '' || Number.isNaN(Number(text))) {
+				timeout = setTimeout(() => {
+					handleChange(0)
+				}, 1000)
+
+				return
+			}
+
+			let newValue = Number(text)
+			if (max != null) newValue = Math.min(newValue, max)
+			if (min != null) newValue = Math.max(newValue, min)
+			handleChange(newValue)
+		},
+		[timeout, min, max, handleChange]
+	)
 	return (
 		<View className="flex-col gap-y-1 items-center justify-center">
 			<View className="flex-row items-center rounded-lg p-1 gap-3">
-				<WrapCaretIcon
-					className="justify-center"
-					onPress={() => handleChangeTimeValue(keyValue, 'UP')}
-				>
+				<WrapCaretIcon className="justify-center" onPress={handleUp}>
 					<CaretUp
 						color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
 						width={24}
@@ -60,14 +84,11 @@ export function SingleTimePicker({
 						placeholder="..."
 						maxLength={2}
 						onChangeText={handleTextChange}
-						value={value[keyValue]?.toString()}
+						value={localValue.toString()}
 						keyboardType="number-pad"
 					/>
 				</View>
-				<WrapCaretIcon
-					className="justify-center"
-					onPress={() => handleChangeTimeValue(keyValue, 'DOWN')}
-				>
+				<WrapCaretIcon className="justify-center" onPress={handleDown}>
 					<CaretDown
 						color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
 						width={24}
