@@ -1,6 +1,7 @@
 import { useColorScheme } from 'nativewind'
 import { useCallback } from 'react'
-import { Switch, Text, TextInput, View } from 'react-native'
+import { Text, TextInput, View } from 'react-native'
+import { Switch } from 'react-native-gesture-handler'
 import Sparkles from '@/icons/Sparkles'
 import type { ConfigRowProps } from '@/types/Config'
 
