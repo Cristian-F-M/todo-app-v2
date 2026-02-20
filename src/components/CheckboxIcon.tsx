@@ -1,9 +1,16 @@
 import { View } from 'react-native'
 
-export function CheckboxIcon({ isChecked }: { isChecked: boolean }) {
+export function CheckboxIcon({
+	isChecked,
+	size
+}: {
+	isChecked: boolean
+	size: number
+}) {
 	return (
 		<View
-			className={`size-10/12 dark:bg-resalt bg-blue-600 rounded-full ${isChecked ? 'opacity-100' : 'opacity-0'}`}
+			style={{ width: size, height: size }}
+			className={` dark:bg-resalt bg-blue-600 rounded-full transition-opacity ${isChecked ? 'opacity-100' : 'opacity-0'}`}
 		></View>
 	)
 }
