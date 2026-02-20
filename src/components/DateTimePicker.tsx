@@ -1,50 +1,57 @@
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker'
-import { useCallback, useEffect, useState } from 'react'
+import {
+	DateTimePickerAndroid,
+	type DateTimePickerEvent
+} from '@react-native-community/datetimepicker'
+import { useCallback, useEffect, useMemo } from 'react'
 import { Animated, Pressable, Text, useAnimatedValue, View } from 'react-native'
 import { DateItem } from '@/components/DateItem'
 import Alarm from '@/icons/Alarm'
 import Calendar from '@/icons/Calendar'
-import type { TimeValues } from '@/types/TimePicker'
-import { getDateTime, mergeDates } from '@/utils/DateTime'
+import { getDateTime } from '@/utils/DateTime'
 
-export function DateTimePicker({
-	dateTime,
-	setDate
-}: {
-	dateTime: Date
-	setDate: React.Dispatch<React.SetStateAction<Date>>
-}) {
-	const [dateTimeValue, setDateTimeValue] = useState<TimeValues>(
-		getDateTime(dateTime)
+interface DateTimePickerProps {
+	value: Date
+	onValueChange: (value: Date) => void
+}
+
+export function DateTimePicker({ value, onValueChange }: DateTimePickerProps) {
+	const [date, time] = useMemo(() => {
+		const { hour, minute, ampm, ...rest } = getDateTime(value)
+		return [{ ...rest }, { hour, minute, ampm }]
+	}, [value])
+
+	const handlePickerChange = useCallback(
+		(event: DateTimePickerEvent, date: Date | undefined) => {
+			if (event.type === 'dismissed' || !date) return
+
+			onValueChange(date)
+		},
+		[onValueChange]
 	)
 
-	useEffect(() => {
-		setDateTimeValue(getDateTime(dateTime))
-	}, [dateTime])
+	const commonPickerProps = useMemo(
+		() => ({
+			value,
+			minimumDate: new Date(),
+			onValueChange: handlePickerChange
+		}),
+		[value, handlePickerChange]
+	)
 
 	const handleOpenDatePicker = useCallback(() => {
 		DateTimePickerAndroid.open({
-			mode: 'date',
-			value: dateTime,
-			minimumDate: new Date(),
-			onChange(event, date) {
-				if (event.type === 'dismissed' || !date) return
-				setDate((prev) => mergeDates(date, prev))
-			}
+			...commonPickerProps,
+			minimumDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
+			mode: 'date'
 		})
-	}, [dateTime, setDate])
+	}, [commonPickerProps])
 
 	const handleOpenTimePicker = useCallback(() => {
 		DateTimePickerAndroid.open({
-			mode: 'time',
-			value: dateTime,
-			minimumDate: new Date(),
-			onChange(event, date) {
-				if (event.type === 'dismissed' || !date) return
-				setDate((prev) => mergeDates(prev, date))
-			}
+			...commonPickerProps,
+			mode: 'time'
 		})
-	}, [dateTime, setDate])
+	}, [commonPickerProps])
 
 	const animatedValue = useAnimatedValue(0)
 
@@ -67,26 +74,26 @@ export function DateTimePicker({
 				className="border-resalt/50 border py-2 px-4 rounded-md flex-row items-center justify-between gap-x-3"
 				onPress={handleOpenDatePicker}
 			>
-				<View className="flex-row items-center gap-x-2">
-					<DateItem value={dateTimeValue.day} />
+				<View className="flex-row items-center gap-x-1">
+					<DateItem value={date.day} />
 					<Text className="text-gray-300 text-lg">/</Text>
-					<DateItem value={dateTimeValue.month} />
+					<DateItem value={date.month} />
 					<Text className="text-gray-300 text-lg">/</Text>
-					<DateItem value={dateTimeValue.year} />
+					<DateItem value={date.year} />
 				</View>
-				<Calendar color={'#60a5fa'} width={24} height={24} />
+				<Calendar color={'#60a5fa'} width={20} height={20} />
 			</Pressable>
 			<Pressable
 				className="border-resalt/50 border py-2 px-4 rounded-md flex-row items-center justify-between gap-x-3"
 				onPress={handleOpenTimePicker}
 			>
-				<View className="flex-row items-center gap-x-2">
-					<DateItem value={dateTimeValue.hour} />
+				<View className="flex-row items-center gap-x-1">
+					<DateItem value={time.hour} />
 					<Text className="text-gray-300 text-lg">:</Text>
-					<DateItem value={dateTimeValue.minute} />
-					<DateItem value={dateTimeValue.ampm} />
+					<DateItem value={time.minute} />
+					<DateItem value={time.ampm} />
 				</View>
-				<Alarm color={'#60a5fa'} width={24} height={24} />
+				<Alarm color={'#60a5fa'} width={20} height={20} />
 			</Pressable>
 		</Animated.View>
 	)
