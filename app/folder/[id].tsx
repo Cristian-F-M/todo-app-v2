@@ -31,8 +31,9 @@ export default function Folder() {
 		return getTasksByFolderId(folderId).toReversed()
 	}, [folderId, getTasksByFolderId, tasksFromContext])
 
-	const completedTasks = useMemo(
-		() => tasks.filter((task) => task.isCompleted),
+	const sortedTasks = useMemo(
+		() =>
+			[...tasks].sort((a, b) => Number(a.isCompleted) - Number(b.isCompleted)),
 		[tasks]
 	)
 
@@ -112,29 +113,12 @@ export default function Folder() {
 					</View>
 
 					{tasks.length > 0 && (
-						<>
-							<FlatList
-								className="mt-7"
-								data={tasks.filter((task) => !task.isCompleted)}
-								renderItem={({ item }) => <TaskItem task={item} />}
-								keyExtractor={(item) => item.id}
-							/>
-							<View className="mt-4 mb-2">
-								<Text className="dark:text-gray-500 text-gray-700">
-									Completadas
-								</Text>
-							</View>
-							{!completedTasks.length && (
-								<Text className="text-gray-500 dark:text-gray-400 text-sm">
-									No hay tareas completadas
-								</Text>
-							)}
-							<FlatList
-								data={completedTasks}
-								renderItem={({ item }) => <TaskItem task={item} />}
-								keyExtractor={(item) => item.id}
-							/>
-						</>
+						<FlatList
+							className="mt-7"
+							data={sortedTasks}
+							renderItem={({ item }) => <TaskItem task={item} />}
+							keyExtractor={(item) => item.id}
+						/>
 					)}
 
 					<ScrollView>
