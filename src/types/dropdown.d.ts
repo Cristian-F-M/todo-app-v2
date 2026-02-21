@@ -1,22 +1,21 @@
-export type DropdownOptionProps = {
-	onPress?: (e?: any) => void
+import type { PressableProps, ViewProps } from 'react-native'
+
+export interface DropdownOptionProps extends PressableProps {
+	onPress?: () => void
 	text: string
 	className?: React.ClassAttributes<View>['className']
 	textClassName?: React.ClassAttributes<Text>['className']
 	icon?: React.ElementType
 	iconProps?: React.SVGProps<SVGSVGElement>
-	showIconOn?: 'before' | 'after'
-	handleClose: (e?: any) => void
-	handleOpen: (e?: any) => void
+	handleClose: () => void
+	handleOpen: () => void
 }
 
-export type DropdownMenuProps = {
+export interface DropdownMenuProps extends ViewProps {
 	visible: boolean
 	trigger: React.ReactNode
-	dropdownWidth?: number
 	children: React.ReactNode
 	handleOpen: () => void
 	handleClose: () => void
-	options?: DropdownOptionProps[]
-	itemId: string
+	dropdownWidth?: number
 }
