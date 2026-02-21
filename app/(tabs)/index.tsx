@@ -31,7 +31,7 @@ export default function Index() {
 	const opacityValue = useAnimatedValue(0)
 	const thereIsFolders = folders && folders.length > 0
 	const modalRef = useRef<Modalize>(null)
-	const { openModal, setModal } = useModal()
+	const { modals, openModal, setModal } = useModal()
 
 	useEffect(() => {
 		if (folders && folders.length >= 0) setTimeout(() => setLoading(false), 500)
@@ -59,8 +59,9 @@ export default function Index() {
 	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
 
 	useLayoutEffect(() => {
+		if (modals.folder) return
 		setModal('folder', modalRef)
-	}, [setModal])
+	}, [setModal, modals.folder])
 
 	return (
 		<Screen safeArea={true} style={{ opacity: opacityValue }}>

@@ -21,7 +21,7 @@ export default function Folder() {
 	const { colorScheme } = useColorScheme()
 	const { getTasksByFolderId, getById } = useFolder()
 	const { tasks: tasksFromContext } = useTask()
-	const { setModal, openModal } = useModal2()
+	const { modals, setModal, openModal } = useModal2()
 	const modalRef = useRef<Modalize>(null)
 	const folderId = id as string
 	const folder = getById(folderId)
@@ -75,8 +75,9 @@ export default function Folder() {
 	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
 
 	useLayoutEffect(() => {
+		if (modals.task) return
 		setModal('task', modalRef)
-	}, [setModal])
+	}, [setModal, modals.task])
 
 	return (
 		<Screen safeArea={false}>
