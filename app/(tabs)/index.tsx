@@ -14,6 +14,7 @@ import {
 import type { Modalize } from 'react-native-modalize'
 import { Portal } from 'react-native-portalize'
 import { BackgroundIcon } from '@/components/BackgroundIcon'
+import { DeleteModal } from '@/components/DeleteModal'
 import { FolderItem } from '@/components/FolderItem'
 import { FolderModal } from '@/components/FolderModal'
 import { Header } from '@/components/Header'
@@ -31,6 +32,7 @@ export default function Index() {
 	const opacityValue = useAnimatedValue(0)
 	const thereIsFolders = folders && folders.length > 0
 	const modalRef = useRef<Modalize>(null)
+	const deleteModalRef = useRef<Modalize>(null)
 	const { modals, openModal, setModal } = useModal()
 
 	useEffect(() => {
@@ -63,6 +65,11 @@ export default function Index() {
 		setModal('folder', modalRef)
 	}, [setModal, modals.folder])
 
+	useLayoutEffect(() => {
+		if (modals.delete.ref) return
+		setModal('delete', deleteModalRef)
+	}, [setModal, modals.delete])
+
 	return (
 		<Screen safeArea={true} style={{ opacity: opacityValue }}>
 			<StatusBar
@@ -91,6 +98,10 @@ export default function Index() {
 
 			<Modal2 modalRef={modalRef}>
 				<FolderModal handleClose={() => modalRef.current?.close()} />
+			</Modal2>
+
+			<Modal2 modalRef={deleteModalRef}>
+				<DeleteModal />
 			</Modal2>
 		</Screen>
 	)
