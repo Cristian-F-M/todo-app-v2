@@ -1,6 +1,6 @@
 import { router } from 'expo-router'
 import { Pressable, Text, View } from 'react-native'
-import { StyledPressable } from '@/components/StyledPressable'
+import { StyledPressable } from '@/components/layout/StyledPressable'
 import Back from '@/icons/Back'
 import Folder404Icon from '@/icons/Folder404'
 

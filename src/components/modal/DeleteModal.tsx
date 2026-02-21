@@ -6,7 +6,7 @@ import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import { removeNotification } from '@/utils/notifications'
-import { StyledPressable } from './StyledPressable'
+import { StyledPressable } from '../layout/StyledPressable'
 
 export function DeleteModal() {
 	const { item, closeModal, setItem } = useModal()

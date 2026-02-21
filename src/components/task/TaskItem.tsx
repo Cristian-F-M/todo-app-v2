@@ -6,8 +6,8 @@ import Animated, {
 	FadeOut,
 	LinearTransition
 } from 'react-native-reanimated'
-import { DropdownMenu } from '@/components/Dropdown'
-import { DropdownOption } from '@/components/DropdownOption'
+import { DropdownMenu } from '@/components/Dropdown/Dropdown'
+import { DropdownOption } from '@/components/Dropdown/DropdownOption'
 import Edit from '@/icons/Edit'
 import MoreVertical from '@/icons/MoreVertical'
 import Trash from '@/icons/Trash'

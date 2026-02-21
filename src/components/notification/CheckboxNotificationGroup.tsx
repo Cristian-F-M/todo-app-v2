@@ -1,7 +1,8 @@
+// TODO: Move file to components/notification/
 import { useCallback } from 'react'
 import { Text, View } from 'react-native'
+import { Checkbox } from '@/components/Checkbox/Checkbox'
 import type { NotificationType } from '@/types/modal'
-import { Checkbox } from './Checkbox'
 
 interface CheckboxNotificationGroupProps {
 	notificationType: NotificationType

@@ -1,3 +1,4 @@
+// TODO: notification | date folder 
 import { Text, View } from 'react-native'
 
 export function DateItem({

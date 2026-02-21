@@ -5,7 +5,7 @@ import uuid from 'react-native-uuid'
 import { twMerge } from 'tailwind-merge'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
-import { StyledPressable } from './StyledPressable'
+import { StyledPressable } from '../layout/StyledPressable'
 
 interface FolderModalProps {
 	handleClose: () => void

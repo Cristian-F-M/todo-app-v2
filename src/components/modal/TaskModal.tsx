@@ -13,9 +13,9 @@ import type { NotificationType } from '@/types/modal'
 import type { TimeValueType } from '@/types/timePicker'
 import { formatDateString, sumDate } from '@/utils/dateTime'
 import { removeNotification, sendNotification } from '@/utils/notifications'
-import { CheckboxNotificationGroup } from './CheckboxNotificationGroup'
-import { DateTimePicker } from './DateTimePicker/DateTimePicker'
-import { StyledPressable } from './StyledPressable'
+import { DateTimePicker } from '../DateTimePicker/DateTimePicker'
+import { StyledPressable } from '../layout/StyledPressable'
+import { CheckboxNotificationGroup } from '../notification/CheckboxNotificationGroup'
 
 export function TaskModal() {
 	const { colorScheme } = useColorScheme()

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { Pressable, Text, View } from 'react-native'
-import { StyledPressable } from '@/components/StyledPressable'
+import { StyledPressable } from '@/components/layout/StyledPressable'
 import Folder from '@/icons/Folder'
 import { useModal } from '@/state/modal'
 

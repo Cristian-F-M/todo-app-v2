@@ -7,8 +7,8 @@ import Animated, {
 	FadeOutLeft,
 	LinearTransition
 } from 'react-native-reanimated'
-import { DropdownMenu } from '@/components/Dropdown'
-import { DropdownOption } from '@/components/DropdownOption'
+import { DropdownMenu } from '@/components/Dropdown/Dropdown'
+import { DropdownOption } from '@/components/Dropdown/DropdownOption'
 import Edit from '@/icons/Edit'
 import Folder from '@/icons/Folder'
 import MoreVertical from '@/icons/MoreVertical'
