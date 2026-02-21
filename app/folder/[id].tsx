@@ -75,7 +75,7 @@ export default function Folder() {
 	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
 
 	useLayoutEffect(() => {
-		if (modals.task) return
+		if (modals.task.ref) return
 		setModal('task', modalRef)
 	}, [setModal, modals.task])
 

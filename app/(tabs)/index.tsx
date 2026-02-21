@@ -59,7 +59,7 @@ export default function Index() {
 	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
 
 	useLayoutEffect(() => {
-		if (modals.folder) return
+		if (modals.folder.ref) return
 		setModal('folder', modalRef)
 	}, [setModal, modals.folder])
 
