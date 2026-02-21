@@ -84,7 +84,6 @@ export function TaskItem({ task }: { task: Task }) {
 			</View>
 
 			<DropdownMenu
-				itemId={task.id}
 				visible={dropdownVisible}
 				handleOpen={() => setDropdownVisible(true)}
 				handleClose={() => setDropdownVisible(false)}
@@ -106,9 +105,7 @@ export function TaskItem({ task }: { task: Task }) {
 					handleOpen={handleOpenDropdown}
 					icon={Edit}
 					iconProps={{
-						stroke: colorScheme === 'dark' ? '#ffffff' : '#1f2937',
-						width: 22,
-						height: 22
+						stroke: colorScheme === 'dark' ? '#ffffff' : '#1f2937'
 					}}
 				/>
 
@@ -119,7 +116,7 @@ export function TaskItem({ task }: { task: Task }) {
 					handleOpen={handleOpenDropdown}
 					onPress={handleDeleteTask}
 					icon={Trash}
-					iconProps={{ stroke: '#ff6467', width: 22, height: 22 }}
+					iconProps={{ stroke: '#ff6467' }}
 				/>
 			</DropdownMenu>
 		</Animated.View>

@@ -75,7 +75,6 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 					</View>
 				</View>
 				<DropdownMenu
-					itemId={folder.id}
 					handleOpen={openDropdown}
 					handleClose={closeDropdown}
 					visible={dropDownVisible}
@@ -97,9 +96,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 						icon={Edit}
 						onPress={openEditModal}
 						iconProps={{
-							stroke: colorScheme === 'dark' ? '#ffffff' : '#1f2937',
-							width: 22,
-							height: 22
+							stroke: colorScheme === 'dark' ? '#ffffff' : '#1f2937'
 						}}
 					/>
 					<DropdownOption
@@ -108,7 +105,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 						text="Eliminar"
 						textClassName={'!text-red-400'}
 						icon={Trash}
-						iconProps={{ stroke: '#ff6467', width: 22, height: 22 }}
+						iconProps={{ stroke: '#ff6467' }}
 						onPress={handleClickDeleteFolder}
 					/>
 				</DropdownMenu>
