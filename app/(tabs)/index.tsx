@@ -31,8 +31,7 @@ export default function Index() {
 	const [loading, setLoading] = useState(true)
 	const opacityValue = useAnimatedValue(0)
 	const thereIsFolders = folders && folders.length > 0
-	const modalRef = useRef<Modalize>(null)
-	const deleteModalRef = useRef<Modalize>(null)
+
 	const { modals, openModal, setModal } = useModal()
 
 	useEffect(() => {
@@ -60,15 +59,6 @@ export default function Index() {
 	const { colorScheme } = useColorScheme()
 	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
 
-	useLayoutEffect(() => {
-		if (modals.folder.ref) return
-		setModal('folder', modalRef)
-	}, [setModal, modals.folder])
-
-	useLayoutEffect(() => {
-		if (modals.delete.ref) return
-		setModal('delete', deleteModalRef)
-	}, [setModal, modals.delete])
 
 	return (
 		<Screen safeArea={true} style={{ opacity: opacityValue }}>
@@ -96,13 +86,6 @@ export default function Index() {
 				</View>
 			)}
 
-			<Modal modalRef={modalRef}>
-				<FolderModal handleClose={() => modalRef.current?.close()} />
-			</Modal>
-
-			<Modal modalRef={deleteModalRef}>
-				<DeleteModal />
-			</Modal>
 		</Screen>
 	)
 }
