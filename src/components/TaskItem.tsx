@@ -51,11 +51,11 @@ export function TaskItem({ task }: { task: Task }) {
 	}, [deleteTask, openModal, setItem, task])
 
 	const handleCompleteTask = useCallback(() => {
-		setIsChecked((prev) => {
-			update({ ...task, isCompleted: !prev })
-			return !prev
-		})
-	}, [task, update])
+		const newValue = !isChecked
+
+		setIsChecked(newValue)
+		update({ ...task, isCompleted: newValue })
+	}, [task, update, isChecked])
 
 	return (
 		<Animated.View
