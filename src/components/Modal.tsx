@@ -1,14 +1,14 @@
 import { useColorScheme } from 'nativewind'
-import { Modalize } from 'react-native-modalize'
+import { Modalize, type ModalizeProps } from 'react-native-modalize'
 import { Portal } from 'react-native-portalize'
 import { useModal } from '@/state/modal'
 
-interface ModalProps {
+interface ModalProps extends ModalizeProps {
 	modalRef: React.RefObject<Modalize | null>
 	children: React.ReactNode
 }
 
-export function Modal({ modalRef, children }: ModalProps) {
+export function Modal({ modalRef, children, ...props }: ModalProps) {
 	const { colorScheme } = useColorScheme()
 	const { setItem } = useModal()
 
@@ -25,6 +25,7 @@ export function Modal({ modalRef, children }: ModalProps) {
 				onClose={() => {
 					setItem(null)
 				}}
+				{...props}
 			>
 				{children}
 			</Modalize>
