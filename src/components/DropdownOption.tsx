@@ -1,4 +1,5 @@
 import { Pressable, Text, View } from 'react-native'
+import { twMerge } from 'tailwind-merge'
 import type { DropdownOptionProps } from '@/types/dropdown'
 
 export function DropdownOption({
@@ -8,9 +9,7 @@ export function DropdownOption({
 	textClassName,
 	icon,
 	iconProps,
-	showIconOn = 'before',
-	handleClose,
-	handleOpen
+	handleClose
 }: DropdownOptionProps) {
 	const Icon = icon
 
@@ -20,25 +19,24 @@ export function DropdownOption({
 	}
 
 	return (
-		<View
-			className={`option flex-row items-center justify-between border-gray-500 p-1 ${className}`}
+		<Pressable
+			className={twMerge(
+				'option flex-row items-center justify-between border-gray-500 p-1 active:dark:bg-gray-700 active:bg-blue-200',
+				className
+			)}
+			onPress={onPressFC}
 		>
-			<Pressable
-				className="w-full h-full px-5 py-2 active:dark:bg-gray-700 active:bg-blue-200  flex flex-row items-center justify-evenly"
-				onPress={onPressFC}
-			>
-				{Icon && showIconOn === 'before' && (
-					<Icon width={30} height={30} {...iconProps} />
-				)}
+			<View className="w-full h-full px-5 py-2 flex flex-row items-center justify-center gap-x-1">
+				{Icon && <Icon width={20} height={20} {...iconProps} />}
 				<Text
-					className={`dark:text-white text-gray-800 text-center ${textClassName}`}
+					className={twMerge(
+						'dark:text-white text-gray-800 text-center',
+						textClassName
+					)}
 				>
 					{text}
 				</Text>
-				{Icon && showIconOn === 'after' && (
-					<Icon width={30} height={30} {...iconProps} />
-				)}
-			</Pressable>
-		</View>
+			</View>
+		</Pressable>
 	)
 }
