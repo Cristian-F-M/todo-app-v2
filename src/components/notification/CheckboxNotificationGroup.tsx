@@ -1,4 +1,3 @@
-// TODO: Move file to components/notification/
 import { useCallback } from 'react'
 import { Text, View } from 'react-native'
 import { Checkbox } from '@/components/Checkbox/Checkbox'

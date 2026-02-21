@@ -1,6 +1,6 @@
 import { Link } from 'expo-router'
 import { useColorScheme } from 'nativewind'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import Animated, {
 	FadeInRight,

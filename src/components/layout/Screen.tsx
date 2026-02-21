@@ -1,4 +1,4 @@
-import { Animated, type StyleProp, View, type ViewStyle } from 'react-native'
+import { Animated, type StyleProp, type ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export function Screen({

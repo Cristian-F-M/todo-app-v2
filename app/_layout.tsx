@@ -7,14 +7,13 @@ import * as Notifications from 'expo-notifications'
 import * as SplashScreen from 'expo-splash-screen'
 import { SQLiteProvider } from 'expo-sqlite'
 import * as SystemUI from 'expo-system-ui'
-import { useCallback, useEffect, useLayoutEffect, useRef } from 'react'
+import { useCallback, useLayoutEffect, useRef } from 'react'
 import type { Modalize } from 'react-native-modalize'
 import { Host } from 'react-native-portalize'
 import {
 	configureReanimatedLogger,
 	ReanimatedLogLevel
 } from 'react-native-reanimated'
-import { Screen } from '@/components/layout/Screen'
 import { DeleteModal } from '@/components/modal/DeleteModal'
 import { FolderModal } from '@/components/modal/FolderModal'
 import { Modal } from '@/components/modal/Modal'
@@ -48,11 +47,11 @@ Notifications.setNotificationHandler({
 
 export default function RootLayout() {
 	const { theme } = useTheme()
-	const { configs, load: loadConfigs } = useConfig()
+	const { load: loadConfigs } = useConfig()
 	const themeStyle = theme === 'dark' ? 'light' : 'dark'
 	const { load: loadFolders } = useFolder()
 	const { load: loadTasks } = useTask()
-	const { modals, setModal, openModal } = useModal()
+	const { setModal } = useModal()
 	const taskModalRef = useRef<Modalize>(null)
 	const folderModalRef = useRef<Modalize>(null)
 	const deleteModalRef = useRef<Modalize>(null)

@@ -5,7 +5,7 @@ type StyledPressableProps = {
 	text: string
 	pressableClassName?: string
 	textClassName?: string
-	onPress?: (e: any) => void
+	onPress?: () => void
 	showLoadingIndicator?: boolean
 	isLoading?: boolean
 	disabled?: boolean
@@ -19,7 +19,7 @@ export function StyledPressable({
 	text = 'no-text',
 	pressableClassName = '',
 	textClassName = '',
-	onPress = (e?: any) => {},
+	onPress = () => {},
 	showLoadingIndicator = false,
 	isLoading = false,
 	disabled = false,

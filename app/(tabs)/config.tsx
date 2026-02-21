@@ -7,18 +7,14 @@ import {
 	useRef,
 	useState
 } from 'react'
-import { Pressable, ScrollView, Text, View } from 'react-native'
+import { Pressable, ScrollView, View } from 'react-native'
 import type { Modalize } from 'react-native-modalize'
-import { twMerge } from 'tailwind-merge'
-import { ChangeThemeModalContent } from '@/components/modal/ChangeThemeModalContent'
 import { ConfigCard } from '@/components/config/ConfigCard'
 import { ConfigRow } from '@/components/config/ConfigRow'
 import { Screen } from '@/components/layout/Screen'
-import { Modal } from '@/components/modal/Modal'
-import { WheelPicker } from '@/components/WheelPicker/WheelPicker'
+import { ChangeThemeModalContent } from '@/components/modal/ChangeThemeModalContent'
 import { useConfig } from '@/state/config'
 import { useTheme } from '@/state/theme'
-import type { ThemeString } from '@/types/theme'
 import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
 import { THEMES } from '@/utils/theme'
 import { useDebounce } from '@/utils/useDebounce'
@@ -26,7 +22,7 @@ import { useDebounce } from '@/utils/useDebounce'
 export default function ConfigPage() {
 	const { configs, setConfigs } = useConfig()
 	const debouncedConfigs = useDebounce<ConfigsType>(configs, 500)
-	const { theme, setTheme } = useTheme()
+	const { theme } = useTheme()
 	const { colorScheme } = useColorScheme()
 
 	useEffect(() => {
@@ -39,13 +35,6 @@ export default function ConfigPage() {
 	useLayoutEffect(() => {
 		setSelectedTheme(theme)
 	}, [theme])
-
-	const handleChangeColorScheme = useCallback(
-		(itemValue: ThemeString) => {
-			setTheme(itemValue)
-		},
-		[setTheme]
-	)
 
 	const ThemeIcon = THEMES[selectedTheme].icon
 

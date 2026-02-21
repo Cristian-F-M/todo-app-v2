@@ -13,7 +13,6 @@ import Animated, {
 import type { DecayConfig } from 'react-native-reanimated/lib/typescript/animation/decay/utils'
 import { scheduleOnRN } from 'react-native-worklets'
 import { twMerge } from 'tailwind-merge'
-import { useTheme } from '@/state/theme'
 import type { WheelPickerProps } from '@/types/wheelPicker'
 import { WheelItem } from './WheelPickerItem'
 import { WheelPickerLabel } from './WheelPickerLabel'

@@ -1,38 +1,21 @@
 import { SplashScreen } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useColorScheme } from 'nativewind'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import {
-	Animated,
-	FlatList,
-	Pressable,
-	Text,
-	TextInput,
-	useAnimatedValue,
-	View
-} from 'react-native'
-import type { Modalize } from 'react-native-modalize'
-import { Portal } from 'react-native-portalize'
+import { useEffect, useState } from 'react'
+import { Animated, FlatList, useAnimatedValue, View } from 'react-native'
 import { FolderItem } from '@/components/folder/FolderItem'
 import { NoFolders } from '@/components/folder/NoFolders'
 import { BackgroundIcon } from '@/components/layout/BackgroundIcon'
 import { Header } from '@/components/layout/Header'
 import { Loader } from '@/components/layout/Loader'
 import { Screen } from '@/components/layout/Screen'
-import { StyledPressable } from '@/components/layout/StyledPressable'
-import { DeleteModal } from '@/components/modal/DeleteModal'
-import { FolderModal } from '@/components/modal/FolderModal'
-import { Modal } from '@/components/modal/Modal'
 import useFolder from '@/state/Folder'
-import { useModal } from '@/state/modal'
 
 export default function Index() {
 	const { folders } = useFolder()
 	const [loading, setLoading] = useState(true)
 	const opacityValue = useAnimatedValue(0)
 	const thereIsFolders = folders && folders.length > 0
-
-	const { modals, openModal, setModal } = useModal()
 
 	useEffect(() => {
 		if (folders && folders.length >= 0) setTimeout(() => setLoading(false), 500)
