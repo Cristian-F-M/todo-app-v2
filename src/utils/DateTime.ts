@@ -63,10 +63,9 @@ export const formatDateString = (date: Date) => {
 export function sumDate(date: Date, { hours, minutes }: TimeValueType) {
 	const newDate = new Date(date)
 
-	if (typeof hours !== 'string' && hours)
-		newDate.setHours(newDate.getHours() + hours)
-	if (typeof minutes !== 'string' && minutes)
-		newDate.setMinutes(newDate.getMinutes() + minutes)
+	newDate.setHours(newDate.getHours() + hours)
+	newDate.setMinutes(newDate.getMinutes() + minutes)
+	newDate.setSeconds(0)
 
 	return newDate
 }
