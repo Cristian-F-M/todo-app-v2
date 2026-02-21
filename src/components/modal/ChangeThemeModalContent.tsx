@@ -1,10 +1,10 @@
 import { useColorScheme } from 'nativewind'
 import { Pressable, Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
+import { WheelPicker } from '@/components/WheelPicker/WheelPicker'
 import { useTheme } from '@/state/theme'
 import type { ThemeString } from '@/types/theme'
 import { THEMES } from '@/utils/theme'
-import { WheelPicker } from './WheelPicker/WheelPicker'
 
 export function ChangeThemeModalContent() {
 	const { theme, setTheme } = useTheme()

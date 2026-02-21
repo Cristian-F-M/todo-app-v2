@@ -14,11 +14,11 @@ import {
 	configureReanimatedLogger,
 	ReanimatedLogLevel
 } from 'react-native-reanimated'
-import { DeleteModal } from '@/components/DeleteModal'
-import { FolderModal } from '@/components/FolderModal'
-import { Modal } from '@/components/Modal'
-import { Screen } from '@/components/Screen'
-import { TaskModal } from '@/components/TaskModal'
+import { Screen } from '@/components/layout/Screen'
+import { DeleteModal } from '@/components/modal/DeleteModal'
+import { FolderModal } from '@/components/modal/FolderModal'
+import { Modal } from '@/components/modal/Modal'
+import { TaskModal } from '@/components/modal/TaskModal'
 import { useConfig } from '@/state/config'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'

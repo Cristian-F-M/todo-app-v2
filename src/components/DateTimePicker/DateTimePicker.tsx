@@ -4,7 +4,7 @@ import {
 } from '@react-native-community/datetimepicker'
 import { useCallback, useEffect, useMemo } from 'react'
 import { Animated, Pressable, Text, useAnimatedValue, View } from 'react-native'
-import { DateItem } from '@/components/DateItem'
+import { DateItem } from '@/components/notification/DateItem'
 import Alarm from '@/icons/Alarm'
 import Calendar from '@/icons/Calendar'
 import { getDateTime } from '@/utils/dateTime'

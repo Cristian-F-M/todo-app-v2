@@ -4,7 +4,7 @@ import { Text, TextInput, View } from 'react-native'
 import { Switch } from 'react-native-gesture-handler'
 import Sparkles from '@/icons/Sparkles'
 import type { ConfigRowProps } from '@/types/config'
-import { Modal } from './Modal'
+import { Modal } from '@/components/modal/Modal'
 
 export function ConfigRow({
 	text,

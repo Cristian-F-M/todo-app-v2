@@ -16,7 +16,7 @@ import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import type { Task } from '@/types/task'
 import { removeNotification } from '@/utils/notifications'
-import { Checkbox } from './Checkbox'
+import { Checkbox } from '@/components/Checkbox/Checkbox'
 
 export function TaskItem({ task }: { task: Task }) {
 	const { openModal, setItem } = useModal()

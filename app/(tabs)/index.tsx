@@ -13,16 +13,16 @@ import {
 } from 'react-native'
 import type { Modalize } from 'react-native-modalize'
 import { Portal } from 'react-native-portalize'
-import { BackgroundIcon } from '@/components/BackgroundIcon'
-import { DeleteModal } from '@/components/DeleteModal'
-import { FolderItem } from '@/components/FolderItem'
-import { FolderModal } from '@/components/FolderModal'
-import { Header } from '@/components/Header'
-import { Loader } from '@/components/Loader'
-import { Modal } from '@/components/Modal'
-import { NoFolders } from '@/components/NoFolders'
-import { Screen } from '@/components/Screen'
-import { StyledPressable } from '@/components/StyledPressable'
+import { FolderItem } from '@/components/folder/FolderItem'
+import { NoFolders } from '@/components/folder/NoFolders'
+import { BackgroundIcon } from '@/components/layout/BackgroundIcon'
+import { Header } from '@/components/layout/Header'
+import { Loader } from '@/components/layout/Loader'
+import { Screen } from '@/components/layout/Screen'
+import { StyledPressable } from '@/components/layout/StyledPressable'
+import { DeleteModal } from '@/components/modal/DeleteModal'
+import { FolderModal } from '@/components/modal/FolderModal'
+import { Modal } from '@/components/modal/Modal'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 
@@ -59,7 +59,6 @@ export default function Index() {
 	const { colorScheme } = useColorScheme()
 	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
 
-
 	return (
 		<Screen safeArea={true} style={{ opacity: opacityValue }}>
 			<StatusBar
@@ -85,7 +84,6 @@ export default function Index() {
 					/>
 				</View>
 			)}
-
 		</Screen>
 	)
 }

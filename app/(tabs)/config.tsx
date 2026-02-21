@@ -10,10 +10,11 @@ import {
 import { Pressable, ScrollView, Text, View } from 'react-native'
 import type { Modalize } from 'react-native-modalize'
 import { twMerge } from 'tailwind-merge'
-import { ConfigCard } from '@/components/ConfigCard'
-import { ConfigRow } from '@/components/ConfigRow'
-import { Modal } from '@/components/Modal'
-import { Screen } from '@/components/Screen'
+import { ChangeThemeModalContent } from '@/components/modal/ChangeThemeModalContent'
+import { ConfigCard } from '@/components/config/ConfigCard'
+import { ConfigRow } from '@/components/config/ConfigRow'
+import { Screen } from '@/components/layout/Screen'
+import { Modal } from '@/components/modal/Modal'
 import { WheelPicker } from '@/components/WheelPicker/WheelPicker'
 import { useConfig } from '@/state/config'
 import { useTheme } from '@/state/theme'
@@ -21,7 +22,6 @@ import type { ThemeString } from '@/types/theme'
 import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
 import { THEMES } from '@/utils/theme'
 import { useDebounce } from '@/utils/useDebounce'
-import { ChangeThemeModalContent } from '@/components/ChangeThemeModalContent'
 
 export default function ConfigPage() {
 	const { configs, setConfigs } = useConfig()
