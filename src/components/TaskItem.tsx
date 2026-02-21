@@ -1,10 +1,9 @@
 import { useColorScheme } from 'nativewind'
 import { useCallback, useState } from 'react'
 import { Pressable, ScrollView, Text, View } from 'react-native'
-import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import Animated, {
-	FadeInRight,
-	FadeOutLeft,
+	FadeIn,
+	FadeOut,
 	LinearTransition
 } from 'react-native-reanimated'
 import { DropdownMenu } from '@/components/Dropdown'
@@ -63,8 +62,8 @@ export function TaskItem({ task }: { task: Task }) {
 			className={`bg-gray-200 dark:bg-gray-800 px-4 py-4 mb-4 items-center  rounded-lg inline-flex flex-row justify-between active:opacity-75 border ${isChecked ? 'dark:opacity-80 opacity-95' : ''}`}
 			style={{ borderColor: colorScheme === 'dark' ? '#4b5563' : '#cbd0d6' }}
 			layout={LinearTransition.stiffness(2)}
-			entering={FadeInRight}
-			exiting={FadeOutLeft}
+			entering={FadeIn}
+			exiting={FadeOut}
 		>
 			<View className="flex flex-row max-w-60 gap-x-3 items-center">
 				<Checkbox value={isChecked} onValueChange={handleCompleteTask} />
