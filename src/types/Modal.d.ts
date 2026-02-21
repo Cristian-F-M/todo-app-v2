@@ -1,41 +1,34 @@
 import type { Folder } from './Folder'
 import type { Task } from './Task'
 
-export type ModalType = 'TASK' | 'FOLDER'
-export type ModalMode = 'CREATE' | 'EDIT'
+export type ModalItem =
+	| { type: 'FOLDER'; data: Folder }
+	| { type: 'TASK'; data: Task }
+	| null
 
-export type ModalProps = {
-	type: ModalType
-	openModal: (e, { type, item, folderId }: openModalProps) => void
-	closeModal: (e?: any) => void
-	item?: Task | Folder
-	folderId?: string
-	mode: ModalMode
-	onSubmit?: () => void
-	onCancel?: () => void
-	onError?: () => void
+export interface Modal {
+	open: (() => void) | null
+	close: (() => void) | null
+	isOpen: boolean
 }
 
-export type openModalOptions = {
-	type?: ModalType
-	item?: Task | Folder
-	folderId?: string
-	mode?: ModalMode
-	defaultModal?: boolean
-	content?: React.ReactNode
-	onSubmit?: () => void
-	onCancel?: () => void
-	onError?: () => void
+export interface Modals {
+	folder: Modal
+	task: Modal
+	delete: Modal
 }
 
-export type openModalFC = (
-	e?: any,
-	{ type, item, folderId, onSubmit, onCancel, onError }: openModalOptions
+export type ModalKey = keyof Modals
+export type ModalFn = (key: ModalKey) => void
+export type SetModalFn = (
+	key: ModalKey,
+	{
+		open,
+		close
+	}: {
+		open: () => void
+		close: () => void
+	}
 ) => void
 
-export type DeleteItemProps = {
-	item: Task | Folder
-	type?: ModalType
-}
-
-export type NotificationTypes = 'TIME' | 'DATE_TIME'
+export type NotificationType = 'TIME' | 'DATE_TIME'
