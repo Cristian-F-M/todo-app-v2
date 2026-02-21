@@ -1,6 +1,6 @@
 import { useColorScheme } from 'nativewind'
 import { useCallback, useState } from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, ScrollView, Text, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import Animated, {
 	FadeInRight,
@@ -9,52 +9,46 @@ import Animated, {
 } from 'react-native-reanimated'
 import { DropdownMenu } from '@/components/Dropdown'
 import { DropdownOption } from '@/components/DropdownOption'
-import { useModal } from '@/context/Modal'
 import Edit from '@/icons/Edit'
 import MoreVertical from '@/icons/MoreVertical'
 import Trash from '@/icons/Trash'
+import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import type { Task } from '@/types/Task'
+import { removeNotification } from '@/utils/notifications'
 import { getConfig } from '@/utils/settings'
-import { DeleteItem } from './DeleteItem'
 
 export function TaskItem({ task }: { task: Task }) {
-	const { openModal } = useModal()
+	const { openModal, setItem } = useModal()
 	const [dropdownVisible, setDropdownVisible] = useState(false)
 	const [isChecked, setIsChecked] = useState(task.isCompleted)
 	const { delete: deleteTask, update } = useTask()
 	const { colorScheme } = useColorScheme()
 
-	const handleOpenDropdown = () => {
+	const handleOpenDropdown = useCallback(() => {
 		setDropdownVisible(true)
-	}
+	}, [])
 
-	const handleCloseDropdown = () => {
+	const handleCloseDropdown = useCallback(() => {
 		setDropdownVisible(false)
-	}
+	}, [])
 
-	const handleEditTask = (e?: any) => {
-		openModal(e, {
-			item: task,
-			type: 'TASK',
-			mode: 'EDIT'
-		})
-	}
+	const handleEditTask = useCallback(() => {
+		setItem({ type: 'TASK', data: task })
+		openModal('task')
+	}, [openModal, setItem, task])
 
-	const handleDeleteTask = async (e?: any) => {
+	const handleDeleteTask = useCallback(async () => {
 		const confirmDeleteFolder = await getConfig({ name: 'confirmDeleteTask' })
 
 		if (!confirmDeleteFolder) {
-			return deleteTask(task.id)
+			deleteTask(task.id)
+			removeNotification(task.notificationId ?? '')
+			return
 		}
-
-		openModal(e, {
-			defaultModal: false,
-			type: 'TASK',
-			item: task,
-			content: <DeleteItem item={task} type="TASK" />
-		})
-	}
+		setItem({ type: 'TASK', data: task })
+		openModal('delete')
+	}, [deleteTask, openModal, setItem, task])
 
 	const handleCompleteTask = useCallback(() => {
 		setIsChecked((prev) => {
@@ -86,12 +80,18 @@ export function TaskItem({ task }: { task: Task }) {
 						flexDirection: 'row'
 					}}
 				/>
-				<Text
-					className={`text-lg ${isChecked ? 'opacity-75 dark:text-gray-400 text-gray-600' : 'dark:text-gray-300 text-gray-800'}`}
-					onPress={handleCompleteTask}
+				<ScrollView
+					showsVerticalScrollIndicator={false}
+					nestedScrollEnabled
+					style={{ maxHeight: 80 }}
 				>
-					{task.name}
-				</Text>
+					<Text
+						className={`text-lg h-full ${isChecked ? 'opacity-75 dark:text-gray-400 text-gray-600' : 'dark:text-gray-300 text-gray-800'}`}
+						onPress={handleCompleteTask}
+					>
+						{task.name}
+					</Text>
+				</ScrollView>
 			</View>
 
 			<DropdownMenu

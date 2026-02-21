@@ -10,50 +10,43 @@ import Animated, {
 import { DeleteItem } from '@/components/DeleteItem'
 import { DropdownMenu } from '@/components/Dropdown'
 import { DropdownOption } from '@/components/DropdownOption'
-import { useModal } from '@/context/Modal'
 import Edit from '@/icons/Edit'
 import Folder from '@/icons/Folder'
 import MoreVertical from '@/icons/MoreVertical'
 import Trash from '@/icons/Trash'
 import useFolder from '@/state/Folder'
+import { useModal } from '@/state/modal'
 import type { Folder as FolderType } from '@/types/Folder'
 import { getConfig } from '@/utils/settings'
 
 export function FolderItem({ folder }: { folder: FolderType }) {
 	const [dropDownVisible, setDropDownVisible] = useState(false)
-	const { openModal } = useModal()
+	const { openModal, setItem } = useModal()
 	const { delete: deleteFolder } = useFolder()
 
-	const openDropdown = (e?: any) => {
+	const openDropdown = useCallback(() => {
 		setDropDownVisible(true)
-	}
+	}, [])
 
-	const openEditModal = (e?: any) => {
-		openModal(e, {
-			type: 'FOLDER',
-			mode: 'EDIT',
-			item: folder
-		})
-	}
+	const closeDropdown = useCallback(() => {
+		setDropDownVisible(false)
+	}, [])
 
-	const handleClickDeleteFolder = async () => {
+	const openEditModal = useCallback(() => {
+		setItem({ type: 'FOLDER', data: folder })
+		openModal('folder')
+	}, [folder, openModal, setItem])
+
+	const handleClickDeleteFolder = useCallback(async () => {
 		const confirmDeleteFolder = await getConfig({ name: 'confirmDeleteFolder' })
 
 		if (!confirmDeleteFolder) {
 			return deleteFolder(folder.id)
 		}
 
-		openModal(null, {
-			type: 'FOLDER',
-			item: folder,
-			defaultModal: false,
-			content: <DeleteItem item={folder} type="FOLDER" />
-		})
-	}
-
-	const closeDropdown = (e?: any) => {
-		setDropDownVisible(false)
-	}
+		setItem({ type: 'FOLDER', data: folder })
+		openModal('delete')
+	}, [deleteFolder, folder, openModal, setItem])
 
 	const { colorScheme } = useColorScheme()
 
