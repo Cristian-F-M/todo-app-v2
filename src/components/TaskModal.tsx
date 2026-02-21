@@ -1,4 +1,3 @@
-import * as Notifications from 'expo-notifications'
 import { useColorScheme } from 'nativewind'
 import { useCallback, useMemo, useState } from 'react'
 import { Pressable, Text, TextInput, View } from 'react-native'
@@ -47,10 +46,7 @@ export function TaskModal() {
 		if (notificate)
 			notificationId = await sendNotification({
 				title: textInput,
-				trigger: {
-					type: Notifications.SchedulableTriggerInputTypes.DATE,
-					date
-				}
+				trigger: { date }
 			})
 
 		// TODO: Use zod
@@ -95,14 +91,11 @@ export function TaskModal() {
 		timeValue
 	])
 
-	const handleChangeNotificationType = useCallback(
-		(type: NotificationType) => {
-			setTimeValue({ hours: 0, minutes: 0 })
-			setDateTimeValue(new Date())
-			setNotificationType(type)
-		},
-		[]
-	)
+	const handleChangeNotificationType = useCallback((type: NotificationType) => {
+		setTimeValue({ hours: 0, minutes: 0 })
+		setDateTimeValue(new Date())
+		setNotificationType(type)
+	}, [])
 
 	const handleSetNotificate = useCallback((active: boolean) => {
 		setNotificate(active)
