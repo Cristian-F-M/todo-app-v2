@@ -1,6 +1,6 @@
 import type { TextInputProps } from 'react-native'
 
-export type TypeConfig = 'switch' | 'text' | 'other'
+export type TypeConfig = 'switch' | 'text' | 'other' | 'modal'
 
 export interface ConfigRowBaseProps {
 	text: string
@@ -25,10 +25,22 @@ export interface ConfigRowSwitchProps {
 	onChangeValue: (value: boolean) => void
 }
 
+export interface ConfigRowModalProps {
+	typeConfig: Extract<TypeConfig, 'modal'>
+	children: React.ReactNode
+	modalContent: React.ReactNode
+	modalRef: React.RefObject<Modalize | null>
+}
+
 export interface ConfigRowOtherProps {
 	typeConfig: Extract<TypeConfig, 'other'>
 	children: React.ReactNode
 }
 
 export type ConfigRowProps = ConfigRowBaseProps &
-	(ConfigRowTextProps | ConfigRowSwitchProps | ConfigRowOtherProps)
+	(
+		| ConfigRowTextProps
+		| ConfigRowSwitchProps
+		| ConfigRowOtherProps
+		| ConfigRowModalProps
+	)
