@@ -18,13 +18,9 @@ import { CheckboxNotificationGroup } from './CheckboxNotificationGroup'
 import { DateTimePicker } from './DateTimePicker/DateTimePicker'
 import { StyledPressable } from './StyledPressable'
 
-interface TaskModalProps {
-	folderId: string
-}
-
-export function TaskModal({ folderId }: TaskModalProps) {
+export function TaskModal() {
 	const { colorScheme } = useColorScheme()
-	const { item, closeModal } = useModal()
+	const { item, closeModal, folderId } = useModal()
 	const { update, create } = useTask()
 	const [error, setError] = useState<string | null>(null)
 	const [textInput, setTextInput] = useState<string>(item?.data.name || '')
@@ -71,6 +67,8 @@ export function TaskModal({ folderId }: TaskModalProps) {
 
 			return
 		}
+
+		if (!folderId) return
 
 		const newTask = {
 			id: uuid.v4(),
