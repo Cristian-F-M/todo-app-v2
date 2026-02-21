@@ -1,3 +1,4 @@
+import * as Notifications from 'expo-notifications'
 import { useColorScheme } from 'nativewind'
 import { useCallback, useMemo, useState } from 'react'
 import { Pressable, Text, TextInput, View } from 'react-native'
@@ -11,7 +12,8 @@ import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import type { NotificationTypes } from '@/types/Modal'
 import type { TimeValueType } from '@/types/TimePicker'
-import { formatDateString } from '@/utils/DateTime'
+import { formatDateString, sumDate } from '@/utils/DateTime'
+import { removeNotification, sendNotification } from '@/utils/notifications'
 import { CheckboxNotificationGroup } from './CheckboxNotificationGroup'
 import { DateTimePicker } from './DateTimePicker/DateTimePicker'
 import { StyledPressable } from './StyledPressable'
@@ -39,7 +41,22 @@ export function TaskModal({ folderId }: TaskModalProps) {
 	const modalTitle = thereIsItem ? 'Editar tarea' : 'Crear tarea'
 	const pressableText = thereIsItem ? 'Guardar' : 'Agregar'
 
-	const handleSubmit = useCallback(() => {
+	const handleSubmit = useCallback(async () => {
+		const date =
+			notificationType === 'DATE_TIME'
+				? dateTimeValue
+				: sumDate(dateTimeValue, timeValue)
+
+		let notificationId: string | null = null
+		if (notificate)
+			notificationId = await sendNotification({
+				title: textInput,
+				trigger: {
+					type: Notifications.SchedulableTriggerInputTypes.DATE,
+					date
+				}
+			})
+
 		// TODO: Use zod
 		if (textInput.trim() === '') {
 			setError('El nombre de la carpeta no puede estar vacío')
@@ -47,8 +64,11 @@ export function TaskModal({ folderId }: TaskModalProps) {
 		}
 
 		if (thereIsItem && item.type === 'TASK') {
-			update({ ...item.data, name: textInput })
+			if (notificate) removeNotification(item.data.notificationId ?? '')
+
+			update({ ...item.data, name: textInput, notificationId })
 			closeModal('task')
+
 			return
 		}
 
@@ -56,13 +76,26 @@ export function TaskModal({ folderId }: TaskModalProps) {
 			id: uuid.v4(),
 			name: textInput,
 			folderId,
-			isCompleted: false
+			isCompleted: false,
+			notificationId
 		}
 
 		create(newTask)
 
 		closeModal('task')
-	}, [thereIsItem, textInput, update, create, item, closeModal, folderId])
+	}, [
+		thereIsItem,
+		textInput,
+		update,
+		create,
+		item,
+		closeModal,
+		folderId,
+		notificate,
+		dateTimeValue,
+		notificationType,
+		timeValue
+	])
 
 	const handleChangeNotificationType = useCallback(
 		(type: NotificationTypes) => {
