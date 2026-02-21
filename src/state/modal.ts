@@ -1,4 +1,3 @@
-import type { Modalize } from 'react-native-modalize'
 import { create } from 'zustand'
 import type { Folder } from '@/types/Folder'
 import type { Task } from '@/types/Task'
@@ -9,7 +8,8 @@ type Item =
 	| null
 
 interface Modal {
-	ref: React.RefObject<Modalize | null> | null
+	open: (() => void) | null
+	close: (() => void) | null
 	isOpen: boolean
 }
 
@@ -24,44 +24,69 @@ interface ModalState {
 	modals: Modals
 	openModal: (key: keyof Modals) => void
 	closeModal: (key: keyof Modals) => void
-	setModal: (key: keyof Modals, ref: Modal['ref']) => void
+	setModal: (
+		key: keyof Modals,
+		{
+			open,
+			close
+		}: {
+			open: () => void
+			close: () => void
+		}
+	) => void
 	setItem: (item: Item) => void
+	folderId: string | null
+	setFolderId: (folderId: string | null) => void
 }
 
 export const useModal = create<ModalState>()((set, get) => ({
 	modals: {
 		folder: {
 			isOpen: false,
-			ref: null
+			open: null,
+			close: null
 		},
 		task: {
 			isOpen: false,
-			ref: null
+			open: null,
+			close: null
 		},
 		delete: {
 			isOpen: false,
-			ref: null
+			open: null,
+			close: null
 		}
 	},
 	item: null,
-	setModal: (key: keyof Modals, ref: Modal['ref']) => {
+	folderId: null,
+	setFolderId: (folderId: string | null) => set({ folderId }),
+	setModal: (
+		key: keyof Modals,
+		{
+			open,
+			close
+		}: {
+			open: () => void
+			close: () => void
+		}
+	) => {
 		const { modals } = get()
 		const modal = modals[key]
 
-		set({ modals: { ...modals, [key]: { ...modal, ref } } })
+		set({ modals: { ...modals, [key]: { ...modal, open, close } } })
 	},
 	setItem: (item: Item) => set({ item }),
 	openModal: (key: keyof Modals) => {
 		const { modals } = get()
 		const modal = modals[key]
-		modal.ref?.current?.open()
+		modal.open?.()
 
 		set({ modals: { ...modals, [key]: { ...modal, isOpen: true } } })
 	},
 	closeModal: (key: keyof Modals) => {
 		const { modals } = get()
 		const modal = modals[key]
-		modal.ref?.current?.close()
+		modal.close?.()
 
 		set({ modals: { ...modals, [key]: { ...modal, isOpen: false } } })
 	}
