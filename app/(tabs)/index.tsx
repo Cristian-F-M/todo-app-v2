@@ -19,7 +19,7 @@ import { FolderItem } from '@/components/FolderItem'
 import { FolderModal } from '@/components/FolderModal'
 import { Header } from '@/components/Header'
 import { Loader } from '@/components/Loader'
-import { Modal2 } from '@/components/Modal2'
+import { Modal } from '@/components/Modal'
 import { NoFolders } from '@/components/NoFolders'
 import { Screen } from '@/components/Screen'
 import { StyledPressable } from '@/components/StyledPressable'
@@ -96,13 +96,13 @@ export default function Index() {
 				</View>
 			)}
 
-			<Modal2 modalRef={modalRef}>
+			<Modal modalRef={modalRef}>
 				<FolderModal handleClose={() => modalRef.current?.close()} />
-			</Modal2>
+			</Modal>
 
-			<Modal2 modalRef={deleteModalRef}>
+			<Modal modalRef={deleteModalRef}>
 				<DeleteModal />
-			</Modal2>
+			</Modal>
 		</Screen>
 	)
 }

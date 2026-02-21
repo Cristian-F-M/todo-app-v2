@@ -6,14 +6,14 @@ import { Animated, FlatList, Text, useAnimatedValue, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import type { Modalize } from 'react-native-modalize'
 import { Folder404 } from '@/components/Folder404'
-import { Modal2 } from '@/components/Modal2'
+import { Modal } from '@/components/Modal'
 import { NoTasks } from '@/components/NoTasks'
 import { Screen } from '@/components/Screen'
 import { StyledPressable } from '@/components/StyledPressable'
 import { TaskItem } from '@/components/TaskItem'
 import { TaskModal } from '@/components/TaskModal'
 import useFolder from '@/state/Folder'
-import { useModal as useModal2 } from '@/state/modal'
+import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 
 export default function Folder() {
@@ -21,7 +21,7 @@ export default function Folder() {
 	const { colorScheme } = useColorScheme()
 	const { getTasksByFolderId, getById } = useFolder()
 	const { tasks: tasksFromContext } = useTask()
-	const { modals, setModal, openModal } = useModal2()
+	const { modals, setModal, openModal } = useModal()
 	const modalRef = useRef<Modalize>(null)
 	const folderId = id as string
 	const folder = getById(folderId)
@@ -131,9 +131,9 @@ export default function Folder() {
 					</ScrollView>
 				</View>
 			)}
-			<Modal2 modalRef={modalRef}>
+			<Modal modalRef={modalRef}>
 				<TaskModal folderId={folderId} />
-			</Modal2>
+			</Modal>
 		</Screen>
 	)
 }
