@@ -1,3 +1,4 @@
+import { useColorScheme } from 'nativewind'
 import { useEffect, useId, useMemo } from 'react'
 import { View } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
@@ -12,6 +13,7 @@ import Animated, {
 import type { DecayConfig } from 'react-native-reanimated/lib/typescript/animation/decay/utils'
 import { scheduleOnRN } from 'react-native-worklets'
 import { twMerge } from 'tailwind-merge'
+import { useTheme } from '@/state/theme'
 import type { WheelPickerProps } from '@/types/wheelPicker'
 import { WheelItem } from './WheelPickerItem'
 import { WheelPickerLabel } from './WheelPickerLabel'
@@ -39,6 +41,7 @@ export function WheelPicker({
 	const containerHeight = itemHeight * visibleItems
 	const maxTranslateY = 0
 	const minTranslateY = -(items.length - 1) * itemHeight
+	const { colorScheme } = useColorScheme()
 
 	const gesture = Gesture.Pan()
 		.onStart(() => {
@@ -107,14 +110,18 @@ export function WheelPicker({
 
 			<View
 				className={twMerge(
-					'overflow-hidden w-full rounded-lg border bg-resalt/40 border-resalt/70 dark:border-resalt/80 dark:bg-resalt/60',
+					'overflow-hidden w-full rounded-lg border-2 bg-[#c7ddf2] dark:bg-[#16222e]',
 					label && classNamesWithLabel
 				)}
-				style={{ height: containerHeight }}
+				style={{
+					height: containerHeight,
+					borderColor: colorScheme === 'light' ? '#a6c9ed' : '#263a4f',
+					borderWidth: 6
+				}}
 			>
 				{/* <selected-item-indicator /> */}
 				<View
-					className="absolute border-t border-b border-resalt bg-black/10 dark:bg-white/10"
+					className="absolute border-t border-b border-[#8da8c2] dark:border-resalt bg-[#9fbbd6] dark:bg-[#0f2e49]"
 					style={{
 						left: 0,
 						right: 0,
