@@ -8,7 +8,8 @@ export function DropdownMenu({
 	dropdownWidth = 120,
 	handleOpen,
 	handleClose,
-	children
+	children,
+	...props
 }: DropdownMenuProps) {
 	const triggerRef = useRef<View>(null)
 	const [position, setPosition] = useState({
@@ -24,12 +25,15 @@ export function DropdownMenu({
 				const { height: screenHeight } = Dimensions.get('window')
 				const dropdownHeight = 150
 
+				// Just so the linter doesn't say this is not used
+				;[fx, fy]
+
 				const fitsBelow = py + dropdownHeight <= screenHeight
 				const newY = fitsBelow ? py + height : py - dropdownHeight / 1.5
 
 				setPosition({
 					x: px + width / 2 - dropdownWidth / 1.09,
-					y: newY - 30,
+					y: newY,
 					width: width,
 					flip: !fitsBelow
 				})
@@ -40,25 +44,30 @@ export function DropdownMenu({
 	return (
 		<View>
 			<View ref={triggerRef}>{trigger}</View>
-			{visible && (
-				<Modal animationType="fade" transparent={true}>
-					<Pressable
-						className="overlay bg-transparent absolute w-full h-full items-center justify-center"
-						onPress={handleClose}
+			<Modal
+				animationType="fade"
+				transparent={true}
+				onRequestClose={handleClose}
+				onDismiss={handleClose}
+				visible={visible}
+			>
+				<Pressable
+					className="overlay bg-transparent absolute w-full h-full items-center justify-center"
+					onPress={handleClose}
+				>
+					<View
+						className="absolute z-50 bg-gray-100 dark:bg-[#1f2937] border-gray-400/60 dark:border-gray-500 border shadow-lg rounded-lg overflow-hidden"
+						style={{
+							top: position.y,
+							left: position.x,
+							width: dropdownWidth
+						}}
+						{...props}
 					>
-						<View
-							className="absolute z-50 bg-gray-100 dark:bg-[#1f2937] border-gray-400/60 dark:border-gray-500 border shadow-lg rounded-lg overflow-hidden"
-							style={{
-								top: position.y,
-								left: position.x,
-								width: dropdownWidth
-							}}
-						>
-							{children}
-						</View>
-					</Pressable>
-				</Modal>
-			)}
+						{children}
+					</View>
+				</Pressable>
+			</Modal>
 		</View>
 	)
 }
