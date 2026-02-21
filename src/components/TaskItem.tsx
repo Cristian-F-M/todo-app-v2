@@ -11,11 +11,11 @@ import { DropdownOption } from '@/components/DropdownOption'
 import Edit from '@/icons/Edit'
 import MoreVertical from '@/icons/MoreVertical'
 import Trash from '@/icons/Trash'
+import { useConfig } from '@/state/config'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import type { Task } from '@/types/task'
 import { removeNotification } from '@/utils/notifications'
-import { getConfig } from '@/utils/settings'
 import { Checkbox } from './Checkbox'
 
 export function TaskItem({ task }: { task: Task }) {
@@ -24,6 +24,7 @@ export function TaskItem({ task }: { task: Task }) {
 	const [isChecked, setIsChecked] = useState(task.isCompleted)
 	const { delete: deleteTask, update } = useTask()
 	const { colorScheme } = useColorScheme()
+	const { configs } = useConfig()
 
 	const handleOpenDropdown = useCallback(() => {
 		setDropdownVisible(true)
@@ -39,16 +40,16 @@ export function TaskItem({ task }: { task: Task }) {
 	}, [openModal, setItem, task])
 
 	const handleDeleteTask = useCallback(async () => {
-		const confirmDeleteFolder = await getConfig({ name: 'confirmDeleteTask' })
+		const { confirmDeleteTask } = configs
 
-		if (!confirmDeleteFolder) {
+		if (!confirmDeleteTask) {
 			deleteTask(task.id)
 			removeNotification(task.notificationId ?? '')
 			return
 		}
 		setItem({ type: 'TASK', data: task })
 		openModal('delete')
-	}, [deleteTask, openModal, setItem, task])
+	}, [deleteTask, openModal, setItem, task, configs])
 
 	const handleCompleteTask = useCallback(() => {
 		const newValue = !isChecked

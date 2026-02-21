@@ -7,22 +7,22 @@ import Animated, {
 	FadeOutLeft,
 	LinearTransition
 } from 'react-native-reanimated'
-import { DeleteItem } from '@/components/DeleteItem'
 import { DropdownMenu } from '@/components/Dropdown'
 import { DropdownOption } from '@/components/DropdownOption'
 import Edit from '@/icons/Edit'
 import Folder from '@/icons/Folder'
 import MoreVertical from '@/icons/MoreVertical'
 import Trash from '@/icons/Trash'
+import { useConfig } from '@/state/config'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import type { Folder as FolderType } from '@/types/folder'
-import { getConfig } from '@/utils/settings'
 
 export function FolderItem({ folder }: { folder: FolderType }) {
 	const [dropDownVisible, setDropDownVisible] = useState(false)
 	const { openModal, setItem } = useModal()
 	const { delete: deleteFolder } = useFolder()
+	const { configs } = useConfig()
 
 	const openDropdown = useCallback(() => {
 		setDropDownVisible(true)
@@ -38,7 +38,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 	}, [folder, openModal, setItem])
 
 	const handleClickDeleteFolder = useCallback(async () => {
-		const confirmDeleteFolder = await getConfig({ name: 'confirmDeleteFolder' })
+		const { confirmDeleteFolder } = configs
 
 		if (!confirmDeleteFolder) {
 			return deleteFolder(folder.id)
@@ -46,7 +46,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 
 		setItem({ type: 'FOLDER', data: folder })
 		openModal('delete')
-	}, [deleteFolder, folder, openModal, setItem])
+	}, [deleteFolder, folder, openModal, setItem, configs])
 
 	const { colorScheme } = useColorScheme()
 
