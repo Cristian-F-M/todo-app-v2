@@ -13,7 +13,7 @@ export function WheelPickerLabel({
 	return (
 		<View
 			className={twMerge(
-				'flex justify-center items-center bg-white py-1 h-8',
+				'flex justify-center items-center bg-resalt/40 dark:bg-resalt/60 py-1 h-8',
 				position === 'top'
 					? 'mb-2 rounded-tl-lg rounded-tr-lg'
 					: 'mt-2 rounded-bl-lg rounded-br-lg',
@@ -21,7 +21,9 @@ export function WheelPickerLabel({
 			)}
 			{...props}
 		>
-			<Text className="font-medium  text-gray-600">{label}</Text>
+			<Text className="font-medium dark:text-gray-300 text-gray-700">
+				{label}
+			</Text>
 		</View>
 	)
 }

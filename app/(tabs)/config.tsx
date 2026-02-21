@@ -127,7 +127,7 @@ export default function ConfigPage() {
 
 			<Modal modalRef={modalRef}>
 				<View className="flex flex-col items-center justify-center py-4 px-6 gap-y-3">
-					<Text className="text-white text-2xl font-bold mb-5">
+					<Text className="dark:text-gray-300 text-gray-700 text-2xl font-bold mb-5">
 						Selecciona un tema
 					</Text>
 					<View className="w-44">

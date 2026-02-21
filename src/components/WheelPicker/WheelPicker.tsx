@@ -107,14 +107,14 @@ export function WheelPicker({
 
 			<View
 				className={twMerge(
-					'overflow-hidden w-full rounded-lg border border-gray-200 bg-white',
+					'overflow-hidden w-full rounded-lg border bg-resalt/40 border-resalt/70 dark:border-resalt/80 dark:bg-resalt/60',
 					label && classNamesWithLabel
 				)}
 				style={{ height: containerHeight }}
 			>
 				{/* <selected-item-indicator /> */}
 				<View
-					className="absolute border-t border-b border-gray-200 bg-black/5"
+					className="absolute border-t border-b border-resalt bg-black/10 dark:bg-white/10"
 					style={{
 						left: 0,
 						right: 0,

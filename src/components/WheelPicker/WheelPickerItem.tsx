@@ -48,7 +48,7 @@ export function WheelItem({
 			className="flex justify-center items-center"
 			style={[{ height: itemHeight }, animatedStyle]}
 		>
-			<Text className="text-gray-700 font-medium text-lg">{label}</Text>
+			<Text className="text-gray-800 dark:text-white font-medium text-lg">{label}</Text>
 		</Animated.View>
 	)
 }
