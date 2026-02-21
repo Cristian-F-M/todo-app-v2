@@ -10,7 +10,9 @@ export function DropdownOption({
 	textClassName,
 	icon,
 	iconProps,
-	handleClose
+	handleClose,
+	handleOpen,
+	...props
 }: DropdownOptionProps) {
 	const Icon = icon
 
@@ -26,6 +28,7 @@ export function DropdownOption({
 				className
 			)}
 			onPress={handlePress}
+			{...props}
 		>
 			<View className="w-full h-full px-5 py-2 flex flex-row items-center justify-center gap-x-1">
 				{Icon && <Icon width={20} height={20} {...iconProps} />}
