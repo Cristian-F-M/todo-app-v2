@@ -1,11 +1,11 @@
 import { useCallback } from 'react'
 import { Text, View } from 'react-native'
-import type { NotificationTypes } from '@/types/Modal'
+import type { NotificationType } from '@/types/modal'
 import { Checkbox } from './Checkbox'
 
 interface CheckboxNotificationGroupProps {
-	notificationType: NotificationTypes
-	onChange: (notificationType: NotificationTypes) => void
+	notificationType: NotificationType
+	onChange: (notificationType: NotificationType) => void
 }
 
 export function CheckboxNotificationGroup({
@@ -13,7 +13,7 @@ export function CheckboxNotificationGroup({
 	onChange
 }: CheckboxNotificationGroupProps) {
 	const handleChangeNotificationType = useCallback(
-		(type: NotificationTypes) => {
+		(type: NotificationType) => {
 			if (type === notificationType) return
 
 			onChange(type)

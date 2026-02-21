@@ -10,7 +10,7 @@ import { TimePicker } from '@/components/TimePicker/TimePicker'
 import Bell from '@/icons/Bell'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
-import type { NotificationTypes } from '@/types/Modal'
+import type { NotificationType } from '@/types/modal'
 import type { TimeValueType } from '@/types/TimePicker'
 import { formatDateString, sumDate } from '@/utils/DateTime'
 import { removeNotification, sendNotification } from '@/utils/notifications'
@@ -26,7 +26,7 @@ export function TaskModal() {
 	const [textInput, setTextInput] = useState<string>(item?.data.name || '')
 	const [notificate, setNotificate] = useState(false)
 	const [notificationType, setNotificationType] =
-		useState<NotificationTypes>('TIME')
+		useState<NotificationType>('TIME')
 	const [timeValue, setTimeValue] = useState<TimeValueType>({
 		hours: 0,
 		minutes: 0
@@ -96,7 +96,7 @@ export function TaskModal() {
 	])
 
 	const handleChangeNotificationType = useCallback(
-		(type: NotificationTypes) => {
+		(type: NotificationType) => {
 			setTimeValue({ hours: 0, minutes: 0 })
 			setDateTimeValue(new Date())
 			setNotificationType(type)
