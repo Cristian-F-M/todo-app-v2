@@ -1,4 +1,3 @@
-import { Picker } from '@react-native-picker/picker'
 import { Stack } from 'expo-router'
 import { useColorScheme } from 'nativewind'
 import {
@@ -8,10 +7,13 @@ import {
 	useRef,
 	useState
 } from 'react'
-import { Pressable, ScrollView, View } from 'react-native'
+import { Pressable, ScrollView, Text, View } from 'react-native'
+import type { Modalize } from 'react-native-modalize'
 import { ConfigCard } from '@/components/ConfigCard'
 import { ConfigRow } from '@/components/ConfigRow'
+import { Modal } from '@/components/Modal'
 import { Screen } from '@/components/Screen'
+import { WheelPicker } from '@/components/WheelPicker/WheelPicker'
 import { useConfig } from '@/state/config'
 import { useTheme } from '@/state/theme'
 import type { ThemeString } from '@/types/theme'
@@ -36,7 +38,6 @@ export default function ConfigPage() {
 		setSelectedTheme(theme)
 	}, [theme])
 
-	const pickerRef = useRef<Picker<ThemeString>>(null)
 	const handleChangeColorScheme = useCallback(
 		(itemValue: ThemeString) => {
 			setTheme(itemValue)
@@ -53,6 +54,8 @@ export default function ConfigPage() {
 		},
 		[configs, setConfigs]
 	)
+
+	const modalRef = useRef<Modalize>(null)
 
 	return (
 		<Screen safeArea={false}>
@@ -74,35 +77,14 @@ export default function ConfigPage() {
 						text={'Tema'}
 						description="Define el tema de la aplicación."
 						typeConfig="other"
-						// value={{
-						// 	value: configs,
-						// 	setValue: setConfigs,
-						// 	valueKey: 'colorScheme'
-						// }}
 					>
 						<View className="">
 							<Pressable
 								className="p-2 rounded-lg dark:bg-blue-600 bg-blue-400 active:dark:bg-blue-400 active:bg-blue-300 w-12 items-center justify-center self-end mr-1"
-								onPress={() => pickerRef.current?.focus()}
+								onPress={() => modalRef.current?.open()}
 							>
 								{<ThemeIcon color={colorScheme === 'dark' ? '#fff' : '#000'} />}
 							</Pressable>
-							<Picker
-								style={{ display: 'none' }}
-								className="hidden"
-								ref={pickerRef}
-								selectedValue={selectedTheme}
-								onValueChange={handleChangeColorScheme}
-								mode="dialog"
-							>
-								{Object.entries(THEMES).map(([key, theme]) => (
-									<Picker.Item
-										key={key}
-										label={theme.label}
-										value={theme.value}
-									/>
-								))}
-							</Picker>
 						</View>
 					</ConfigRow>
 				</ConfigCard>
@@ -142,6 +124,26 @@ export default function ConfigPage() {
 					/>
 				</ConfigCard>
 			</ScrollView>
+
+			<Modal modalRef={modalRef}>
+				<View className="flex flex-col items-center justify-center py-4 px-6 gap-y-3">
+					<Text className="text-white text-2xl font-bold mb-5">
+						Selecciona un tema
+					</Text>
+					<View className="w-44">
+						<WheelPicker
+							items={Object.values(THEMES).map((theme) => ({
+								label: theme.label,
+								value: theme.value
+							}))}
+							selectedValue={theme}
+							onValueChange={(theme: string) => {
+								handleChangeColorScheme(theme as ThemeString)
+							}}
+						/>
+					</View>
+				</View>
+			</Modal>
 		</Screen>
 	)
 }
