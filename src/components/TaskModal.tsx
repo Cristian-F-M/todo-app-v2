@@ -18,12 +18,11 @@ import { StyledPressable } from './StyledPressable'
 
 interface TaskModalProps {
 	folderId: string
-	handleClose: () => void
 }
 
-export function TaskModal({ folderId, handleClose }: TaskModalProps) {
+export function TaskModal({ folderId }: TaskModalProps) {
 	const { colorScheme } = useColorScheme()
-	const { item } = useModal()
+	const { item, closeModal } = useModal()
 	const { update, create } = useTask()
 	const [error, setError] = useState<string | null>(null)
 	const [textInput, setTextInput] = useState<string>(item?.data.name || '')
@@ -49,7 +48,7 @@ export function TaskModal({ folderId, handleClose }: TaskModalProps) {
 
 		if (thereIsItem && item.type === 'TASK') {
 			update({ ...item.data, name: textInput })
-			handleClose()
+			closeModal('task')
 			return
 		}
 
@@ -62,8 +61,8 @@ export function TaskModal({ folderId, handleClose }: TaskModalProps) {
 
 		create(newTask)
 
-		handleClose()
-	}, [thereIsItem, textInput, update, create, item, handleClose, folderId])
+		closeModal('task')
+	}, [thereIsItem, textInput, update, create, item, closeModal, folderId])
 
 	const handleChangeNotificationType = useCallback(
 		(type: NotificationTypes) => {

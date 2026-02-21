@@ -131,10 +131,7 @@ export default function Folder() {
 				</View>
 			)}
 			<Modal2 modalRef={modalRef}>
-				<TaskModal
-					folderId={folderId}
-					handleClose={() => modalRef.current?.close()}
-				/>
+				<TaskModal folderId={folderId} />
 			</Modal2>
 		</Screen>
 	)
