@@ -5,7 +5,7 @@ import Sun from '@/icons/Sun'
 import type { Theme, ThemeString } from '@/types/theme'
 import { saveItem } from '@/utils/asyncStorage'
 
-export const THEMES: Record<ThemeString, Theme> = {
+export const THEMES = {
 	light: {
 		label: 'Claro',
 		value: 'light',
@@ -21,7 +21,7 @@ export const THEMES: Record<ThemeString, Theme> = {
 		value: 'system',
 		icon: Mobile
 	}
-}
+} satisfies Record<ThemeString, Theme>
 
 export function changeTheme(theme: ThemeString) {
 	const currentTheme = colorScheme.get() || 'system'
