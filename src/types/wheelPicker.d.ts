@@ -4,13 +4,13 @@ export type LabelPosition = 'top' | 'bottom'
 
 export interface WheelItem {
 	label: string
-	value: string | number
+	value: string
 }
 
 export interface WheelPickerProps {
 	items: WheelItem[]
 	selectedValue?: string | number
-	onValueChange?: (value: string | number) => void
+	onValueChange?: (value: WheelItem['value']) => void
 	itemHeight?: number
 	visibleItems?: number
 	label?: string
