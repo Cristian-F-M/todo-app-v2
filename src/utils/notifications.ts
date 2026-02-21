@@ -26,14 +26,9 @@ export async function getNotificationsPermissions(): Promise<{
 	const { status, canAskAgain, granted } =
 		await Notifications.getPermissionsAsync()
 
-	if (granted) {
-		return { status, canAskAgain, granted }
-	}
+	if (granted) return { status, canAskAgain, granted }
 
-	if (!granted && canAskAgain) {
-		const permissionResponse = await Notifications.requestPermissionsAsync()
-		return permissionResponse
-	}
+	if (!granted && canAskAgain) return getNotificationsPermissions()
 
 	if (!granted && !canAskAgain) {
 		ToastAndroid.show('Abriendo las configuraciones', ToastAndroid.SHORT)
