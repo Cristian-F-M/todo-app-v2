@@ -1,10 +1,19 @@
 import { useColorScheme } from 'nativewind'
-import { useCallback, useState } from 'react'
-import { Text, TextInput, View } from 'react-native'
+import { useCallback, useMemo, useState } from 'react'
+import { Pressable, Text, TextInput, View } from 'react-native'
+import { Switch } from 'react-native-gesture-handler'
+import Animated, { LinearTransition } from 'react-native-reanimated'
 import uuid from 'react-native-uuid'
 import { twMerge } from 'tailwind-merge'
+import { TimePicker } from '@/components/TimePicker/TimePicker'
+import Bell from '@/icons/Bell'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
+import type { NotificationTypes } from '@/types/Modal'
+import type { TimeValueType } from '@/types/TimePicker'
+import { formatDateString } from '@/utils/DateTime'
+import { CheckboxNotificationGroup } from './CheckboxNotificationGroup'
+import { DateTimePicker } from './DateTimePicker/DateTimePicker'
 import { StyledPressable } from './StyledPressable'
 
 interface TaskModalProps {
@@ -18,6 +27,14 @@ export function TaskModal({ folderId, handleClose }: TaskModalProps) {
 	const { update, create } = useTask()
 	const [error, setError] = useState<string | null>(null)
 	const [textInput, setTextInput] = useState<string>(item?.data.name || '')
+	const [notificate, setNotificate] = useState(false)
+	const [notificationType, setNotificationType] =
+		useState<NotificationTypes>('TIME')
+	const [timeValue, setTimeValue] = useState<TimeValueType>({
+		hours: 0,
+		minutes: 0
+	})
+	const [dateTimeValue, setDateTimeValue] = useState(new Date())
 
 	const thereIsItem = !!item
 	const modalTitle = thereIsItem ? 'Editar tarea' : 'Crear tarea'
@@ -47,6 +64,39 @@ export function TaskModal({ folderId, handleClose }: TaskModalProps) {
 
 		handleClose()
 	}, [thereIsItem, textInput, update, create, item, handleClose, folderId])
+
+	const handleChangeNotificationType = useCallback(
+		(type: NotificationTypes) => {
+			setTimeValue({ hours: 0, minutes: 0 })
+			setDateTimeValue(new Date())
+			setNotificationType(type)
+		},
+		[]
+	)
+
+	const handleSetNotificate = useCallback((active: boolean) => {
+		setNotificate(active)
+		if (!active) {
+			setTimeValue({ hours: 0, minutes: 0 })
+			setDateTimeValue(new Date())
+			setNotificationType('TIME')
+		}
+	}, [])
+
+	const notificationText = useMemo(() => {
+		if (notificationType === 'TIME') {
+			if (!timeValue.hours && !timeValue.minutes) return 'No te notificatemos.'
+			const hoursText = timeValue.hours
+				? `${timeValue.hours} hora(s)${timeValue.minutes ? ' y ' : ''}`
+				: ''
+			const minutesText = timeValue.minutes
+				? `${timeValue.minutes} minuto(s).`
+				: ''
+			return `Te notificatemos en: ${hoursText}${minutesText}`
+		}
+
+		return `Te notificatemos el: ${formatDateString(dateTimeValue)}`
+	}, [notificationType, timeValue, dateTimeValue])
 
 	return (
 		<View className="relative flex-1 mx-aito w-full px-4 py-6">
@@ -88,6 +138,72 @@ export function TaskModal({ folderId, handleClose }: TaskModalProps) {
 						{error}
 					</Text>
 				</View>
+
+				{/* <notification-container> */}
+				<Animated.View
+					layout={LinearTransition.duration(200)}
+					className={twMerge(
+						'dark:bg-blue-500/20 bg-blue-300/60 rounded-lg mt-4 overflow-hidden',
+						notificate && 'pb-4'
+					)}
+				>
+					{/* <header /> */}
+					<Pressable
+						onPress={() => handleSetNotificate(!notificate)}
+						className="flex flex-row gap-2 items-center justify-between px-2 py-0 w-full"
+					>
+						<View className="flex flex-row gap-2 items-center">
+							<Bell
+								color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
+								width={18}
+								height={18}
+							/>
+							<Text className="dark:text-white">Notificar</Text>
+						</View>
+						<Switch
+							trackColor={{ false: '#767577', true: '#2563eb' }}
+							thumbColor={'#fff'}
+							value={notificate}
+							onValueChange={handleSetNotificate}
+						/>
+					</Pressable>
+
+					{/* <main /> */}
+					{notificate && (
+						<View className="flex flex-row gap-x-4 mt-4 items-center justify-between rounded-lg px-3 py-1">
+							<View className="h-full w-1 rounded bg-blue-800"></View>
+							<View className="w-full flex-col pl-4 py-3">
+								<CheckboxNotificationGroup
+									notificationType={notificationType}
+									onChange={handleChangeNotificationType}
+								/>
+								<View className="mt-4">
+									{notificationType === 'TIME' && (
+										<TimePicker value={timeValue} onChange={setTimeValue} />
+									)}
+									{notificationType === 'DATE_TIME' && (
+										<DateTimePicker
+											value={dateTimeValue}
+											onValueChange={setDateTimeValue}
+										/>
+									)}
+								</View>
+								{/* <notificate-at-container> */}
+								<View className="mt-6 w-full flex flex-row gap-x-2 items-center dark:bg-resalt/20 bg-blue-500/50 px-3 py-2 rounded">
+									<Bell
+										color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
+										width={18}
+										height={18}
+									/>
+
+									<Text className="text-gray-200 text-sm mt-px flex-1">
+										{notificationText}
+									</Text>
+								</View>
+							</View>
+						</View>
+					)}
+				</Animated.View>
 				<View className="mt-2">
 					<StyledPressable
 						text={pressableText}
