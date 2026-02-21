@@ -17,6 +17,7 @@ import useTask from '@/state/Task'
 import type { Task } from '@/types/Task'
 import { removeNotification } from '@/utils/notifications'
 import { getConfig } from '@/utils/settings'
+import { Checkbox } from './Checkbox'
 
 export function TaskItem({ task }: { task: Task }) {
 	const { openModal, setItem } = useModal()
@@ -65,21 +66,9 @@ export function TaskItem({ task }: { task: Task }) {
 			entering={FadeInRight}
 			exiting={FadeOutLeft}
 		>
-			<View className="flex flex-row max-w-60 gap-x-3">
-				<BouncyCheckbox
-					isChecked={isChecked}
-					onPress={handleCompleteTask}
-					size={23}
-					text={task.name}
-					disableText
-					fillColor={colorScheme === 'dark' ? '#2563eb8f' : '#6b7280'}
-					unFillColor={colorScheme === 'dark' ? '#172554' : '#d1d5db'}
-					iconImageStyle={{ tintColor: '#fff' }}
-					textStyle={{
-						color: '#fff',
-						flexDirection: 'row'
-					}}
-				/>
+			<View className="flex flex-row max-w-60 gap-x-3 items-center">
+				<Checkbox value={isChecked} onValueChange={handleCompleteTask} />
+
 				<ScrollView
 					showsVerticalScrollIndicator={false}
 					nestedScrollEnabled
