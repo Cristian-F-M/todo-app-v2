@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { DEFAULT_MODALS } from '@/constants/modal'
 import type { ModalFn, ModalItem, Modals, SetModalFn } from '@/types/modal'
 
 interface ModalState {
@@ -13,23 +14,7 @@ interface ModalState {
 }
 
 export const useModal = create<ModalState>()((set, get) => ({
-	modals: {
-		folder: {
-			isOpen: false,
-			open: null,
-			close: null
-		},
-		task: {
-			isOpen: false,
-			open: null,
-			close: null
-		},
-		delete: {
-			isOpen: false,
-			open: null,
-			close: null
-		}
-	},
+	modals: DEFAULT_MODALS,
 	item: null,
 	folderId: null,
 	setFolderId: (folderId) => set({ folderId }),
