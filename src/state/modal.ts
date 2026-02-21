@@ -16,6 +16,7 @@ interface Modal {
 interface Modals {
 	folder: Modal
 	task: Modal
+	delete: Modal
 }
 
 interface ModalState {
@@ -34,6 +35,10 @@ export const useModal = create<ModalState>()((set, get) => ({
 			ref: null
 		},
 		task: {
+			isOpen: false,
+			ref: null
+		},
+		delete: {
 			isOpen: false,
 			ref: null
 		}
