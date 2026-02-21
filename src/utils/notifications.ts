@@ -2,17 +2,19 @@ import type { PermissionStatus } from 'expo-notifications'
 import * as Notifications from 'expo-notifications'
 import { Linking, ToastAndroid } from 'react-native'
 
-type SendNotificationFC = (
-	title: string,
-	body: string,
+type SendNotificationProps = {
+	title: string
+	body?: string
 	trigger: Notifications.SchedulableNotificationTriggerInput
-) => Promise<string>
+}
 
 const DEFAULT_NOTIFICATIONS_TRIGGER: Notifications.SchedulableNotificationTriggerInput =
 	{
 		type: Notifications.SchedulableTriggerInputTypes.DATE,
 		date: new Date()
 	}
+const DEFAULT_NOTIFICATION_BODY =
+	'Se ha cumplido el tiempo para completar tu tarea.'
 
 let openSettingsTimeout: null | NodeJS.Timeout | number = null
 
@@ -40,14 +42,16 @@ export async function getNotificationsPermissions(): Promise<{
 	return { status, canAskAgain, granted }
 }
 
-export const sendNotification: SendNotificationFC = async (
+export async function sendNotification({
 	title,
-	body,
+	body = DEFAULT_NOTIFICATION_BODY,
 	trigger = DEFAULT_NOTIFICATIONS_TRIGGER
-) => {
+}: SendNotificationProps) {
+	trigger = { ...DEFAULT_NOTIFICATIONS_TRIGGER, ...trigger }
+
 	const { granted } = await getNotificationsPermissions()
 
-	if (!granted) return ''
+	if (!granted) return null
 
 	const notificationId = await Notifications.scheduleNotificationAsync({
 		content: {
