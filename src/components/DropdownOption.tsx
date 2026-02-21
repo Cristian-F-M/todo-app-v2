@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 import type { DropdownOptionProps } from '@/types/dropdown'
@@ -13,10 +14,10 @@ export function DropdownOption({
 }: DropdownOptionProps) {
 	const Icon = icon
 
-	const onPressFC = (e?: any) => {
-		if (onPress) onPress(e)
-		handleClose(e)
-	}
+	const handlePress = useCallback(() => {
+		if (onPress) onPress()
+		handleClose()
+	}, [onPress, handleClose])
 
 	return (
 		<Pressable
@@ -24,7 +25,7 @@ export function DropdownOption({
 				'option flex-row items-center justify-between border-gray-500 p-1 active:dark:bg-gray-700 active:bg-blue-200',
 				className
 			)}
-			onPress={onPressFC}
+			onPress={handlePress}
 		>
 			<View className="w-full h-full px-5 py-2 flex flex-row items-center justify-center gap-x-1">
 				{Icon && <Icon width={20} height={20} {...iconProps} />}
