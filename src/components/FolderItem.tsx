@@ -16,7 +16,7 @@ import MoreVertical from '@/icons/MoreVertical'
 import Trash from '@/icons/Trash'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
-import type { Folder as FolderType } from '@/types/Folder'
+import type { Folder as FolderType } from '@/types/folder'
 import { getConfig } from '@/utils/settings'
 
 export function FolderItem({ folder }: { folder: FolderType }) {

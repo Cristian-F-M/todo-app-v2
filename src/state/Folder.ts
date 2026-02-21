@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import * as FolderDB from '@/database/querys/folder'
-import type { Folder } from '@/types/Folder'
-import type { Task } from '@/types/Task'
+import type { Folder } from '@/types/folder'
+import type { Task } from '@/types/task'
 import useTask from './Task'
 
 interface FolderState {

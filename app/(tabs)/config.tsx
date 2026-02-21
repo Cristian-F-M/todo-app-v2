@@ -14,9 +14,9 @@ import { ConfigRow } from '@/components/ConfigRow'
 import { Screen } from '@/components/Screen'
 import { useConfig } from '@/state/config'
 import { useTheme } from '@/state/theme'
-import type { ThemeString } from '@/types/Theme'
+import type { ThemeString } from '@/types/theme'
 import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
-import { THEMES } from '@/utils/Theme'
+import { THEMES } from '@/utils/theme'
 import { useDebounce } from '@/utils/useDebounce'
 
 export default function ConfigPage() {

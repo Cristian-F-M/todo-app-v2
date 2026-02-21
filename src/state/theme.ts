@@ -1,7 +1,7 @@
 import { colorScheme } from 'nativewind'
 import { create } from 'zustand'
-import type { ThemeString } from '@/types/Theme'
-import { getItem, saveItem } from '@/utils/AsyncStorage'
+import type { ThemeString } from '@/types/theme'
+import { getItem, saveItem } from '@/utils/asyncStorage'
 
 interface ThemeStore {
 	theme: ThemeString

@@ -3,7 +3,7 @@ import type {
 	GetItemProps,
 	RemoveItemProps,
 	SetItemProps
-} from '@/types/AsyncStorage'
+} from '@/types/asyncStorage'
 import { LOGGER } from '@/utils/logger'
 
 export async function safeExecution<T>(fn: () => T): Promise<T | undefined> {

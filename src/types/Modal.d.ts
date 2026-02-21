@@ -1,5 +1,5 @@
-import type { Folder } from './Folder'
-import type { Task } from './Task'
+import type { Folder } from './folder'
+import type { Task } from './task'
 
 export type ModalItem =
 	| { type: 'FOLDER'; data: Folder }

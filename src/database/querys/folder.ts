@@ -1,6 +1,6 @@
 import { ToastAndroid } from 'react-native'
 import { executeQuery, select } from '@/database/querys'
-import type { Folder } from '@/types/Folder'
+import type { Folder } from '@/types/folder'
 
 export function getAll(): Folder[] {
 	const { succes, result, message } = select<Folder[]>(

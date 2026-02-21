@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import * as TaskDB from '@/database/querys/task'
 import useFolder from '@/state/Folder'
-import type { Task } from '@/types/Task'
+import type { Task } from '@/types/task'
 
 interface TaskState {
 	tasks: Task[]

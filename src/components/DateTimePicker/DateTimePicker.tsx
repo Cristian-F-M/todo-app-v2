@@ -7,7 +7,7 @@ import { Animated, Pressable, Text, useAnimatedValue, View } from 'react-native'
 import { DateItem } from '@/components/DateItem'
 import Alarm from '@/icons/Alarm'
 import Calendar from '@/icons/Calendar'
-import { getDateTime } from '@/utils/DateTime'
+import { getDateTime } from '@/utils/dateTime'
 
 interface DateTimePickerProps {
 	value: Date

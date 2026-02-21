@@ -1,4 +1,4 @@
-import type { TimeValues, TimeValueType } from '@/types/TimePicker'
+import type { TimeValues, TimeValueType } from '@/types/timePicker'
 
 const defaultDateTime = {
 	year: '----',

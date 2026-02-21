@@ -1,5 +1,5 @@
 import { Pressable, Text, View } from 'react-native'
-import type { DropdownOptionProps } from '@/types/Dropdown'
+import type { DropdownOptionProps } from '@/types/dropdown'
 
 export function DropdownOption({
 	onPress,

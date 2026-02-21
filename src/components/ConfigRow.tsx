@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import { Text, TextInput, View } from 'react-native'
 import { Switch } from 'react-native-gesture-handler'
 import Sparkles from '@/icons/Sparkles'
-import type { ConfigRowProps } from '@/types/Config'
+import type { ConfigRowProps } from '@/types/config'
 
 export function ConfigRow({
 	text,

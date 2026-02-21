@@ -1,6 +1,6 @@
 import { ToastAndroid } from 'react-native'
 import { executeQuery, select } from '@/database/querys'
-import type { Task } from '@/types/Task'
+import type { Task } from '@/types/task'
 
 export function getAll() {
 	const { succes, result, message } = select<Task>('SELECT * FROM tasks', {
