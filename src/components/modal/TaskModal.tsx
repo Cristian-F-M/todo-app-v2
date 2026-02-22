@@ -195,7 +195,7 @@ export function TaskModal() {
 					{notificate && (
 						<View className="flex flex-row gap-x-4 mt-4 items-center justify-between rounded-lg px-3 py-1">
 							<View className="h-full w-1 rounded bg-blue-800"></View>
-							<View className="w-full flex-col pl-4 py-3">
+							<View className="w-full flex-col pl-4 py-3 flex-1">
 								<CheckboxNotificationGroup
 									notificationType={notificationType}
 									onChange={handleChangeNotificationType}
