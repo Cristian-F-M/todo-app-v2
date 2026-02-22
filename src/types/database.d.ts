@@ -1,5 +1,6 @@
 import type { Folder } from 'Folder'
 import type { Task } from 'Task'
+import type { SQLiteVariadicBindParams } from 'expo-sqlite'
 
 type retunType = Promise<{ ok: boolean }>
 
@@ -28,3 +29,5 @@ export enum ChangeTaskCountOperator {
 	SUBTRACTION = 'SUBTRACTION',
 	SUM = 'SUM'
 }
+
+export type Params = SQLiteVariadicBindParams

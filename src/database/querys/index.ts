@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite'
+import type { Params } from '@/types/database'
 
 export function connectDB() {
 	try {
@@ -27,10 +28,7 @@ export function runScript(query: string) {
 	}
 }
 
-export function executeQuery(
-	query: string,
-	params: SQLite.SQLiteVariadicBindParams = []
-) {
+export function executeQuery(query: string, ...params: Params) {
 	const db = connectDB()
 
 	if (!db) return { succes: false, message: 'Database connection failed' }
@@ -46,9 +44,7 @@ export function executeQuery(
 	}
 }
 
-type Params = SQLite.SQLiteBindValue
-
-export function select<T>(query: string, ...params: Params[]) {
+export function select<T>(query: string, ...params: Params) {
 	const db = connectDB()
 
 	if (!db) return { succes: false, message: 'Database connection failed' }
@@ -64,7 +60,7 @@ export function select<T>(query: string, ...params: Params[]) {
 	}
 }
 
-export function selectAll<T>(query: string, ...params: Params[]) {
+export function selectAll<T>(query: string, ...params: Params) {
 	const db = connectDB()
 
 	if (!db) return { succes: false, message: 'Database connection failed' }
