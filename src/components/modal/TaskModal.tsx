@@ -173,7 +173,10 @@ export function TaskModal() {
 					{/* <header /> */}
 					<Pressable
 						onPress={() => handleSetNotificate(!notificate)}
-						className="flex flex-row gap-2 items-center justify-between px-2 py-0 w-full"
+						className={twMerge(
+							'flex flex-row gap-2 items-center justify-between px-2 py-0 w-full',
+							notificate && 'dark:bg-blue-500/10 bg-blue-300/90'
+						)}
 					>
 						<View className="flex flex-row gap-2 items-center">
 							<IconBell
@@ -193,7 +196,7 @@ export function TaskModal() {
 
 					{/* <main /> */}
 					{notificate && (
-						<View className="flex flex-row gap-x-4 mt-4 items-center justify-between rounded-lg px-3 py-1">
+						<View className="flex flex-row gap-x-4 mt-2 items-center justify-between rounded-lg px-3 py-1">
 							<View className="h-full w-1 rounded bg-blue-800"></View>
 							<View className="w-full flex-col pl-4 py-3 flex-1">
 								<CheckboxNotificationGroup
