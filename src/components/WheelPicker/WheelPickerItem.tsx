@@ -1,9 +1,5 @@
 import { Text } from 'react-native'
-import Animated, {
-	Extrapolation,
-	interpolate,
-	useAnimatedStyle
-} from 'react-native-reanimated'
+import Animated, { useAnimatedStyle } from 'react-native-reanimated'
 import type { WheelItemProps } from '@/types/wheelPicker'
 
 export function WheelItem({
@@ -12,43 +8,30 @@ export function WheelItem({
 	translateY,
 	itemHeight
 }: WheelItemProps) {
+	const h = itemHeight * 2
+
 	const animatedStyle = useAnimatedStyle(() => {
 		const position = translateY.value + index * itemHeight
 		const distance = Math.abs(position)
+		const clamped = Math.min(distance / h, 1)
 
-		const opacity = interpolate(
-			distance,
-			[0, itemHeight * 2],
-			[1, 0.3],
-			Extrapolation.CLAMP
-		)
-
-		const scale = interpolate(
-			distance,
-			[0, itemHeight * 2],
-			[1, 0.8],
-			Extrapolation.CLAMP
-		)
-
-		const rotateX = interpolate(
-			position,
-			[-itemHeight * 2, 0, itemHeight * 2],
-			[45, 0, -45],
-			Extrapolation.CLAMP
-		)
+		const opacity = 1 - clamped * 0.7
+		const scale = 1 - clamped * 0.2
+		const rotateX = -Math.min(Math.max(position / h, -1), 1) * 45
 
 		return {
 			opacity,
 			transform: [{ scale }, { rotateX: `${rotateX}deg` }]
 		}
 	})
-
 	return (
 		<Animated.View
 			className="flex justify-center items-center"
 			style={[{ height: itemHeight }, animatedStyle]}
 		>
-			<Text className="text-gray-800 dark:text-white font-medium text-lg">{label}</Text>
+			<Text className="text-gray-800 dark:text-white font-medium text-lg">
+				{label}
+			</Text>
 		</Animated.View>
 	)
 }
