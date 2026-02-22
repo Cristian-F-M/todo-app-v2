@@ -1,14 +1,9 @@
 import { ToastAndroid } from 'react-native'
-import { executeQuery, select } from '@/database/querys'
+import { executeQuery, select, selectAll } from '@/database/querys'
 import type { Folder } from '@/types/folder'
 
 export function getAll(): Folder[] {
-	const { succes, result, message } = select<Folder>(
-		'SELECT * FROM folders',
-		{
-			all: true
-		}
-	)
+	const { succes, result, message } = selectAll<Folder>('SELECT * FROM folders')
 
 	if (!succes || !result) {
 		const msg = message || 'No se pudieron obtener las carpetas'
@@ -22,10 +17,7 @@ export function getAll(): Folder[] {
 export function getById(id: string) {
 	const { succes, result, message } = select<Folder>(
 		'SELECT * FROM folders WHERE id = ?',
-		{
-			all: false,
-			params: [id]
-		}
+		id
 	)
 
 	if (!succes || !result) {
@@ -40,7 +32,9 @@ export function getById(id: string) {
 export function create(folder: Folder) {
 	const { succes, message, result } = executeQuery(
 		'INSERT INTO folders (id, name, taskCount) VALUES (?, ?, ?)',
-		[folder.id, folder.name, folder.taskCount]
+		folder.id,
+		folder.name,
+		folder.taskCount
 	)
 	if (!succes || !result) {
 		const msg = message || 'No se pudo crear la carpeta'
@@ -52,7 +46,9 @@ export function create(folder: Folder) {
 export function update(folder: Folder) {
 	const { succes, message, result } = executeQuery(
 		'UPDATE folders SET name = ?, taskCount = ? WHERE id = ?',
-		[folder.name, folder.taskCount, folder.id]
+		folder.name,
+		folder.taskCount,
+		folder.id
 	)
 	if (!succes || !result) {
 		const msg = message || 'No se pudo actualizar la carpeta'
@@ -64,7 +60,7 @@ export function update(folder: Folder) {
 export function deleteById(id: string) {
 	const { succes, message, result } = executeQuery(
 		'DELETE FROM folders WHERE id = ?',
-		[id]
+		id
 	)
 	if (!succes || !result) {
 		const msg = message || 'No se pudo eliminar la carpeta'

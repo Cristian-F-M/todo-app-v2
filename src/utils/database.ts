@@ -1,5 +1,5 @@
 import { BackHandler, ToastAndroid } from 'react-native'
-import { executeQuery, select } from '@/database/querys'
+import { executeQuery, runScript, select } from '@/database/querys'
 
 export async function initDatabase() {
 	executeQuery(
@@ -11,7 +11,7 @@ export async function initDatabase() {
 }
 
 export function createTables() {
-	const { succes, message } = executeQuery(
+	const { succes, message } = runScript(
 		`
 		CREATE TABLE IF NOT EXISTS folders (id TEXT PRIMARY KEY, name TEXT, taskCount INTEGER);
 		CREATE TABLE IF NOT EXISTS tasks (id TEXT PRIMARY KEY, name TEXT, folderId TEXT, notificationId TEXT, FOREIGN KEY(folderId) REFERENCES folders(id));
@@ -28,7 +28,7 @@ export async function removeNotificationId(notificationId: string) {
 
 	const { succes, message } = executeQuery(
 		'UPDATE tasks SET notificationId = null WHERE notificationId = ?',
-		[notificationId]
+		notificationId
 	)
 	return { ok: succes, message }
 }
@@ -39,7 +39,7 @@ export async function migrateDB() {
 	)
 	if (!succes || !result) return console.log({ succes, message })
 
-	const { user_version } = result[0]
+	const { user_version = 0 } = result
 
 	if (user_version < 1) {
 		const { succes } = createTables()
@@ -50,7 +50,7 @@ export async function migrateDB() {
 		}
 	}
 
-	if (user_version === 1) {
+	if (user_version < 2) {
 		const { succes } = executeQuery(
 			'ALTER TABLE tasks ADD COLUMN isCompleted BOOLEAN DEFAULT false;'
 		)
