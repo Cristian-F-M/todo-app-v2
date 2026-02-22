@@ -7,13 +7,10 @@ import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import { StyledPressable } from '../layout/StyledPressable'
 
-interface FolderModalProps {
-	handleClose: () => void
-}
 
-export function FolderModal({ handleClose }: FolderModalProps) {
+export function FolderModal() {
 	const { colorScheme } = useColorScheme()
-	const { item } = useModal()
+	const { item, closeModal } = useModal()
 	const { update, create } = useFolder()
 	const [error, setError] = useState<string | null>(null)
 	const [textInput, setTextInput] = useState<string>(item?.data.name || '')
@@ -31,15 +28,15 @@ export function FolderModal({ handleClose }: FolderModalProps) {
 
 		if (thereIsItem && item.type === 'FOLDER') {
 			update({ ...item.data, name: textInput })
-			handleClose()
+			closeModal('folder')
 			return
 		}
 
 		const newFolder = { id: uuid.v4(), name: textInput, taskCount: 0 }
 		create(newFolder)
 
-		handleClose()
-	}, [thereIsItem, textInput, update, create, item, handleClose])
+		closeModal('folder')
+	}, [thereIsItem, textInput, update, create, item, closeModal])
 
 	return (
 		<View className="relative flex-1 mx-aito w-full px-4 py-6">

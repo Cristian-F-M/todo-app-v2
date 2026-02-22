@@ -101,7 +101,7 @@ export default function RootLayout() {
 				</Modal>
 
 				<Modal modalRef={folderModalRef}>
-					<FolderModal handleClose={() => {}} />
+					<FolderModal />
 				</Modal>
 
 				<Modal modalRef={deleteModalRef}>
