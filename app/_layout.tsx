@@ -5,7 +5,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import '../global.css'
 import * as Notifications from 'expo-notifications'
 import * as SplashScreen from 'expo-splash-screen'
-import { SQLiteProvider } from 'expo-sqlite'
 import * as SystemUI from 'expo-system-ui'
 import { useCallback, useLayoutEffect, useRef } from 'react'
 import type { Modalize } from 'react-native-modalize'
@@ -61,7 +60,9 @@ export default function RootLayout() {
 	}, [])
 
 	useLayoutEffect(() => {
-		function init() {
+		async function init() {
+			await migrateDB()
+
 			loadFolders()
 			loadTasks()
 			loadConfigs()
@@ -84,31 +85,29 @@ export default function RootLayout() {
 
 	return (
 		<GestureHandlerRootView>
-			<SQLiteProvider databaseName="todo-cm.db" onInit={migrateDB}>
-				<Host>
-					<View className="flex-1 dark:bg-gray-900 bg-gray-300">
-						<StatusBar style={themeStyle} backgroundColor="transparent" />
-						<Stack
-							screenOptions={{
-								headerShown: false,
-								animation: 'slide_from_right'
-							}}
-						/>
-					</View>
+			<Host>
+				<View className="flex-1 dark:bg-gray-900 bg-gray-300">
+					<StatusBar style={themeStyle} backgroundColor="transparent" />
+					<Stack
+						screenOptions={{
+							headerShown: false,
+							animation: 'slide_from_right'
+						}}
+					/>
+				</View>
 
-					<Modal modalRef={taskModalRef}>
-						<TaskModal />
-					</Modal>
+				<Modal modalRef={taskModalRef}>
+					<TaskModal />
+				</Modal>
 
-					<Modal modalRef={folderModalRef}>
-						<FolderModal handleClose={() => {}} />
-					</Modal>
+				<Modal modalRef={folderModalRef}>
+					<FolderModal handleClose={() => {}} />
+				</Modal>
 
-					<Modal modalRef={deleteModalRef}>
-						<DeleteModal />
-					</Modal>
-				</Host>
-			</SQLiteProvider>
+				<Modal modalRef={deleteModalRef}>
+					<DeleteModal />
+				</Modal>
+			</Host>
 		</GestureHandlerRootView>
 	)
 }
