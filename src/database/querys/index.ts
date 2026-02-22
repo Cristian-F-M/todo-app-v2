@@ -46,26 +46,32 @@ export function executeQuery(
 	}
 }
 
-interface SelectProps {
-	all?: boolean
-	params?: SQLite.SQLiteVariadicBindParams
-}
+type Params = SQLite.SQLiteBindValue
 
-export function select<T>(query: string, options?: SelectProps) {
+export function select<T>(query: string, ...params: Params[]) {
 	const db = connectDB()
-
-	// return { succes: false, message: 'Database connection failed' }
 
 	if (!db) return { succes: false, message: 'Database connection failed' }
 
 	try {
-		if (options?.all) {
-			const result = db.getAllSync<T>(query, ...(options?.params ?? []))
-			return { succes: true, result }
-		}
+		const result = db.getFirstSync<T>(query, params)
+		return { succes: true, result }
+	} catch (err: unknown) {
+		console.error(err)
+		return { succes: false, message: 'Query execution failed' }
+	} finally {
+		db.closeSync()
+	}
+}
 
-		const result = db.getFirstSync<T>(query, ...(options?.params ?? []))
-		return { succes: true, result: result ? [result] : [] }
+export function selectAll<T>(query: string, ...params: Params[]) {
+	const db = connectDB()
+
+	if (!db) return { succes: false, message: 'Database connection failed' }
+
+	try {
+		const result = db.getAllSync<T>(query, params)
+		return { succes: true, result }
 	} catch (err: unknown) {
 		console.error(err)
 		return { succes: false, message: 'Query execution failed' }
