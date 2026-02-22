@@ -11,6 +11,22 @@ export function connectDB() {
 	}
 }
 
+export function runScript(query: string) {
+	const db = connectDB()
+
+	if (!db) return { succes: false, message: 'Database connection failed' }
+
+	try {
+		db.execSync(query)
+		return { succes: true }
+	} catch (err: unknown) {
+		console.error(err)
+		return { succes: false, message: 'Query execution failed' }
+	} finally {
+		db.closeSync()
+	}
+}
+
 export function executeQuery(
 	query: string,
 	params: SQLite.SQLiteVariadicBindParams = []
