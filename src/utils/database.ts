@@ -34,10 +34,14 @@ export async function removeNotificationId(notificationId: string) {
 }
 
 export async function migrateDB() {
-	const { succes, message, result } = select<{ user_version: number }>(
+	const { succes, result } = select<{ user_version: number }>(
 		'PRAGMA user_version;'
 	)
-	if (!succes || !result) return console.log({ succes, message })
+	if (!succes || !result) {
+		ToastAndroid.show('No se pudo migrar la base de datos', ToastAndroid.LONG)
+		BackHandler.exitApp()
+		return
+	}
 
 	const { user_version = 0 } = result
 
