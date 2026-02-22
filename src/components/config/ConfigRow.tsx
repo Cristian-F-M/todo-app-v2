@@ -1,10 +1,10 @@
+import { IconSparkles } from '@tabler/icons-react-native'
 import { useColorScheme } from 'nativewind'
 import { useCallback } from 'react'
 import { Text, TextInput, View } from 'react-native'
 import { Switch } from 'react-native-gesture-handler'
-import Sparkles from '@/icons/Sparkles'
-import type { ConfigRowProps } from '@/types/config'
 import { Modal } from '@/components/modal/Modal'
+import type { ConfigRowProps } from '@/types/config'
 
 export function ConfigRow({
 	text,
@@ -78,7 +78,7 @@ export function ConfigRow({
 				</View>
 				{commingSoon && (
 					<View className="absolute right-0 -top-4 py-1 px-2 rounded-lg border dark:border-blue-700 border-blue-500 dark:bg-blue-900 bg-blue-400 animate-bounce flex-row gap-x-1">
-						<Sparkles
+						<IconSparkles
 							color={colorScheme === 'dark' ? '#9ca3af' : '#1f2937'}
 							width={15}
 							height={15}

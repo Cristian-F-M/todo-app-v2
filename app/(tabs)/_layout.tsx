@@ -1,7 +1,6 @@
+import { IconHomeFilled, IconSettingsFilled } from '@tabler/icons-react-native'
 import { Tabs } from 'expo-router'
 import { useColorScheme } from 'nativewind'
-import Home from '@/icons/Home'
-import Settings from '@/icons/Settings'
 
 export default function TabsLayout() {
 	const { colorScheme } = useColorScheme()
@@ -36,14 +35,14 @@ export default function TabsLayout() {
 				name="index"
 				options={{
 					title: 'Inicio',
-					tabBarIcon: ({ color }) => <Home color={color} />
+					tabBarIcon: ({ color }) => <IconHomeFilled color={color} />
 				}}
 			/>
 			<Tabs.Screen
 				name="config"
 				options={{
 					title: 'Configuración',
-					tabBarIcon: ({ color }) => <Settings color={color} />
+					tabBarIcon: ({ color }) => <IconSettingsFilled color={color} />
 				}}
 			/>
 		</Tabs>

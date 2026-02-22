@@ -1,3 +1,4 @@
+import { IconBell } from '@tabler/icons-react-native'
 import { useColorScheme } from 'nativewind'
 import { useCallback, useMemo, useState } from 'react'
 import { Pressable, Text, TextInput, View } from 'react-native'
@@ -6,7 +7,6 @@ import Animated, { LinearTransition } from 'react-native-reanimated'
 import uuid from 'react-native-uuid'
 import { twMerge } from 'tailwind-merge'
 import { TimePicker } from '@/components/TimePicker/TimePicker'
-import Bell from '@/icons/Bell'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import type { NotificationType } from '@/types/modal'
@@ -176,7 +176,7 @@ export function TaskModal() {
 						className="flex flex-row gap-2 items-center justify-between px-2 py-0 w-full"
 					>
 						<View className="flex flex-row gap-2 items-center">
-							<Bell
+							<IconBell
 								color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
 								width={18}
 								height={18}
@@ -213,7 +213,7 @@ export function TaskModal() {
 								</View>
 								{/* <notificate-at-container> */}
 								<View className="mt-6 w-full flex flex-row gap-x-2 items-center dark:bg-resalt/20 bg-blue-500/50 px-3 py-2 rounded">
-									<Bell
+									<IconBell
 										color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
 										width={18}
 										height={18}

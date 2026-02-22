@@ -2,8 +2,10 @@ import { useColorScheme } from 'nativewind'
 import { useCallback, useState } from 'react'
 import { Text, TextInput, View } from 'react-native'
 import { WrapCaretIcon } from '@/components/TimePicker/WrapCaretIcon'
-import CaretDown from '@/icons/CaretDown'
-import CaretUp from '@/icons/CaretUp'
+import {
+	IconCaretDownFilled,
+	IconCaretUpFilled
+} from '@tabler/icons-react-native'
 
 export interface SingleTimePickerProps {
 	text: string
@@ -71,7 +73,7 @@ export function SingleTimePicker({
 		<View className="flex-col gap-y-1 items-center justify-center">
 			<View className="flex-row items-center rounded-lg p-1 gap-3">
 				<WrapCaretIcon className="justify-center" onPress={handleUp}>
-					<CaretUp
+					<IconCaretUpFilled
 						color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
 						width={24}
 						height={24}
@@ -89,7 +91,7 @@ export function SingleTimePicker({
 					/>
 				</View>
 				<WrapCaretIcon className="justify-center" onPress={handleDown}>
-					<CaretDown
+					<IconCaretDownFilled
 						color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
 						width={24}
 						height={24}

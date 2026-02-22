@@ -2,11 +2,11 @@ import {
 	DateTimePickerAndroid,
 	type DateTimePickerEvent
 } from '@react-native-community/datetimepicker'
+import { IconAlarm, IconCalendar } from '@tabler/icons-react-native'
 import { useCallback, useEffect, useMemo } from 'react'
 import { Animated, Pressable, Text, useAnimatedValue, View } from 'react-native'
 import { DateItem } from '@/components/notification/DateItem'
-import Alarm from '@/icons/Alarm'
-import Calendar from '@/icons/Calendar'
+
 import { getDateTime } from '@/utils/dateTime'
 
 interface DateTimePickerProps {
@@ -81,7 +81,7 @@ export function DateTimePicker({ value, onValueChange }: DateTimePickerProps) {
 					<Text className="text-gray-300 text-lg">/</Text>
 					<DateItem value={date.year} />
 				</View>
-				<Calendar color={'#60a5fa'} width={20} height={20} />
+				<IconCalendar color={'#60a5fa'} width={20} height={20} />
 			</Pressable>
 			<Pressable
 				className="border-resalt/50 border py-2 px-4 rounded-md flex-row items-center justify-between gap-x-3"
@@ -93,7 +93,7 @@ export function DateTimePicker({ value, onValueChange }: DateTimePickerProps) {
 					<DateItem value={time.minute} />
 					<DateItem value={time.ampm} />
 				</View>
-				<Alarm color={'#60a5fa'} width={20} height={20} />
+				<IconAlarm color={'#60a5fa'} width={20} height={20} />
 			</Pressable>
 		</Animated.View>
 	)

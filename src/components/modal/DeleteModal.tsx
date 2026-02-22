@@ -1,7 +1,6 @@
+import { IconAlertTriangle, IconX } from '@tabler/icons-react-native'
 import { useCallback } from 'react'
 import { Pressable, Text, View } from 'react-native'
-import AlertTriangle from '@/icons/AlertTriangle'
-import Close from '@/icons/Close'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
@@ -39,7 +38,7 @@ export function DeleteModal() {
 	return (
 		<View className="w-full px-6 py-5 flex-col items-center justify-center">
 			<View className="relative w-full flex-row items-center gap-x-3">
-				<AlertTriangle stroke={'#dc9012'} width={25} height={25} />
+				<IconAlertTriangle stroke={'#dc9012'} width={25} height={25} />
 				<Text className="text-2xl font-semibold dark:text-gray-300 text-gray-800">
 					{modalTitle}
 				</Text>
@@ -48,7 +47,7 @@ export function DeleteModal() {
 						className="dark:active:bg-blue-900 active:bg-blue-300 p-1 rounded-lg"
 						onPress={() => closeModal('delete')}
 					>
-						<Close stroke="#7e8aae" width={24} height={24} />
+						<IconX stroke="#7e8aae" width={24} height={24} />
 					</Pressable>
 				</View>
 			</View>

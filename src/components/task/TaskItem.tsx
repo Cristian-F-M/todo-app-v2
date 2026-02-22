@@ -1,3 +1,8 @@
+import {
+	IconDotsVertical,
+	IconEdit,
+	IconTrash
+} from '@tabler/icons-react-native'
 import { useColorScheme } from 'nativewind'
 import { useCallback, useState } from 'react'
 import { Pressable, ScrollView, Text, View } from 'react-native'
@@ -6,17 +11,14 @@ import Animated, {
 	FadeOut,
 	LinearTransition
 } from 'react-native-reanimated'
+import { Checkbox } from '@/components/Checkbox/Checkbox'
 import { DropdownMenu } from '@/components/Dropdown/Dropdown'
 import { DropdownOption } from '@/components/Dropdown/DropdownOption'
-import Edit from '@/icons/Edit'
-import MoreVertical from '@/icons/MoreVertical'
-import Trash from '@/icons/Trash'
 import { useConfig } from '@/state/config'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import type { Task } from '@/types/task'
 import { removeNotification } from '@/utils/notifications'
-import { Checkbox } from '@/components/Checkbox/Checkbox'
 
 export function TaskItem({ task }: { task: Task }) {
 	const { openModal, setItem } = useModal()
@@ -92,7 +94,7 @@ export function TaskItem({ task }: { task: Task }) {
 						className="active:dark:bg-[#4b5563] p-1 rounded-lg active:bg-gray-300"
 						onPress={() => setDropdownVisible(true)}
 					>
-						<MoreVertical
+						<IconDotsVertical
 							stroke={colorScheme === 'dark' ? 'white' : '#1f2937'}
 						/>
 					</Pressable>
@@ -103,7 +105,7 @@ export function TaskItem({ task }: { task: Task }) {
 					text="Editar"
 					handleClose={handleCloseDropdown}
 					handleOpen={handleOpenDropdown}
-					icon={Edit}
+					icon={IconEdit}
 					iconProps={{
 						stroke: colorScheme === 'dark' ? '#ffffff' : '#1f2937'
 					}}
@@ -115,7 +117,7 @@ export function TaskItem({ task }: { task: Task }) {
 					handleClose={handleCloseDropdown}
 					handleOpen={handleOpenDropdown}
 					onPress={handleDeleteTask}
-					icon={Trash}
+					icon={IconTrash}
 					iconProps={{ stroke: '#ff6467' }}
 				/>
 			</DropdownMenu>

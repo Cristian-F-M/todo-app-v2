@@ -1,7 +1,7 @@
+import { IconFolderPlus } from '@tabler/icons-react-native'
 import { useCallback, useEffect } from 'react'
 import { Animated, Pressable, Text, useAnimatedValue } from 'react-native'
 import { StyledPressable } from '@/components/layout/StyledPressable'
-import AddFolder from '@/icons/AddFolder'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 
@@ -34,7 +34,7 @@ export function NoFolders() {
 			style={{ opacity: opacityValue }}
 		>
 			<Pressable className="flex-row items-center justify-center bg-gray-300 dark:bg-gray-800 active:bg-gray-100 active:dark:bg-gray-700 rounded-full p-7">
-				<AddFolder width={50} height={50} stroke="#2563eb" />
+				<IconFolderPlus width={50} height={50} stroke="#2563eb" />
 			</Pressable>
 			<Text className="dark:text-white text-3xl mt-3 font-semibold">
 				No hay carpetas

@@ -1,7 +1,6 @@
+import { IconDeviceMobile, IconMoon, IconSun } from '@tabler/icons-react-native'
 import { colorScheme } from 'nativewind'
-import Mobile from '@/icons/deviceMobile'
-import Moon from '@/icons/Moon'
-import Sun from '@/icons/Sun'
+
 import type { Theme, ThemeString } from '@/types/theme'
 import { saveItem } from '@/utils/asyncStorage'
 
@@ -9,17 +8,17 @@ export const THEMES = {
 	light: {
 		label: 'Claro',
 		value: 'light',
-		icon: Sun
+		icon: IconSun
 	},
 	dark: {
 		label: 'Oscuro',
 		value: 'dark',
-		icon: Moon
+		icon: IconMoon
 	},
 	system: {
 		label: 'Sistema',
 		value: 'system',
-		icon: Mobile
+		icon: IconDeviceMobile
 	}
 } satisfies Record<ThemeString, Theme>
 

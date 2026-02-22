@@ -1,3 +1,9 @@
+import {
+	IconDotsVertical,
+	IconEdit,
+	IconFolder,
+	IconTrash
+} from '@tabler/icons-react-native'
 import { Link } from 'expo-router'
 import { useColorScheme } from 'nativewind'
 import { useCallback, useState } from 'react'
@@ -9,10 +15,6 @@ import Animated, {
 } from 'react-native-reanimated'
 import { DropdownMenu } from '@/components/Dropdown/Dropdown'
 import { DropdownOption } from '@/components/Dropdown/DropdownOption'
-import Edit from '@/icons/Edit'
-import Folder from '@/icons/Folder'
-import MoreVertical from '@/icons/MoreVertical'
-import Trash from '@/icons/Trash'
 import { useConfig } from '@/state/config'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
@@ -64,7 +66,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 				exiting={FadeOutLeft}
 			>
 				<View className="flex flex-row gap-x-2 items-center justify-center">
-					<Folder stroke={colorScheme === 'dark' ? '#2563eb' : '#3b82f6'} />
+					<IconFolder color={colorScheme === 'dark' ? '#2563eb' : '#3b82f6'} />
 					<View className="flex flex-col">
 						<Text className="dark:text-white text-lg tracking-wider leading-tight items-center justify-center">
 							{folder.name}
@@ -83,8 +85,8 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 							className="active:dark:bg-[#4b5563] p-1 rounded-lg active:bg-gray-400/50"
 							onPress={() => setDropDownVisible(true)}
 						>
-							<MoreVertical
-								stroke={colorScheme === 'dark' ? 'white' : '#1f2937'}
+							<IconDotsVertical
+								color={colorScheme === 'dark' ? 'white' : '#1f2937'}
 							/>
 						</Pressable>
 					}
@@ -93,7 +95,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 						handleClose={closeDropdown}
 						handleOpen={openDropdown}
 						text="Editar"
-						icon={Edit}
+						icon={IconEdit}
 						onPress={openEditModal}
 						iconProps={{
 							stroke: colorScheme === 'dark' ? '#ffffff' : '#1f2937'
@@ -104,7 +106,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 						handleOpen={openDropdown}
 						text="Eliminar"
 						textClassName={'!text-red-400'}
-						icon={Trash}
+						icon={IconTrash}
 						iconProps={{ stroke: '#ff6467' }}
 						onPress={handleClickDeleteFolder}
 					/>
