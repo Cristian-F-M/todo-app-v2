@@ -10,7 +10,7 @@ export function DateItem({
 }) {
 	return (
 		<View className={twMerge('', className)}>
-			<Text className="text-gray-300">{value}</Text>
+			<Text className="dark:text-gray-300 text-gray-800">{value}</Text>
 		</View>
 	)
 }
