@@ -12,9 +12,24 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#2563eb',
-        resalt: '#60a5fa',
-      },
+				background: 'var(--background)',
+				surface: 'var(--surface)',
+				surfaceSoft: 'var(--surfaceSoft)',
+				border: 'var(--border)',
+
+				primary: 'rgb(var(--primary) / <alpha-value>)',
+				primaryPressed: 'var(--primaryPressed)',
+
+				textPrimary: 'var(--textPrimary)',
+				textSecondary: 'var(--textSecondary)',
+				textMuted: 'var(--textMuted)',
+
+				success: 'var(--success)',
+				warning: 'var(--warning)',
+				danger: 'var(--danger)',
+
+				overlay: 'var(--overlay)',
+			}
     },
   },
   plugins: [],
