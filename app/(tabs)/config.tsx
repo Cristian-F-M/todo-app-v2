@@ -1,44 +1,26 @@
 import { IconExternalLink } from '@tabler/icons-react-native'
 import { Stack } from 'expo-router'
 import { useColorScheme } from 'nativewind'
-import {
-	useCallback,
-	useEffect,
-	useLayoutEffect,
-	useRef,
-	useState
-} from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { Pressable, ScrollView, View } from 'react-native'
 import type { Modalize } from 'react-native-modalize'
 import { ConfigCard } from '@/components/config/ConfigCard'
 import { ConfigRow } from '@/components/config/ConfigRow'
 import { Screen } from '@/components/layout/Screen'
-import { ChangeThemeModalContent } from '@/components/modal/ChangeThemeModalContent'
 import { TimePickerType } from '@/components/modal/TimePickerType'
+import { ChangeThemeModalContent } from '@/components/theme/ChangeThemeModalContent'
 import { useConfig } from '@/state/config'
-import { useTheme } from '@/state/theme'
 import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
-import { THEMES } from '@/utils/theme'
 import { useDebounce } from '@/utils/useDebounce'
 
 export default function ConfigPage() {
 	const { configs, setConfigs } = useConfig()
 	const debouncedConfigs = useDebounce<ConfigsType>(configs, 500)
-	const { theme } = useTheme()
 	const { colorScheme } = useColorScheme()
 
 	useEffect(() => {
 		saveAllConfigs(debouncedConfigs)
 	}, [debouncedConfigs])
-
-	const [selectedTheme, setSelectedTheme] =
-		useState<keyof typeof THEMES>('system')
-
-	useLayoutEffect(() => {
-		setSelectedTheme(theme)
-	}, [theme])
-
-	const ThemeIcon = THEMES[selectedTheme].icon
 
 	const handleChangeConfig = useCallback(
 		(value: boolean | string, key: keyof ConfigsType) => {
@@ -79,7 +61,9 @@ export default function ConfigPage() {
 								className="p-2 rounded-lg dark:bg-blue-600 bg-blue-400 active:dark:bg-blue-400 active:bg-blue-300 w-12 items-center justify-center self-end mr-1"
 								onPress={() => modalRef.current?.open()}
 							>
-								{<ThemeIcon color={colorScheme === 'dark' ? '#fff' : '#000'} />}
+								<IconExternalLink
+									color={colorScheme === 'dark' ? '#fff' : '#000'}
+								/>
 							</Pressable>
 						</View>
 					</ConfigRow>
