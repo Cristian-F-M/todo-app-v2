@@ -18,11 +18,11 @@ module.exports = {
 				border: 'var(--border)',
 
 				primary: 'rgb(var(--primary) / <alpha-value>)',
-				primaryPressed: 'var(--primaryPressed)',
+				"primary-pressed": 'var(--primaryPressed)',
 
-				textPrimary: 'var(--textPrimary)',
-				textSecondary: 'var(--textSecondary)',
-				textMuted: 'var(--textMuted)',
+				"text-primary": 'var(--text-primary)',
+				"text-secondary": 'var(--text-secondary)',
+				"text-muted": 'var(--text-muted)',
 
 				success: 'var(--success)',
 				warning: 'var(--warning)',

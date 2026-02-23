@@ -7,11 +7,11 @@ export const dark = {
 	border: '31 42 68',
 
 	primary: '59 130 246',
-	primaryPressed: '37 99 235',
+	'primary-pressed': '37 99 235',
 
-	textPrimary: '230 237 247',
-	textSecondary: '159 176 208',
-	textMuted: '107 122 153',
+	"text-primary": '230 237 247',
+	"text-secondary": '159 176 208',
+	"text-muted": '107 122 153',
 
 	success: '34 197 94',
 	warning: '245 158 11',
@@ -27,11 +27,11 @@ export const light = {
 	border: '214 224 245',
 
 	primary: '37 99 235',
-	primaryPressed: '29 78 216',
+	'primary-pressed': '29 78 216',
 
-	textPrimary: '15 23 42',
-	textSecondary: '51 65 85',
-	textMuted: '100 116 139',
+	"text-primary": '15 23 42',
+	"text-secondary": '51 65 85',
+	"text-muted": '100 116 139',
 
 	success: '22 163 74',
 	warning: '217 119 6',
@@ -47,11 +47,11 @@ export const glassBlue = {
 	border: '255 255 255',
 
 	primary: '79 140 255',
-	primaryPressed: '58 111 224',
+	'primary-pressed': '58 111 224',
 
-	textPrimary: '241 245 255',
-	textSecondary: '182 194 226',
-	textMuted: '124 141 181',
+	'text-primary': '241 245 255',
+	'text-secondary': '182 194 226',
+	'text-muted': '124 141 181',
 
 	success: '52 211 153',
 	warning: '251 191 36',
@@ -67,11 +67,11 @@ export const violetNight = {
 	border: '42 36 82',
 
 	primary: '139 92 246',
-	primaryPressed: '124 58 237',
+	'primary-pressed': '124 58 237',
 
-	textPrimary: '243 240 255',
-	textSecondary: '184 175 255',
-	textMuted: '140 132 198',
+	'text-primary': '243 240 255',
+	'text-secondary': '184 175 255',
+	'text-muted': '140 132 198',
 
 	success: '34 197 94',
 	warning: '245 158 11',
@@ -87,11 +87,11 @@ export const emeraldDeep = {
 	border: '29 77 62',
 
 	primary: '16 185 129',
-	primaryPressed: '5 150 105',
+	'primary-pressed': '5 150 105',
 
-	textPrimary: '230 255 247',
-	textSecondary: '159 232 215',
-	textMuted: '107 199 178',
+	'text-primary': '230 255 247',
+	'text-secondary': '159 232 215',
+	'text-muted': '107 199 178',
 
 	success: '34 197 94',
 	warning: '251 191 36',
@@ -108,10 +108,10 @@ export const emeraldDeep = {
  * @property {string} surfaceSoft - Soft surface (inputs / secondary elements)
  * @property {string} border - Border (subtle borders)
  * @property {string} primary - Primary color (buttons)
- * @property {string} primaryPressed - Primary color pressed (buttons pressed)
- * @property {string} textPrimary - Main text
- * @property {string} textSecondary - Secondary text
- * @property {string} textMuted - Muted text
+ * @property {string} primary-pressed - Primary color pressed (buttons pressed)
+ * @property {string} text-primary - Main text
+ * @property {string} text-secondary - Secondary text
+ * @property {string} text-muted - Muted text
  * @property {string} success - Success color
  * @property {string} warning - Warning color
  * @property {string} danger - Danger color
