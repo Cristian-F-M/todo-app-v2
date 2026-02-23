@@ -1,25 +1,21 @@
-import { colorScheme } from 'nativewind'
 import { create } from 'zustand'
-import type { ThemeString } from '@/types/theme'
+import type { Theme } from '@/types/theme'
 import { getItem, saveItem } from '@/utils/asyncStorage'
 
 interface ThemeStore {
-	theme: ThemeString
-	setTheme: (theme: ThemeString) => Promise<void>
+	theme: Theme
+	setTheme: (theme: Theme) => Promise<void>
 	load: () => Promise<void>
 }
 
 export const useTheme = create<ThemeStore>((set) => ({
-	theme: 'system',
+	theme: 'dark',
 	setTheme: async (theme) => {
-		await saveItem({ name: 'colorScheme', value: theme })
-		colorScheme.set(theme)
+		await saveItem({ name: 'theme', value: theme })
 		set({ theme })
 	},
 	load: async () => {
-		const theme =
-			(await getItem<ThemeString>({ name: 'colorScheme' })) || 'system'
+		const theme = (await getItem<Theme>({ name: 'theme' })) || 'dark'
 		set({ theme })
-		colorScheme.set(theme)
 	}
 }))
