@@ -1,3 +1,4 @@
+import { IconExternalLink } from '@tabler/icons-react-native'
 import { Stack } from 'expo-router'
 import { useColorScheme } from 'nativewind'
 import {
@@ -13,6 +14,7 @@ import { ConfigCard } from '@/components/config/ConfigCard'
 import { ConfigRow } from '@/components/config/ConfigRow'
 import { Screen } from '@/components/layout/Screen'
 import { ChangeThemeModalContent } from '@/components/modal/ChangeThemeModalContent'
+import { TimePickerType } from '@/components/modal/TimePickerType'
 import { useConfig } from '@/state/config'
 import { useTheme } from '@/state/theme'
 import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
@@ -47,6 +49,7 @@ export default function ConfigPage() {
 	)
 
 	const modalRef = useRef<Modalize>(null)
+	const pickerTimeTypeRef = useRef<Modalize>(null)
 
 	return (
 		<Screen safeArea={false}>
@@ -79,6 +82,23 @@ export default function ConfigPage() {
 								{<ThemeIcon color={colorScheme === 'dark' ? '#fff' : '#000'} />}
 							</Pressable>
 						</View>
+					</ConfigRow>
+
+					<ConfigRow
+						typeConfig="modal"
+						modalContent={<TimePickerType />}
+						modalRef={pickerTimeTypeRef}
+						text="Tipo de selector de hora"
+						description="Define el tipo de selector de hora."
+					>
+						<Pressable
+							className="p-2 rounded-lg dark:bg-blue-600 bg-blue-400 active:dark:bg-blue-400 active:bg-blue-300 w-12 items-center justify-center self-end mr-1"
+							onPress={() => pickerTimeTypeRef.current?.open()}
+						>
+							<IconExternalLink
+								color={colorScheme === 'dark' ? '#fff' : '#000'}
+							/>
+						</Pressable>
 					</ConfigRow>
 				</ConfigCard>
 
