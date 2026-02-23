@@ -1,3 +1,3 @@
-export type ThemeString = 'light' | 'dark' | 'system'
+import type { THEMES } from '@/constants/theme'
 
-export type Theme = { label: string; value: string; icon: React.FC<any> }
+export type Theme = keyof typeof THEMES
