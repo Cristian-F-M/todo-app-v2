@@ -1,55 +1,37 @@
-import { ActivityIndicator, Pressable, Text, View } from 'react-native'
+import type { PressableProps } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
+import { twMerge } from 'tailwind-merge'
+import { getThemeColor } from '@/utils/theme'
 
-type StyledPressableProps = {
-	backgroundColor?: string
+interface StyledPressableProps extends PressableProps {
 	text: string
-	pressableClassName?: string
-	textClassName?: string
 	onPress?: () => void
-	showLoadingIndicator?: boolean
-	isLoading?: boolean
 	disabled?: boolean
-	icon?: React.ElementType | null
-	iconProps?: React.SVGProps<SVGSVGElement>
-	showIconOn?: 'before' | 'after'
+	icon?: (props: React.SVGProps<SVGSVGElement>) => React.ReactNode
 }
 
 export function StyledPressable({
-	backgroundColor = '#2563eb',
-	text = 'no-text',
-	pressableClassName = '',
-	textClassName = '',
+	text = 'Button',
+	className,
 	onPress = () => {},
-	showLoadingIndicator = false,
-	isLoading = false,
 	disabled = false,
-	icon = null,
-	iconProps = { width: 24, height: 24, color: 'white' },
-	showIconOn = 'before'
+	icon
 }: StyledPressableProps) {
 	const Icon = icon
 
 	return (
 		<Pressable
-			className={`px-2 py-3 rounded-lg w-full active:opacity-70 flex-row justify-center items-center ${isLoading ? 'opacity-70' : ''} ${pressableClassName}`}
-			style={{ backgroundColor: disabled ? '#b3b6bd' : backgroundColor }}
-			onPress={!isLoading ? onPress : null}
-			disabled={isLoading || disabled}
+			className={twMerge(
+				'px-2 py-3 rounded-lg w-full active:scale-95 active:bg-primary-pressed flex-row justify-center items-center bg-primary disabled:bg-primary/70 disabled:opacity-70 transition-all',
+				className
+			)}
+			onPress={onPress}
+			disabled={disabled}
 		>
 			<View className="flex-row items-center justify-center gap-x-2">
-				{Icon && showIconOn === 'before' && <Icon {...iconProps} />}
-				<Text className={`text-white text-base text-center ${textClassName}`}>
-					{text}
-				</Text>
-				{Icon && showIconOn === 'after' && <Icon {...iconProps} />}
+				{Icon && <Icon color={getThemeColor('text-primary')} />}
+				<Text className="text-base text-center text-text-primary">{text}</Text>
 			</View>
-			{showLoadingIndicator && isLoading && (
-				<ActivityIndicator
-					className="absolute right-0 mr-2"
-					size={30}
-					color="white"
-				/>
-			)}
 		</Pressable>
 	)
 }
