@@ -4,6 +4,7 @@ import { View } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
 	cancelAnimation,
+	useAnimatedStyle,
 	useSharedValue,
 	withDecay,
 	withDelay,
@@ -101,6 +102,11 @@ export function WheelPicker({
 		labelPosition === 'bottom' && 'rounded-none rounded-tl-lg rounded-tr-lg'
 	)
 
+	const containerStyle = useAnimatedStyle(() => ({
+		transform: [{ translateY: translateY.value }],
+		paddingTop: (containerHeight - itemHeight) / 2
+	}))
+
 	return (
 		<View className="w-full">
 			{labelPosition === 'top' && (
@@ -133,12 +139,7 @@ export function WheelPicker({
 				<GestureDetector gesture={gesture}>
 					<Animated.View className="flex-1">
 						<Animated.View
-							style={[
-								{
-									transform: [{ translateY: translateY }],
-									paddingTop: (containerHeight - itemHeight) / 2
-								}
-							]}
+							style={containerStyle}
 						>
 							{items.map((item, index) => (
 								<WheelItem
