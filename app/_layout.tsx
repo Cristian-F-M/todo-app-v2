@@ -6,6 +6,7 @@ import '../global.css'
 import * as Notifications from 'expo-notifications'
 import * as SplashScreen from 'expo-splash-screen'
 import * as SystemUI from 'expo-system-ui'
+import { vars } from 'nativewind'
 import { useCallback, useLayoutEffect, useRef } from 'react'
 import type { Modalize } from 'react-native-modalize'
 import { Host } from 'react-native-portalize'
@@ -17,6 +18,7 @@ import { DeleteModal } from '@/components/modal/DeleteModal'
 import { FolderModal } from '@/components/modal/FolderModal'
 import { Modal } from '@/components/modal/Modal'
 import { TaskModal } from '@/components/modal/TaskModal'
+import { THEMES } from '@/constants/theme'
 import { useConfig } from '@/state/config'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
@@ -86,7 +88,10 @@ export default function RootLayout() {
 	return (
 		<GestureHandlerRootView>
 			<Host>
-				<View className="flex-1 dark:bg-gray-900 bg-gray-300">
+				<View
+					style={vars(THEMES[theme as keyof typeof THEMES])}
+					className="flex-1 dark:bg-gray-900 bg-gray-300"
+				>
 					<StatusBar style={themeStyle} backgroundColor="transparent" />
 					<Stack
 						screenOptions={{
