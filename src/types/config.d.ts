@@ -1,6 +1,7 @@
 import type { TextInputProps } from 'react-native'
 
 export type TypeConfig = 'switch' | 'text' | 'other' | 'modal'
+export type TimePickerType = 'WHEEL' | 'CLASIC'
 
 export interface ConfigRowBaseProps {
 	text: string

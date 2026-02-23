@@ -1,4 +1,5 @@
 import type { KeyItem, ValueItem } from '@/types/asyncStorage'
+import type { TimePickerType } from '@/types/config'
 import { getItem, removeItem, saveItem } from '@/utils/asyncStorage'
 
 export type Configs = typeof defaultConfigs & {
@@ -8,7 +9,8 @@ export type Configs = typeof defaultConfigs & {
 export const defaultConfigs = {
 	confirmDeleteTask: true,
 	confirmDeleteFolder: true,
-	clearTaskAfter: 30
+	clearTaskAfter: 30,
+	timePickerType: 'WHEEL' as TimePickerType
 }
 
 export async function saveConfig({
