@@ -1,5 +1,4 @@
-import { useUnstableNativeVariable } from 'nativewind'
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import uuid from 'react-native-uuid'
 import { THEMES } from '@/constants/theme'
@@ -10,9 +9,6 @@ import { ThemeOverview } from './ThemeOverview'
 
 export function ChangeThemeModalContent() {
 	const { theme } = useTheme()
-
-	const background = useUnstableNativeVariable('--text-primary')
-
 	const themeKeys = useMemo(() => {
 		return [
 			Object.values(THEMES).map((theme) => {
@@ -21,10 +17,6 @@ export function ChangeThemeModalContent() {
 			uuid.v4()
 		].flat()
 	}, [])
-
-	useEffect(() => {
-		console.log({ background })
-	}, [background])
 
 	return (
 		<View className="flex flex-col justify-center py-6 px-6">
