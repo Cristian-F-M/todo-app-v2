@@ -4,7 +4,7 @@ import {
 	IconFolder,
 	IconTrash
 } from '@tabler/icons-react-native'
-import { Link, useRouter } from 'expo-router'
+import { Link } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import Animated, {
@@ -25,7 +25,6 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 	const { openModal, setItem } = useModal()
 	const { delete: deleteFolder } = useFolder()
 	const { configs } = useConfig()
-	const router = useRouter()
 
 	const openDropdown = useCallback(() => {
 		setDropDownVisible(true)
@@ -61,58 +60,60 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 				borderColor: getThemeColor('border')
 			}}
 		>
-			<Animated.View
-				className="flex-1 items-center justify-center"
-				// TODO: Change animations for FadeIn && FadeOut
-				layout={LinearTransition.stiffness(2)}
-				entering={FadeInRight}
-				exiting={FadeOutLeft}
-			>
-				<View className="flex flex-row gap-x-2 items-center justify-center">
-					<IconFolder color={getThemeColor('text-muted')} />
-					<View className="flex flex-col">
-						<Text className="text-text-primary text-lg tracking-wider leading-tight items-center justify-center">
-							{folder.name}
-						</Text>
-						<Text className="text-xs text-text-muted leading-tight">
-							{folder.taskCount} tareas
-						</Text>
-					</View>
-				</View>
-				<DropdownMenu
-					handleOpen={openDropdown}
-					handleClose={closeDropdown}
-					visible={dropDownVisible}
-					trigger={
-						<Pressable
-							className="active:bg-primary-pressed p-1 rounded-lg"
-							onPress={() => setDropDownVisible(true)}
-						>
-							<IconDotsVertical color={getThemeColor('text-primary')} />
-						</Pressable>
-					}
+			<Pressable className="w-full flex flex-row items-center">
+				<Animated.View
+					className="flex flex-row flex-1 items-center justify-between"
+					// TODO: Change animations for FadeIn && FadeOut
+					layout={LinearTransition.stiffness(2)}
+					entering={FadeInRight}
+					exiting={FadeOutLeft}
 				>
-					<DropdownOption
-						handleClose={closeDropdown}
+					<View className="flex flex-row gap-x-2 items-center justify-center">
+						<IconFolder color={getThemeColor('text-muted')} />
+						<View className="flex flex-col">
+							<Text className="text-text-primary text-lg tracking-wider leading-tight items-center justify-center">
+								{folder.name}
+							</Text>
+							<Text className="text-xs text-text-muted leading-tight">
+								{folder.taskCount} tareas
+							</Text>
+						</View>
+					</View>
+					<DropdownMenu
 						handleOpen={openDropdown}
-						text="Editar"
-						icon={IconEdit}
-						onPress={openEditModal}
-						iconProps={{
-							stroke: getThemeColor('text-primary')
-						}}
-					/>
-					<DropdownOption
 						handleClose={closeDropdown}
-						handleOpen={openDropdown}
-						text="Eliminar"
-						textClassName={'!text-danger/70'}
-						icon={IconTrash}
-						iconProps={{ stroke: getThemeColor('danger', 0.7) }}
-						onPress={handleClickDeleteFolder}
-					/>
-				</DropdownMenu>
-			</Animated.View>
-		</Pressable>
+						visible={dropDownVisible}
+						trigger={
+							<Pressable
+								className="active:bg-primary-pressed p-1 rounded-lg"
+								onPress={() => setDropDownVisible(true)}
+							>
+								<IconDotsVertical color={getThemeColor('text-primary')} />
+							</Pressable>
+						}
+					>
+						<DropdownOption
+							handleClose={closeDropdown}
+							handleOpen={openDropdown}
+							text="Editar"
+							icon={IconEdit}
+							onPress={openEditModal}
+							iconProps={{
+								stroke: getThemeColor('text-primary')
+							}}
+						/>
+						<DropdownOption
+							handleClose={closeDropdown}
+							handleOpen={openDropdown}
+							text="Eliminar"
+							textClassName={'!text-danger/70'}
+							icon={IconTrash}
+							iconProps={{ stroke: getThemeColor('danger', 0.7) }}
+							onPress={handleClickDeleteFolder}
+						/>
+					</DropdownMenu>
+				</Animated.View>
+			</Pressable>
+		</Link>
 	)
 }
