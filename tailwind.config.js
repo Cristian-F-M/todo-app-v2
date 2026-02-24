@@ -12,23 +12,23 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				background: 'var(--background)',
-				surface: 'var(--surface)',
-				surfaceSoft: 'var(--surfaceSoft)',
-				border: 'var(--border)',
+				background: 'rgb(var(--background) / <alpha-value>)',
+				surface: 'rgb(var(--surface) / <alpha-value>)',
+				"surface-soft": 'rgb(var(--surface-soft) / <alpha-value>)',
+				border: 'rgb(var(--border) / <alpha-value>)',
 
 				primary: 'rgb(var(--primary) / <alpha-value>)',
-				"primary-pressed": 'var(--primaryPressed)',
+				"primary-pressed": 'rgb(var(--primary-pressed) / <alpha-value>)',
 
-				"text-primary": 'var(--text-primary)',
-				"text-secondary": 'var(--text-secondary)',
-				"text-muted": 'var(--text-muted)',
+				"text-primary": 'rgb(var(--text-primary) / <alpha-value>)',
+				"text-secondary": 'rgb(var(--text-secondary) / <alpha-value>)',
+				"text-muted": 'rgb(var(--text-muted) / <alpha-value>)',
 
-				success: 'var(--success)',
-				warning: 'var(--warning)',
-				danger: 'var(--danger)',
+				success: 'rgb(var(--success) / <alpha-value>)',
+				warning: 'rgb(var(--warning) / <alpha-value>)',
+				danger: 'rgb(var(--danger) / <alpha-value>)',
 
-				overlay: 'var(--overlay)',
+				overlay: 'rgb(var(--overlay) / <alpha-value>)',
 			}
 		},
 	},
