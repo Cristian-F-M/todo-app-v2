@@ -82,7 +82,7 @@ export function DeleteModal() {
 							color: getThemeColor('text-secondary')
 						}}
 					>
-						{item?.data.name}
+						"{item?.data.name}"
 					</Text>
 					? Esta acción no se puede deshacer.
 				</Text>
