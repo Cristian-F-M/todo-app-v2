@@ -1,4 +1,4 @@
-import type { PressableProps } from 'react-native'
+import type { PressableProps, StyleProp, ViewStyle } from 'react-native'
 import { Pressable, Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 import { getThemeColor } from '@/utils/theme'
@@ -8,6 +8,7 @@ interface StyledPressableProps extends PressableProps {
 	onPress?: () => void
 	disabled?: boolean
 	icon?: (props: React.SVGProps<SVGSVGElement>) => React.ReactNode
+	style: StyleProp<ViewStyle>
 }
 
 export function StyledPressable({
@@ -15,7 +16,8 @@ export function StyledPressable({
 	className,
 	onPress = () => {},
 	disabled = false,
-	icon
+	icon,
+	style
 }: StyledPressableProps) {
 	const Icon = icon
 	const iconColor = getThemeColor('text-primary')
@@ -26,9 +28,12 @@ export function StyledPressable({
 				'px-2 py-3 rounded-lg w-full active:scale-95 active:bg-primary-pressed flex-row justify-center items-center disabled:bg-primary/70 disabled:opacity-70 transition-all',
 				className
 			)}
-			style={{
-				backgroundColor: getThemeColor('primary')
-			}}
+			style={[
+				{
+					backgroundColor: getThemeColor('primary')
+				},
+				style
+			]}
 			onPress={onPress}
 			disabled={disabled}
 		>
