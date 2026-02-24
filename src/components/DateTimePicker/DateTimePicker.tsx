@@ -8,6 +8,7 @@ import { Animated, Pressable, Text, useAnimatedValue, View } from 'react-native'
 import { DateItem } from '@/components/notification/DateItem'
 
 import { getDateTime } from '@/utils/dateTime'
+import { getThemeColor } from '@/utils/theme'
 
 interface DateTimePickerProps {
 	value: Date
@@ -68,32 +69,34 @@ export function DateTimePicker({ value, onValueChange }: DateTimePickerProps) {
 		}
 	}, [animatedValue])
 
+	const iconColor = getThemeColor('text-muted')
+
 	return (
 		<Animated.View className="gap-y-3" style={{ opacity: animatedValue }}>
 			<Pressable
-				className="border-resalt/90 border py-2 px-4 rounded-md flex-row items-center justify-between gap-x-3"
+				className="border-border border py-2 px-4 rounded-md flex-row items-center justify-between gap-x-3"
 				onPress={handleOpenDatePicker}
 			>
 				<View className="flex-row items-center gap-x-1">
 					<DateItem value={date.day} />
-					<Text className="text-gray-800 dark:text-gray-300 text-lg">/</Text>
+					<Text className="text-text-primary text-lg">/</Text>
 					<DateItem value={date.month} />
-					<Text className="text-gray-800 dark:text-gray-300 text-lg">/</Text>
+					<Text className="text-text-primary text-lg">/</Text>
 					<DateItem value={date.year} />
 				</View>
-				<IconCalendar color={'#60a5fa'} width={20} height={20} />
+				<IconCalendar color={iconColor} width={20} height={20} />
 			</Pressable>
 			<Pressable
-				className="border-resalt/90 border py-2 px-4 rounded-md flex-row items-center justify-between gap-x-3"
+				className="border-border border py-2 px-4 rounded-md flex-row items-center justify-between gap-x-3"
 				onPress={handleOpenTimePicker}
 			>
 				<View className="flex-row items-center gap-x-1">
 					<DateItem value={time.hour} />
-					<Text className="text-gray-800 dark:text-gray-300 text-lg">:</Text>
+					<Text className="text-text-primary text-lg">:</Text>
 					<DateItem value={time.minute} />
 					<DateItem value={time.ampm} />
 				</View>
-				<IconAlarm color={'#60a5fa'} width={20} height={20} />
+				<IconAlarm color={iconColor} width={20} height={20} />
 			</Pressable>
 		</Animated.View>
 	)

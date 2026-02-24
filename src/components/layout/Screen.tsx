@@ -1,5 +1,7 @@
 import { Animated, type StyleProp, type ViewStyle } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { twMerge } from 'tailwind-merge'
+import { getThemeColor } from '@/utils/theme'
 
 export function Screen({
 	children,
@@ -19,8 +21,14 @@ export function Screen({
 
 	return (
 		<Animated.View
-			className={`flex-1 dark:bg-gray-900 bg-gray-300 ${className}`}
-			style={[styles, style]}
+			className={twMerge(`flex-1`, className)}
+			style={[
+				{
+					backgroundColor: getThemeColor('background')
+				},
+				styles,
+				style
+			]}
 		>
 			{children}
 		</Animated.View>

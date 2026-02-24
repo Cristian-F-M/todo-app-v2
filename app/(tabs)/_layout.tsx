@@ -1,36 +1,32 @@
 import { IconHomeFilled, IconSettingsFilled } from '@tabler/icons-react-native'
 import { Tabs } from 'expo-router'
-import { useColorScheme } from 'nativewind'
+import type { ExpoTabs } from 'expo-router/build/layouts/TabsClient'
+import type { ComponentProps } from 'react'
+import { getThemeColor, useThemeStyles } from '@/utils/theme'
+
+type ScreeOptions = ComponentProps<typeof ExpoTabs>['screenOptions']
 
 export default function TabsLayout() {
-	const { colorScheme } = useColorScheme()
-	const headerBgColor = colorScheme === 'dark' ? '#111827' : '#d1d5db'
-	const headerTintColor = colorScheme === 'dark' ? '#fff' : '#000'
-	const tabBarBgColor = colorScheme === 'dark' ? '#0A1E3F' : '#d1d5db'
-	const tabBarBorderColor = colorScheme === 'dark' ? '#1554bd' : '#9ca3af'
-	const tabBarActiveTintColor = colorScheme === 'dark' ? '#0066CC' : '#2563eb'
-	const tabBarInactiveTintColor = colorScheme === 'dark' ? '#A2B9D9' : '#6b7280'
+	const screenOptions = useThemeStyles<ScreeOptions>(() => ({
+		animation: 'fade',
+		headerShown: false,
+		headerStyle: {
+			backgroundColor: getThemeColor('background')
+		},
+		headerTintColor: getThemeColor('text-primary'),
+		tabBarStyle: {
+			backgroundColor: getThemeColor('surface-soft'),
+			borderColor: getThemeColor('border')
+		},
+		tabBarActiveTintColor: getThemeColor('primary'),
+		tabBarInactiveTintColor: getThemeColor('text-secondary'),
+		sceneStyle: {
+			backgroundColor: getThemeColor('overlay')
+		}
+	}))
 
 	return (
-		<Tabs
-			screenOptions={{
-				animation: 'fade',
-				headerShown: false,
-				headerStyle: {
-					backgroundColor: headerBgColor
-				},
-				headerTintColor: headerTintColor,
-				tabBarStyle: {
-					backgroundColor: tabBarBgColor,
-					borderColor: tabBarBorderColor
-				},
-				tabBarActiveTintColor: tabBarActiveTintColor,
-				tabBarInactiveTintColor: tabBarInactiveTintColor,
-				sceneStyle: {
-					backgroundColor: colorScheme === 'dark' ? '#111827' : '#d1d5db'
-				}
-			}}
-		>
+		<Tabs screenOptions={screenOptions}>
 			<Tabs.Screen
 				name="index"
 				options={{

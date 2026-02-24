@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge'
 import { StyledPressable } from '@/components/layout/StyledPressable'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
+import { getThemeColor } from '@/utils/theme'
 
 export function Header() {
 	const { folders } = useFolder()
@@ -17,7 +18,12 @@ export function Header() {
 	return (
 		<View className="header flex-row w-full py-4 px-3 flex items-center justify-between">
 			<View className="items-center justify-center">
-				<Text className="dark:text-white text-3xl text-center">
+				<Text
+					className="text-3xl text-center"
+					style={{
+						color: getThemeColor('text-primary')
+					}}
+				>
 					Mis Carpetas
 				</Text>
 			</View>

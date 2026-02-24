@@ -40,6 +40,7 @@ export default function Index() {
 	}, [opacityValue])
 
 	const { colorScheme } = useColorScheme()
+	// TODO: Do something with this
 	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
 
 	return (

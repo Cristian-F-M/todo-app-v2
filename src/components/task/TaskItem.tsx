@@ -11,6 +11,7 @@ import Animated, {
 	FadeOut,
 	LinearTransition
 } from 'react-native-reanimated'
+import { twMerge } from 'tailwind-merge'
 import { Checkbox } from '@/components/Checkbox/Checkbox'
 import { DropdownMenu } from '@/components/Dropdown/Dropdown'
 import { DropdownOption } from '@/components/Dropdown/DropdownOption'
@@ -19,6 +20,7 @@ import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import type { Task } from '@/types/task'
 import { removeNotification } from '@/utils/notifications'
+import { getThemeColor } from '@/utils/theme'
 
 export function TaskItem({ task }: { task: Task }) {
 	const { openModal, setItem } = useModal()
@@ -62,8 +64,10 @@ export function TaskItem({ task }: { task: Task }) {
 
 	return (
 		<Animated.View
-			className={`bg-gray-200 dark:bg-gray-800 px-4 py-4 mb-4 items-center  rounded-lg inline-flex flex-row justify-between active:opacity-75 border ${isChecked ? 'dark:opacity-80 opacity-95' : ''}`}
-			style={{ borderColor: colorScheme === 'dark' ? '#4b5563' : '#cbd0d6' }}
+			className={twMerge(
+				'bg-surface border-border px-4 py-4 mb-4 items-center rounded-lg inline-flex flex-row justify-between active:opacity-75 border',
+				isChecked && 'opacity-95'
+			)}
 			layout={LinearTransition.stiffness(2)}
 			entering={FadeIn}
 			exiting={FadeOut}
@@ -77,7 +81,11 @@ export function TaskItem({ task }: { task: Task }) {
 					style={{ maxHeight: 80 }}
 				>
 					<Text
-						className={`text-lg h-full ${isChecked ? 'opacity-75 dark:text-gray-400 text-gray-600' : 'dark:text-gray-300 text-gray-800'}`}
+						className={twMerge(
+							'text-lg h-full',
+							isChecked && 'opacity-75 text-text-muted',
+							!isChecked && 'text-text-secondary'
+						)}
 						onPress={handleCompleteTask}
 					>
 						{task.name}
@@ -91,12 +99,10 @@ export function TaskItem({ task }: { task: Task }) {
 				handleClose={() => setDropdownVisible(false)}
 				trigger={
 					<Pressable
-						className="active:dark:bg-[#4b5563] p-1 rounded-lg active:bg-gray-300"
+						className="active:bg-primary-pressed  p-1 rounded-lg"
 						onPress={() => setDropdownVisible(true)}
 					>
-						<IconDotsVertical
-							stroke={colorScheme === 'dark' ? 'white' : '#1f2937'}
-						/>
+						<IconDotsVertical color={getThemeColor('text-primary')} />
 					</Pressable>
 				}
 			>
@@ -106,19 +112,17 @@ export function TaskItem({ task }: { task: Task }) {
 					handleClose={handleCloseDropdown}
 					handleOpen={handleOpenDropdown}
 					icon={IconEdit}
-					iconProps={{
-						stroke: colorScheme === 'dark' ? '#ffffff' : '#1f2937'
-					}}
+					iconProps={{ stroke: getThemeColor('text-primary') }}
 				/>
 
 				<DropdownOption
 					text="Eliminar"
-					textClassName={'!text-red-400'}
+					textClassName={'!text-danger/70'}
 					handleClose={handleCloseDropdown}
 					handleOpen={handleOpenDropdown}
 					onPress={handleDeleteTask}
 					icon={IconTrash}
-					iconProps={{ stroke: '#ff6467' }}
+					iconProps={{ stroke: getThemeColor('danger', 0.7) }}
 				/>
 			</DropdownMenu>
 		</Animated.View>

@@ -5,6 +5,7 @@ import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import { removeNotification } from '@/utils/notifications'
+import { getThemeColor } from '@/utils/theme'
 import { StyledPressable } from '../layout/StyledPressable'
 
 export function DeleteModal() {
@@ -38,23 +39,49 @@ export function DeleteModal() {
 	return (
 		<View className="w-full px-6 py-5 flex-col items-center justify-center">
 			<View className="relative w-full flex-row items-center gap-x-3">
-				<IconAlertTriangle stroke={'#dc9012'} width={25} height={25} />
-				<Text className="text-2xl font-semibold dark:text-gray-300 text-gray-800">
+				<IconAlertTriangle
+					stroke={getThemeColor('warning')}
+					width={25}
+					height={25}
+				/>
+				<Text
+					className="text-2xl font-semibold"
+					style={{
+						color: getThemeColor('text-primary')
+					}}
+				>
 					{modalTitle}
 				</Text>
 				<View className="absolute right-0">
 					<Pressable
-						className="dark:active:bg-blue-900 active:bg-blue-300 p-1 rounded-lg"
+						className="p-1 rounded-lg"
+						style={{
+							backgroundColor: getThemeColor('surface-soft')
+						}}
 						onPress={() => closeModal('delete')}
 					>
-						<IconX stroke="#7e8aae" width={24} height={24} />
+						<IconX
+							stroke={getThemeColor('text-primary')}
+							width={24}
+							height={24}
+						/>
 					</Pressable>
 				</View>
 			</View>
 			<View className="mt-4 w-full">
-				<Text className="dark:text-gray-400 text-gray-800 text-base">
+				<Text
+					className="text-base"
+					style={{
+						color: getThemeColor('text-primary')
+					}}
+				>
 					¿Estás seguro de que deseas eliminar la {modalType}{' '}
-					<Text className="font-semibold dark:text-white text-black">
+					<Text
+						className="font-semibold"
+						style={{
+							color: getThemeColor('text-secondary')
+						}}
+					>
 						{item?.data.name}
 					</Text>
 					? Esta acción no se puede deshacer.
@@ -63,16 +90,17 @@ export function DeleteModal() {
 			<View className="flex flex-row justify-between mt-5 w-full">
 				<StyledPressable
 					text="Cancelar"
-					backgroundColor="transparent"
-					pressableClassName="!w-[48%] border-gray-500 border"
-					textClassName="!text-gray-800 dark:!text-gray-300"
+					className="!w-[48%]"
+					style={{
+						backgroundColor: 'transparent',
+						borderWidth: 1,
+						borderColor: getThemeColor('border')
+					}}
 					onPress={handleCancel}
 				/>
 				<StyledPressable
 					text="Eliminar"
-					backgroundColor="#ff6467"
-					pressableClassName="!w-[48%]"
-					textClassName="!text-gray-100 dark:!text-gray-300"
+					className="!w-[48%]"
 					onPress={handleDeleteItem}
 				/>
 			</View>

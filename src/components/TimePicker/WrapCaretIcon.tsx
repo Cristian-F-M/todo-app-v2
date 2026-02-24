@@ -1,4 +1,5 @@
 import { Pressable } from 'react-native'
+import { getThemeColor } from '@/utils/theme'
 
 export function WrapCaretIcon({
 	children,
@@ -11,7 +12,8 @@ export function WrapCaretIcon({
 }) {
 	return (
 		<Pressable
-			className={`justify-center bg-primary/30 p-px rounded-lg active:dark:bg-primary/60 active:bg-primary/50 ${className}`}
+			className={`justify-center p-px rounded-lg active:dark:bg-primary/60 active:bg-primary/50 ${className}`}
+			style={{ backgroundColor: getThemeColor('surface-soft') }}
 			onPress={onPress}
 		>
 			{children}

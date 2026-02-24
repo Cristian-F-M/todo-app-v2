@@ -1,13 +1,17 @@
-import { useMemo } from 'react'
+import { useUnstableNativeVariable } from 'nativewind'
+import { useEffect, useMemo } from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import uuid from 'react-native-uuid'
 import { THEMES } from '@/constants/theme'
 import { useTheme } from '@/state/theme'
 import type { Theme } from '@/types/theme'
+import { getThemeColor } from '@/utils/theme'
 import { ThemeOverview } from './ThemeOverview'
 
 export function ChangeThemeModalContent() {
 	const { theme } = useTheme()
+
+	const background = useUnstableNativeVariable('--text-primary')
 
 	const themeKeys = useMemo(() => {
 		return [
@@ -18,14 +22,24 @@ export function ChangeThemeModalContent() {
 		].flat()
 	}, [])
 
+	useEffect(() => {
+		console.log({ background })
+	}, [background])
+
 	return (
 		<View className="flex flex-col justify-center py-6 px-6">
-			<Text className="dark:text-gray-300 text-gray-700 text-2xl font-bold mb-5">
+			<Text
+				className="text-text-primary text-2xl font-bold mb-5"
+				style={{ color: getThemeColor('text-primary') }}
+			>
 				Selecciona un tema
 			</Text>
 
 			<View>
-				<Text className="text-[#b8afff] text-xl font-bold">
+				<Text
+					className="text-xl font-bold"
+					style={{ color: getThemeColor('text-secondary') }}
+				>
 					Tema seleccionado
 				</Text>
 				<View>
@@ -33,7 +47,10 @@ export function ChangeThemeModalContent() {
 				</View>
 			</View>
 
-			<Text className="text-[#b8afff] text-xl font-bold mt-10">
+			<Text
+				className="text-xl font-bold mt-10"
+				style={{ color: getThemeColor('text-secondary') }}
+			>
 				Temas disponibles
 			</Text>
 			<ScrollView

@@ -30,7 +30,7 @@ export function CheckboxNotificationGroup({
 					disableText
 				/>
 				<Text
-					className="dark:text-white"
+					className="text-text-primary"
 					onPress={() => {
 						handleChangeNotificationType('TIME')
 					}}
@@ -46,7 +46,7 @@ export function CheckboxNotificationGroup({
 				/>
 
 				<Text
-					className="dark:text-white"
+					className="text-text-primary"
 					onPress={() => {
 						handleChangeNotificationType('DATE_TIME')
 					}}

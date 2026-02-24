@@ -5,6 +5,7 @@ import { twMerge } from 'tailwind-merge'
 import { THEMES_LABELS } from '@/constants/theme'
 import { useTheme } from '@/state/theme'
 import type { Theme, ThemeObject } from '@/types/theme'
+import { getThemeColor } from '@/utils/theme'
 
 export function ThemeOverview({
 	themeKey,
@@ -31,12 +32,20 @@ export function ThemeOverview({
 		<Pressable
 			onPress={handleSetTheme}
 			className={twMerge(
-				'flex flex-row justify-between items-center mt-2 bg-[#0e0b1f] py-3 px-3 rounded-lg border-2 border-transparent',
-				isSelected && 'border-[#8b5cf6]'
+				'flex flex-row justify-between items-center mt-2 py-3 px-3 rounded-lg border-2 border-transparent'
 			)}
+			style={{
+				backgroundColor: getThemeColor('text-muted', isSelected ? 0.7 : 0.2),
+				borderColor: getThemeColor('text-muted', isSelected ? 1 : 0.3)
+			}}
 		>
 			<View className="w-5/12">
-				<Text className="text-[#f3f0ff] text-lg font-bold">{label}</Text>
+				<Text
+					className="text-text-primary text-lg font-bold"
+					style={{ color: getThemeColor('text-secondary') }}
+				>
+					{label}
+				</Text>
 			</View>
 			<View className="w-1/12 h-full" />
 			<ScrollView

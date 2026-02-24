@@ -1,4 +1,3 @@
-import { useColorScheme } from 'nativewind'
 import { useEffect, useId, useMemo } from 'react'
 import { View } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
@@ -15,6 +14,7 @@ import type { DecayConfig } from 'react-native-reanimated/lib/typescript/animati
 import { scheduleOnRN } from 'react-native-worklets'
 import { twMerge } from 'tailwind-merge'
 import type { WheelPickerProps } from '@/types/wheelPicker'
+import { getThemeColor } from '@/utils/theme'
 import { WheelItem } from './WheelPickerItem'
 import { WheelPickerLabel } from './WheelPickerLabel'
 
@@ -41,7 +41,6 @@ export function WheelPicker({
 	const containerHeight = itemHeight * visibleItems
 	const maxTranslateY = 0
 	const minTranslateY = -(items.length - 1) * itemHeight
-	const { colorScheme } = useColorScheme()
 
 	const gesture = Gesture.Pan()
 		.onStart(() => {
@@ -115,32 +114,33 @@ export function WheelPicker({
 
 			<View
 				className={twMerge(
-					'overflow-hidden w-full rounded-lg border-2 bg-[#c7ddf2] dark:bg-[#16222e]',
+					'overflow-hidden w-full rounded-lg border-2',
 					label && classNamesWithLabel
 				)}
 				style={{
 					height: containerHeight,
-					borderColor: colorScheme === 'light' ? '#a6c9ed' : '#263a4f',
-					borderWidth: 6
+					borderColor: getThemeColor('surface', 0.5),
+					borderWidth: 6,
+					backgroundColor: getThemeColor('primary', 0.5)
 				}}
 			>
 				{/* <selected-item-indicator /> */}
 				<View
-					className="absolute border-t border-b border-[#8da8c2] dark:border-resalt bg-[#9fbbd6] dark:bg-[#0f2e49]"
+					className="absolute border-t border-b"
 					style={{
 						left: 0,
 						right: 0,
 						height: itemHeight,
-						top: (containerHeight - itemHeight) / 2
+						top: (containerHeight - itemHeight) / 2,
+						backgroundColor: getThemeColor('primary'),
+						borderColor: getThemeColor('border')
 					}}
 					pointerEvents="none"
 				/>
 
 				<GestureDetector gesture={gesture}>
 					<Animated.View className="flex-1">
-						<Animated.View
-							style={containerStyle}
-						>
+						<Animated.View style={containerStyle}>
 							{items.map((item, index) => (
 								<WheelItem
 									key={itemsIds[index]}

@@ -13,6 +13,7 @@ import type { NotificationType } from '@/types/modal'
 import type { TimeValueType } from '@/types/timePicker'
 import { formatDateString, sumDate } from '@/utils/dateTime'
 import { removeNotification, sendNotification } from '@/utils/notifications'
+import { getThemeColor } from '@/utils/theme'
 import { DateTimePicker } from '../DateTimePicker/DateTimePicker'
 import { StyledPressable } from '../layout/StyledPressable'
 import { CheckboxNotificationGroup } from '../notification/CheckboxNotificationGroup'
@@ -125,7 +126,12 @@ export function TaskModal() {
 		<View className="relative flex-1 mx-aito w-full px-4 py-6">
 			{/* <header /> */}
 			<View className="flex-row items-center justify-between relative">
-				<Text className="text-start text-2xl dark:text-white text-gray-800 font-semibold tracking-wider">
+				<Text
+					className="text-start text-2xl font-semibold tracking-wider"
+					style={{
+						color: getThemeColor('text-primary')
+					}}
+				>
 					{modalTitle}
 				</Text>
 			</View>
@@ -133,17 +139,24 @@ export function TaskModal() {
 			<View>
 				{/* <input-container /> */}
 				<View>
-					<View className="dark:bg-blue-900/30 bg-blue-200/40 border-blue-800 mt-6 rounded-lg border">
+					<View
+						className="mt-6 rounded-lg border"
+						style={{
+							backgroundColor: getThemeColor('surface-soft'),
+							borderColor: getThemeColor('border')
+						}}
+					>
 						{/* <View></View> */}
 						<TextInput
 							multiline={true}
 							numberOfLines={6}
 							textAlignVertical="top"
 							value={textInput}
-							className="dark:text-white text-gray-800 px-3 min-h-12"
-							placeholderTextColor={
-								colorScheme === 'dark' ? '#99a1af' : '#6b7280'
-							}
+							className="px-3 min-h-12"
+							style={{
+								color: getThemeColor('text-primary')
+							}}
+							placeholderTextColor={getThemeColor('text-secondary')}
 							placeholder="Nombre de la tarea"
 							onChange={(e) => {
 								setError(null)
@@ -153,10 +166,10 @@ export function TaskModal() {
 					</View>
 					{/* <input-error /> */}
 					<Text
-						className={twMerge(
-							'text-red-500 dark:text-red-500/70 mt-1 text-sm hidden',
-							error && 'block'
-						)}
+						className={twMerge('mt-1 text-sm hidden', error && 'block')}
+						style={{
+							color: getThemeColor('danger')
+						}}
 					>
 						{error}
 					</Text>
@@ -166,29 +179,42 @@ export function TaskModal() {
 				<Animated.View
 					layout={LinearTransition.duration(200)}
 					className={twMerge(
-						'dark:bg-blue-500/20 bg-blue-300/60 rounded-lg mt-4 overflow-hidden',
+						'rounded-lg mt-4 overflow-hidden',
 						notificate && 'pb-4'
 					)}
+					style={{
+						backgroundColor: getThemeColor('surface'),
+						borderColor: getThemeColor('border')
+					}}
 				>
 					{/* <header /> */}
 					<Pressable
 						onPress={() => handleSetNotificate(!notificate)}
 						className={twMerge(
 							'flex flex-row gap-2 items-center justify-between px-2 py-0 w-full',
-							notificate && 'dark:bg-blue-500/10 bg-blue-300/90'
+							notificate && 'bg-surface'
 						)}
 					>
 						<View className="flex flex-row gap-2 items-center">
 							<IconBell
-								color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
+								color={getThemeColor('text-muted')}
 								width={18}
 								height={18}
 							/>
-							<Text className="dark:text-white">Notificar</Text>
+							<Text
+								style={{
+									color: getThemeColor('text-primary')
+								}}
+							>
+								Notificar
+							</Text>
 						</View>
 						<Switch
-							trackColor={{ false: '#767577', true: '#2563eb' }}
-							thumbColor={'#fff'}
+							trackColor={{
+								false: getThemeColor('text-secondary'),
+								true: getThemeColor('primary')
+							}}
+							thumbColor={getThemeColor('text-primary')}
 							value={notificate}
 							onValueChange={handleSetNotificate}
 						/>
@@ -197,7 +223,12 @@ export function TaskModal() {
 					{/* <main /> */}
 					{notificate && (
 						<View className="flex flex-row gap-x-4 mt-2 items-center justify-between rounded-lg px-3 py-1">
-							<View className="h-full w-1 rounded bg-blue-800"></View>
+							<View
+								className="h-full w-1 rounded"
+								style={{
+									backgroundColor: getThemeColor('primary')
+								}}
+							></View>
 							<View className="w-full flex-col pl-4 py-3 flex-1">
 								<CheckboxNotificationGroup
 									notificationType={notificationType}
@@ -215,14 +246,24 @@ export function TaskModal() {
 									)}
 								</View>
 								{/* <notificate-at-container> */}
-								<View className="mt-6 w-full flex flex-row gap-x-2 items-center dark:bg-resalt/20 bg-blue-500/50 px-3 py-2 rounded">
+								<View
+									className="mt-6 w-full flex flex-row gap-x-2 items-center px-3 py-2 rounded"
+									style={{
+										backgroundColor: getThemeColor('surface-soft')
+									}}
+								>
 									<IconBell
-										color={colorScheme === 'dark' ? '#60a5fa' : '#2563eb'}
+										color={getThemeColor('text-muted')}
 										width={18}
 										height={18}
 									/>
 
-									<Text className="text-gray-200 text-sm mt-px flex-1">
+									<Text
+										className="text-sm mt-px flex-1"
+										style={{
+											color: getThemeColor('text-primary')
+										}}
+									>
 										{notificationText}
 									</Text>
 								</View>

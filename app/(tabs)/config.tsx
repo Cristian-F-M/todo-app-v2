@@ -1,6 +1,6 @@
 import { IconExternalLink } from '@tabler/icons-react-native'
 import { Stack } from 'expo-router'
-import { useColorScheme } from 'nativewind'
+import type { ExtendedStackNavigationOptions } from 'expo-router/build/layouts/StackClient'
 import { useCallback, useEffect, useRef } from 'react'
 import { Pressable, ScrollView, View } from 'react-native'
 import type { Modalize } from 'react-native-modalize'
@@ -11,12 +11,21 @@ import { TimePickerType } from '@/components/modal/TimePickerType'
 import { ChangeThemeModalContent } from '@/components/theme/ChangeThemeModalContent'
 import { useConfig } from '@/state/config'
 import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
+import { getThemeColor, useThemeStyles } from '@/utils/theme'
 import { useDebounce } from '@/utils/useDebounce'
 
 export default function ConfigPage() {
 	const { configs, setConfigs } = useConfig()
 	const debouncedConfigs = useDebounce<ConfigsType>(configs, 500)
-	const { colorScheme } = useColorScheme()
+
+	const screenOptions = useThemeStyles<ExtendedStackNavigationOptions>(() => ({
+		headerShown: true,
+		headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: getThemeColor('surface')
+		},
+		headerTintColor: getThemeColor('text-primary')
+	}))
 
 	useEffect(() => {
 		saveAllConfigs(debouncedConfigs)
@@ -35,17 +44,7 @@ export default function ConfigPage() {
 
 	return (
 		<Screen safeArea={false}>
-			<Stack.Screen
-				options={{
-					headerShown: true,
-					headerTitleAlign: 'center',
-
-					headerStyle: {
-						backgroundColor: colorScheme === 'light' ? '#d1d5db' : '#111827'
-					},
-					headerTintColor: colorScheme === 'light' ? '#000' : '#fff'
-				}}
-			/>
+			<Stack.Screen options={screenOptions} />
 
 			<ScrollView className="flex flex-col gap-y-3 w-[95%] mx-auto">
 				<ConfigCard title="Apariencia">
@@ -58,12 +57,10 @@ export default function ConfigPage() {
 					>
 						<View className="">
 							<Pressable
-								className="p-2 rounded-lg dark:bg-blue-600 bg-blue-400 active:dark:bg-blue-400 active:bg-blue-300 w-12 items-center justify-center self-end mr-1"
+								className="p-2 rounded-lg bg-primary active:bg-primary-pressed w-12 items-center justify-center self-end mr-1"
 								onPress={() => modalRef.current?.open()}
 							>
-								<IconExternalLink
-									color={colorScheme === 'dark' ? '#fff' : '#000'}
-								/>
+								<IconExternalLink color={getThemeColor('text-primary')} />
 							</Pressable>
 						</View>
 					</ConfigRow>
@@ -76,12 +73,10 @@ export default function ConfigPage() {
 						description="Define el tipo de selector de hora."
 					>
 						<Pressable
-							className="p-2 rounded-lg dark:bg-blue-600 bg-blue-400 active:dark:bg-blue-400 active:bg-blue-300 w-12 items-center justify-center self-end mr-1"
+							className="p-2 rounded-lg bg-primary active:bg-primary-pressed w-12 items-center justify-center self-end mr-1"
 							onPress={() => pickerTimeTypeRef.current?.open()}
 						>
-							<IconExternalLink
-								color={colorScheme === 'dark' ? '#fff' : '#000'}
-							/>
+							<IconExternalLink color={getThemeColor('text-primary')} />
 						</Pressable>
 					</ConfigRow>
 				</ConfigCard>

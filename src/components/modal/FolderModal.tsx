@@ -1,15 +1,13 @@
-import { useColorScheme } from 'nativewind'
 import { useCallback, useState } from 'react'
 import { Text, TextInput, View } from 'react-native'
 import uuid from 'react-native-uuid'
 import { twMerge } from 'tailwind-merge'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
+import { getThemeColor } from '@/utils/theme'
 import { StyledPressable } from '../layout/StyledPressable'
 
-
 export function FolderModal() {
-	const { colorScheme } = useColorScheme()
 	const { item, closeModal } = useModal()
 	const { update, create } = useFolder()
 	const [error, setError] = useState<string | null>(null)
@@ -42,7 +40,10 @@ export function FolderModal() {
 		<View className="relative flex-1 mx-aito w-full px-4 py-6">
 			{/* <header /> */}
 			<View className="flex-row items-center justify-between relative">
-				<Text className="text-start text-2xl dark:text-white text-gray-800 font-semibold tracking-wider">
+				<Text
+					className="text-start text-2xl font-semibold tracking-wider"
+					style={{ color: getThemeColor('text-primary') }}
+				>
 					{modalTitle}
 				</Text>
 			</View>
@@ -50,27 +51,34 @@ export function FolderModal() {
 			<View>
 				{/* <input-container /> */}
 				<View>
-					<View className="dark:bg-blue-900/30 bg-blue-200/40 border-blue-800 mt-6 rounded-lg border">
+					<View
+						className="mt-6 rounded-lg border"
+						style={{
+							borderColor: getThemeColor('border'),
+							backgroundColor: getThemeColor('surface-soft')
+						}}
+					>
 						{/* <View></View> */}
 						<TextInput
 							value={textInput}
-							className="dark:text-white text-gray-800 px-3 h-12"
-							placeholderTextColor={
-								colorScheme === 'dark' ? '#99a1af' : '#6b7280'
-							}
+							className="text-text-primary px-3 h-12"
+							placeholderTextColor={getThemeColor('text-primary', 0.7)}
 							placeholder="Nombre de la carpeta"
 							onChange={(e) => {
 								setError(null)
 								setTextInput(e.nativeEvent.text)
 							}}
+							style={{
+								color: getThemeColor('text-primary')
+							}}
 						/>
 					</View>
 					{/* <input-error /> */}
 					<Text
-						className={twMerge(
-							'text-red-500 dark:text-red-500/70 mt-1 text-sm hidden',
-							error && 'block'
-						)}
+						className={twMerge('mt-1 text-sm hidden', error && 'block')}
+						style={{
+							color: getThemeColor('danger')
+						}}
 					>
 						{error}
 					</Text>

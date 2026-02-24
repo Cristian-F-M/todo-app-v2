@@ -1,4 +1,5 @@
 import { View } from 'react-native'
+import { twMerge } from 'tailwind-merge'
 
 export function CheckboxIcon({
 	isChecked,
@@ -10,7 +11,10 @@ export function CheckboxIcon({
 	return (
 		<View
 			style={{ width: size, height: size }}
-			className={` dark:bg-resalt bg-blue-600 rounded-full transition-opacity ${isChecked ? 'opacity-100' : 'opacity-0'}`}
+			className={twMerge(
+				'bg-primary rounded-full transition-opacity opacity-0',
+				isChecked && 'opacity-100'
+			)}
 		></View>
 	)
 }

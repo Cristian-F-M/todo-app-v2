@@ -1,10 +1,10 @@
 import { IconSparkles } from '@tabler/icons-react-native'
-import { useColorScheme } from 'nativewind'
 import { useCallback } from 'react'
 import { Text, TextInput, View } from 'react-native'
 import { Switch } from 'react-native-gesture-handler'
 import { Modal } from '@/components/modal/Modal'
 import type { ConfigRowProps } from '@/types/config'
+import { getThemeColor } from '@/utils/theme'
 
 export function ConfigRow({
 	text,
@@ -15,8 +15,6 @@ export function ConfigRow({
 	onChangeValue,
 	...props
 }: ConfigRowProps) {
-	const { colorScheme } = useColorScheme()
-
 	const handleClickChangeValue = useCallback(
 		(value: string | boolean | unknown) => {
 			if (!onChangeValue) return
@@ -31,21 +29,20 @@ export function ConfigRow({
 		<View className="">
 			<View className="flex flex-row justify-between relative">
 				<View className="w-[70%]">
-					<Text className="dark:text-gray-100 text-gray-800 text-base">
-						{text}
-					</Text>
+					<Text className="text-text-primary text-base">{text}</Text>
 					{description && (
-						<Text className="dark:text-gray-400 text-gray-600 text-sm">
-							{description}
-						</Text>
+						<Text className="text-text-secondary text-sm">{description}</Text>
 					)}
 				</View>
 				<View className="w-[30%]">
 					{props.typeConfig === 'switch' && (
 						<Switch
-							trackColor={{ false: '#767577', true: '#2563eb' }}
-							thumbColor={'#fff'}
-							ios_backgroundColor="#3e3e3e"
+							trackColor={{
+								false: getThemeColor('text-secondary'),
+								true: getThemeColor('primary')
+							}}
+							thumbColor={getThemeColor('primary-pressed')}
+							ios_backgroundColor={getThemeColor('text-secondary')}
 							onValueChange={handleClickChangeValue}
 							value={props.value}
 							disabled={disabled || commingSoon}
@@ -53,11 +50,17 @@ export function ConfigRow({
 					)}
 
 					{props.typeConfig === 'text' && (
-						<View className="border dark:bg-gray-800 bg-gray-400 dark:border-gray-600 border-gray-200 rounded-lg px-2 h-12">
+						<View
+							className="border rounded-lg px-2 h-12"
+							style={{
+								borderColor: getThemeColor('border'),
+								backgroundColor: getThemeColor('surface-soft')
+							}}
+						>
 							<TextInput
-								className="dark:text-gray-100 text-gray-900 text-sm h-full"
+								className="text-text-primary text-sm h-full"
 								placeholder={placeholder}
-								placeholderTextColor={'#6b7280'}
+								placeholderTextColor={getThemeColor('text-secondary')}
 								keyboardType={props.textInputProps?.keyboardType ?? 'default'}
 								editable={!disabled && !commingSoon}
 								secureTextEntry={props.textInputProps?.secureTextEntry}
@@ -77,15 +80,13 @@ export function ConfigRow({
 					{props.typeConfig === 'other' && props.children}
 				</View>
 				{commingSoon && (
-					<View className="absolute right-0 -top-4 py-1 px-2 rounded-lg border dark:border-blue-700 border-blue-500 dark:bg-blue-900 bg-blue-400 animate-bounce flex-row gap-x-1">
+					<View className="absolute right-0 -top-4 py-1 px-2 rounded-lg border border-border bg-surface-soft animate-bounce flex-row gap-x-1">
 						<IconSparkles
-							color={colorScheme === 'dark' ? '#9ca3af' : '#1f2937'}
+							color={getThemeColor('text-primary')}
 							width={15}
 							height={15}
 						/>
-						<Text className="text-sm dark:text-gray-400 text-gray-800">
-							Proximamente
-						</Text>
+						<Text className="text-sm text-text-primary">Proximamente</Text>
 					</View>
 				)}
 			</View>

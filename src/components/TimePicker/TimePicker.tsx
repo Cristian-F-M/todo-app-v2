@@ -4,6 +4,7 @@ import { SingleTimePicker } from '@/components/TimePicker/SingleTimePicker'
 import { WheelPicker } from '@/components/WheelPicker/WheelPicker'
 import { useConfig } from '@/state/config'
 import type { TimeValueType } from '@/types/timePicker'
+import { getThemeColor } from '@/utils/theme'
 
 export interface TimePickerProps {
 	value: TimeValueType
@@ -66,7 +67,10 @@ export function TimePicker({ value, onChange }: TimePickerProps) {
 						onChange={(hours) => onChange({ ...value, hours })}
 						min={0}
 					/>
-					<View className="w-1 h-full dark:bg-resalt/30 bg-blue-600 rounded mx-3" />
+					<View
+						className="w-1 h-full rounded mx-3"
+						style={{ backgroundColor: getThemeColor('primary') }}
+					/>
 					<SingleTimePicker
 						text="Minutos"
 						value={value.minutes}

@@ -7,8 +7,8 @@ import { Pressable, Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 import { SingleTimePicker } from '@/components/TimePicker/SingleTimePicker'
 import { useConfig } from '@/state/config'
-import { useTheme } from '@/state/theme'
 import type { TimePickerType as TimePickerTypeEnum } from '@/types/config'
+import { getThemeColor } from '@/utils/theme'
 import { WheelPicker } from '../WheelPicker/WheelPicker'
 
 interface TimePicker {
@@ -33,7 +33,8 @@ const TIME_PICKERS = {
 			</View>
 		),
 		icon: (props: IconProps) => <IconWheel {...props} />,
-		shortDescription: 'Selector de tiempo tipo rueda\n¡Puede hacer que el picker se demore en cargar!'
+		shortDescription:
+			'Selector de tiempo tipo rueda\n¡Puede hacer que el picker se demore en cargar!'
 	},
 	CLASIC: {
 		name: 'Clasico',
@@ -45,12 +46,14 @@ const TIME_PICKERS = {
 
 export function TimePickerType() {
 	const { configs, setConfigs } = useConfig()
-	const { theme } = useTheme()
 
 	return (
 		<View className="py-6 px-2">
 			<View>
-				<Text className="dark:text-white text-2xl font-bold text-center">
+				<Text
+					className="text-text-primary text-2xl font-bold text-center"
+					style={{ color: getThemeColor('text-primary') }}
+				>
 					Selecciona el tipo de selector de tiempo
 				</Text>
 			</View>
@@ -60,9 +63,8 @@ export function TimePickerType() {
 					const Icon = picker.icon
 					const isSelected = configs.timePickerType === k
 
-					let iconColor = theme === 'light' ? '#000' : '#fff'
-
-					if (isSelected) iconColor = theme === 'light' ? '#2563eb' : '#60a5fa'
+					let iconColor = getThemeColor('text-primary')
+					if (isSelected) iconColor = getThemeColor('primary')
 
 					return (
 						<Pressable
@@ -74,18 +76,24 @@ export function TimePickerType() {
 							}}
 							key={k}
 							className={twMerge(
-								'w-28 border dark:border-blue-800 border-blue-400 px-2 py-5 rounded-lg bg-blue-200/20 dark:bg-blue-800/10 transition-colors',
-								isSelected &&
-									'border-blue-500 dark:border-blue-600 bg-blue-200/90 dark:bg-blue-800/40'
+								'w-28 border px-2 py-5 rounded-lg transition-colors'
 							)}
+							style={{
+								borderColor: getThemeColor(
+									'text-muted',
+									isSelected ? 0.6 : 0.4
+								),
+								backgroundColor: getThemeColor(
+									'text-muted',
+									isSelected ? 0.3 : 0.1
+								)
+							}}
 						>
 							<View className="flex flex-col items-center justify-center">
 								{<Icon size={30} color={iconColor} />}
 								<Text
-									className={twMerge(
-										'dark:text-white text-black font-semibold transition-colors',
-										isSelected && 'text-blue-600 dark:text-blue-400'
-									)}
+									className={twMerge('font-semibold transition-colors')}
+									style={{ color: getThemeColor('text-primary') }}
 								>
 									{picker.name}
 								</Text>

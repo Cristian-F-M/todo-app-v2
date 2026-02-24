@@ -4,8 +4,7 @@ import {
 	IconFolder,
 	IconTrash
 } from '@tabler/icons-react-native'
-import { Link } from 'expo-router'
-import { useColorScheme } from 'nativewind'
+import { Link, useRouter } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import Animated, {
@@ -19,12 +18,14 @@ import { useConfig } from '@/state/config'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import type { Folder as FolderType } from '@/types/folder'
+import { getThemeColor } from '@/utils/theme'
 
 export function FolderItem({ folder }: { folder: FolderType }) {
 	const [dropDownVisible, setDropDownVisible] = useState(false)
 	const { openModal, setItem } = useModal()
 	const { delete: deleteFolder } = useFolder()
 	const { configs } = useConfig()
+	const router = useRouter()
 
 	const openDropdown = useCallback(() => {
 		setDropDownVisible(true)
@@ -50,28 +51,30 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 		openModal('delete')
 	}, [deleteFolder, folder, openModal, setItem, configs])
 
-	const { colorScheme } = useColorScheme()
-
 	return (
 		<Link
 			href={`/folder/${folder.id}`}
 			asChild
-			className="flex-row bg-gray-200 dark:bg-gray-800 px-4 py-4 mb-3 h-16 rounded-lg justify-between active:dark:bg-gray-700 active:bg-gray-200 border"
-			style={{ borderColor: colorScheme === 'dark' ? '#4b5563' : '#cbd0d6' }}
+			className="flex flex-row px-4 py-4 mb-3 h-16 rounded-lg justify-between border"
+			style={{
+				backgroundColor: getThemeColor('surface'),
+				borderColor: getThemeColor('border')
+			}}
 		>
 			<Animated.View
 				className="flex-1 items-center justify-center"
+				// TODO: Change animations for FadeIn && FadeOut
 				layout={LinearTransition.stiffness(2)}
 				entering={FadeInRight}
 				exiting={FadeOutLeft}
 			>
 				<View className="flex flex-row gap-x-2 items-center justify-center">
-					<IconFolder color={colorScheme === 'dark' ? '#2563eb' : '#3b82f6'} />
+					<IconFolder color={getThemeColor('text-muted')} />
 					<View className="flex flex-col">
-						<Text className="dark:text-white text-lg tracking-wider leading-tight items-center justify-center">
+						<Text className="text-text-primary text-lg tracking-wider leading-tight items-center justify-center">
 							{folder.name}
 						</Text>
-						<Text className="text-xs dark:text-gray-400 text-gray-500 leading-tight">
+						<Text className="text-xs text-text-muted leading-tight">
 							{folder.taskCount} tareas
 						</Text>
 					</View>
@@ -82,12 +85,10 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 					visible={dropDownVisible}
 					trigger={
 						<Pressable
-							className="active:dark:bg-[#4b5563] p-1 rounded-lg active:bg-gray-400/50"
+							className="active:bg-primary-pressed p-1 rounded-lg"
 							onPress={() => setDropDownVisible(true)}
 						>
-							<IconDotsVertical
-								color={colorScheme === 'dark' ? 'white' : '#1f2937'}
-							/>
+							<IconDotsVertical color={getThemeColor('text-primary')} />
 						</Pressable>
 					}
 				>
@@ -98,20 +99,20 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 						icon={IconEdit}
 						onPress={openEditModal}
 						iconProps={{
-							stroke: colorScheme === 'dark' ? '#ffffff' : '#1f2937'
+							stroke: getThemeColor('text-primary')
 						}}
 					/>
 					<DropdownOption
 						handleClose={closeDropdown}
 						handleOpen={openDropdown}
 						text="Eliminar"
-						textClassName={'!text-red-400'}
+						textClassName={'!text-danger/70'}
 						icon={IconTrash}
-						iconProps={{ stroke: '#ff6467' }}
+						iconProps={{ stroke: getThemeColor('danger', 0.7) }}
 						onPress={handleClickDeleteFolder}
 					/>
 				</DropdownMenu>
 			</Animated.View>
-		</Link>
+		</Pressable>
 	)
 }

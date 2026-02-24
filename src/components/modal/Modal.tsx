@@ -1,7 +1,7 @@
-import { useColorScheme } from 'nativewind'
 import { Modalize, type ModalizeProps } from 'react-native-modalize'
 import { Portal } from 'react-native-portalize'
 import { useModal } from '@/state/modal'
+import { getThemeColor, useThemeStyles } from '@/utils/theme'
 
 interface ModalProps extends ModalizeProps {
 	modalRef: React.RefObject<Modalize | null>
@@ -9,18 +9,19 @@ interface ModalProps extends ModalizeProps {
 }
 
 export function Modal({ modalRef, children, ...props }: ModalProps) {
-	const { colorScheme } = useColorScheme()
 	const { setItem } = useModal()
+
+	const modalStyle = useThemeStyles(() => ({
+		backgroundColor: getThemeColor('background'),
+		paddingBottom: 20,
+		paddingHorizontal: 5
+	}))
 
 	return (
 		<Portal>
 			<Modalize
 				ref={modalRef}
-				modalStyle={{
-					backgroundColor: colorScheme === 'dark' ? '#111827' : '#d1d5db',
-					paddingBottom: 20,
-					paddingHorizontal: 5
-				}}
+				modalStyle={modalStyle}
 				adjustToContentHeight
 				onClose={() => {
 					setItem(null)

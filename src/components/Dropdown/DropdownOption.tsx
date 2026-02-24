@@ -1,7 +1,9 @@
+// TODO: Usar React.ReactNode para el icono
 import { useCallback } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 import type { DropdownOptionProps } from '@/types/dropdown'
+import { getThemeColor } from '@/utils/theme'
 
 export function DropdownOption({
 	onPress,
@@ -24,9 +26,12 @@ export function DropdownOption({
 	return (
 		<Pressable
 			className={twMerge(
-				'option flex-row items-center justify-between border-gray-500 p-1 active:dark:bg-gray-700 active:bg-blue-200',
+				'option flex-row items-center justify-between p-1 active:bg-surface-soft',
 				className
 			)}
+			style={{
+				borderColor: getThemeColor('border')
+			}}
 			onPress={handlePress}
 			{...props}
 		>

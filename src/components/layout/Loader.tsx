@@ -1,3 +1,4 @@
+// TODO: use nativewind animations for loader
 import { useEffect } from 'react'
 import {
 	ActivityIndicator,
@@ -7,6 +8,7 @@ import {
 	useAnimatedValue,
 	View
 } from 'react-native'
+import { getThemeColor } from '@/utils/theme'
 
 export function Loader({
 	type = 'FOLDER',
@@ -40,7 +42,7 @@ export function Loader({
 			style={{ opacity: opacityValue }}
 		>
 			<View className="flex-row gap-x-3 items-center">
-				<ActivityIndicator size={30} color="#2563ebaa" />
+				<ActivityIndicator size={30} color={getThemeColor('text-muted')} />
 				<Text className="dark:text-gray-300 text-lg">{loadingText}</Text>
 			</View>
 

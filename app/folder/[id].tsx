@@ -12,6 +12,7 @@ import { TaskItem } from '@/components/task/TaskItem'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
+import { getThemeColor, useThemeStyles } from '@/utils/theme'
 
 export default function Folder() {
 	const { id } = useGlobalSearchParams()
@@ -66,9 +67,19 @@ export default function Folder() {
 	}, [openModal])
 
 	const pageTitle = folder ? folder.name : 'Carpeta no encontrada'
-	const statusBarBackgroundColor =
-		colorScheme === 'dark' ? '#111827' : '#d1d5db'
 	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
+
+	const statusBarBackgroundColor = useThemeStyles(() =>
+		getThemeColor('surface')
+	)
+	const screenOptions = useThemeStyles(() => ({
+		headerShown: true,
+		title: pageTitle,
+		headerStyle: {
+			backgroundColor: getThemeColor('surface')
+		},
+		headerTintColor: getThemeColor('text-primary')
+	}))
 
 	useLayoutEffect(() => {
 		setFolderId(folderId)
@@ -86,21 +97,13 @@ export default function Folder() {
 				backgroundColor={statusBarBackgroundColor}
 			/>
 			{!folder && <Folder404 />}
-			<Stack.Screen
-				options={{
-					headerShown: true,
-					title: pageTitle,
-					headerStyle: {
-						backgroundColor: colorScheme === 'dark' ? '#111827' : '#d1d5db'
-					},
-					headerTintColor: colorScheme === 'dark' ? '#fff' : '#000'
-				}}
-			/>
+
+			<Stack.Screen options={screenOptions} />
 
 			{folder && (
 				<View className="px-2">
 					<View className="flex flex-row items-center justify-between mt-3 px-2">
-						<Text className="dark:text-gray-400 text-gray-600 text-base">
+						<Text className="text-text-secondary text-base">
 							{folder.taskCount} tareas
 						</Text>
 						<Animated.View style={{ opacity: opacityValue }}>

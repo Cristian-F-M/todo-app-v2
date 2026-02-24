@@ -1,6 +1,7 @@
 import { Text } from 'react-native'
 import Animated, { useAnimatedStyle } from 'react-native-reanimated'
 import type { WheelItemProps } from '@/types/wheelPicker'
+import { getThemeColor } from '@/utils/theme'
 
 export function WheelItem({
 	label,
@@ -29,7 +30,10 @@ export function WheelItem({
 			className="flex justify-center items-center"
 			style={[{ height: itemHeight }, animatedStyle]}
 		>
-			<Text className="text-gray-800 dark:text-white font-medium text-lg">
+			<Text
+				className="font-medium text-lg"
+				style={{ color: getThemeColor('text-primary') }}
+			>
 				{label}
 			</Text>
 		</Animated.View>
