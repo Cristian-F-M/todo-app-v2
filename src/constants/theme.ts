@@ -1,101 +1,284 @@
+// Si se agrega la posibilidad de que el usuario pueda personalizar el tema, solucionar par cuando lo quiera eliminar o modificar, para que no de error cuando se quiera usar si no existe
+
 import type { Theme, ThemeObject } from '@/types/theme'
+// TODO: pasar de "surface-soft" -> surface-soft
 
 export const dark = {
-	background: '11 18 32',
-	surface: '17 26 46',
-	surfaceSoft: '22 34 59',
-	border: '31 42 68',
+	background: '9 14 26',
+	surface: '28 36 56',
+	'surface-soft': '36 48 72',
+	border: '45 58 90',
 
-	primary: '59 130 246',
-	'primary-pressed': '37 99 235',
+	primary: '45 110 220',
+	'primary-pressed': '30 85 190',
 
-	"text-primary": '230 237 247',
-	"text-secondary": '159 176 208',
-	"text-muted": '107 122 153',
+	'text-primary': '240 245 255',
+	'text-secondary': '170 185 220',
+	'text-muted': '120 138 175',
 
-	success: '34 197 94',
-	warning: '245 158 11',
-	danger: '239 68 68',
+	success: '46 213 115',
+	warning: '255 176 32',
+	danger: '255 82 82',
 
 	overlay: '0 0 0'
 } satisfies ThemeObject
 
 export const light = {
-	background: '244 247 251',
+	background: '242 246 252',
 	surface: '255 255 255',
-	surfaceSoft: '233 240 250',
-	border: '214 224 245',
+	'surface-soft': '214 228 245',
+	border: '200 214 238',
 
-	primary: '37 99 235',
-	'primary-pressed': '29 78 216',
+	primary: '59 130 246',
+	'primary-pressed': '37 99 235',
 
-	"text-primary": '15 23 42',
-	"text-secondary": '51 65 85',
-	"text-muted": '100 116 139',
+	'text-primary': '12 18 35',
+	'text-secondary': '55 72 98',
+	'text-muted': '94 112 138',
 
-	success: '22 163 74',
-	warning: '217 119 6',
-	danger: '220 38 38',
+	success: '21 128 61',
+	warning: '202 138 4',
+	danger: '185 28 28',
 
-	overlay: '0 0 0'
-} satisfies ThemeObject
-
-export const glassBlue = {
-	background: '10 15 28',
-	surface: '255 255 255',
-	surfaceSoft: '255 255 255',
-	border: '255 255 255',
-
-	primary: '79 140 255',
-	'primary-pressed': '58 111 224',
-
-	'text-primary': '241 245 255',
-	'text-secondary': '182 194 226',
-	'text-muted': '124 141 181',
-
-	success: '52 211 153',
-	warning: '251 191 36',
-	danger: '248 113 113',
-
-	overlay: '0 0 0'
+	overlay: '220 226 235'
 } satisfies ThemeObject
 
 export const violetNight = {
-	background: '14 11 31',
-	surface: '22 19 46',
-	surfaceSoft: '28 24 58',
-	border: '42 36 82',
+	background: '12 9 28',
+	surface: '34 28 70',
+	'surface-soft': '46 38 90',
+	border: '60 52 110',
 
-	primary: '139 92 246',
-	'primary-pressed': '124 58 237',
+	primary: '155 110 255',
+	'primary-pressed': '135 85 240',
 
-	'text-primary': '243 240 255',
-	'text-secondary': '184 175 255',
-	'text-muted': '140 132 198',
+	'text-primary': '248 245 255',
+	'text-secondary': '200 190 255',
+	'text-muted': '155 145 210',
 
-	success: '34 197 94',
-	warning: '245 158 11',
-	danger: '239 68 68',
+	success: '52 211 153',
+	warning: '255 176 32',
+	danger: '255 95 95',
 
 	overlay: '0 0 0'
 } satisfies ThemeObject
 
 export const emeraldDeep = {
-	background: '7 26 20',
-	surface: '14 42 34',
-	surfaceSoft: '18 53 43',
-	border: '29 77 62',
+	background: '10 16 20',
+	surface: '20 60 48',
+	'surface-soft': '28 78 62',
+	border: '38 95 75',
 
-	primary: '16 185 129',
-	'primary-pressed': '5 150 105',
+	primary: '20 204 140',
+	'primary-pressed': '16 163 115',
 
-	'text-primary': '230 255 247',
-	'text-secondary': '159 232 215',
-	'text-muted': '107 199 178',
+	'text-primary': '236 255 249',
+	'text-secondary': '175 235 220',
+	'text-muted': '120 200 180',
+
+	success: '52 211 153',
+	warning: '255 204 64',
+	danger: '255 120 120',
+
+	overlay: '0 0 0'
+} satisfies ThemeObject
+
+export const sunsetCoral = {
+	background: '24 14 18',
+	surface: '38 20 26',
+	'surface-soft': '52 28 36',
+	border: '78 42 54',
+
+	primary: '255 99 72',
+	'primary-pressed': '220 72 48',
+
+	'text-primary': '255 240 238',
+	'text-secondary': '255 200 195',
+	'text-muted': '190 140 135',
+
+	success: '52 211 153',
+	warning: '255 176 32',
+	danger: '255 82 82',
+
+	overlay: '0 0 0'
+} satisfies ThemeObject
+
+export const midnightIndigo = {
+	background: '10 12 28',
+	surface: '18 22 44',
+	'surface-soft': '26 32 62',
+	border: '48 56 98',
+
+	primary: '99 102 241',
+	'primary-pressed': '79 70 229',
+
+	'text-primary': '242 245 255',
+	'text-secondary': '190 200 255',
+	'text-muted': '135 145 200',
+
+	success: '46 213 115',
+	warning: '255 176 32',
+	danger: '255 95 95',
+
+	overlay: '0 0 0'
+} satisfies ThemeObject
+
+export const arcticLight = {
+	background: '240 246 252',
+	surface: '255 255 255',
+	'surface-soft': '225 238 250',
+	border: '200 220 240',
+
+	primary: '14 165 233',
+	'primary-pressed': '2 132 199',
+
+	'text-primary': '15 23 42',
+	'text-secondary': '55 72 98',
+	'text-muted': '100 116 139',
+
+	success: '22 163 74',
+	warning: '217 119 6',
+	danger: '220 38 38',
+
+	overlay: '220 226 235'
+} satisfies ThemeObject
+
+export const sandstone = {
+	background: '250 244 236',
+	surface: '255 255 255',
+	'surface-soft': '245 232 214',
+	border: '230 210 185',
+
+	primary: '234 88 12',
+	'primary-pressed': '194 65 12',
+
+	'text-primary': '40 32 22',
+	'text-secondary': '90 72 55',
+	'text-muted': '140 120 100',
 
 	success: '34 197 94',
-	warning: '251 191 36',
-	danger: '248 113 113',
+	warning: '245 158 11',
+	danger: '220 38 38',
+
+	overlay: '230 220 205'
+} satisfies ThemeObject
+
+export const graphiteMinimal = {
+	background: '18 18 20',
+	surface: '28 28 32',
+	'surface-soft': '38 38 44',
+	border: '60 60 70',
+
+	primary: '0 163 255',
+	'primary-pressed': '0 130 210',
+
+	'text-primary': '245 245 245',
+	'text-secondary': '190 190 200',
+	'text-muted': '130 130 140',
+
+	success: '52 211 153',
+	warning: '255 176 32',
+	danger: '255 95 95',
+
+	overlay: '0 0 0'
+} satisfies ThemeObject
+
+export const fullDarkHard = {
+	background: '4 6 10',
+	surface: '10 14 20',
+	'surface-soft': '16 22 30',
+	border: '32 40 55',
+
+	primary: '60 140 255',
+	'primary-pressed': '40 110 220',
+
+	'text-primary': '250 252 255',
+	'text-secondary': '185 195 215',
+	'text-muted': '120 135 160',
+
+	success: '34 197 94',
+	warning: '255 176 32',
+	danger: '255 85 85',
+
+	overlay: '0 0 0'
+} satisfies ThemeObject
+
+export const highContrastDark = {
+	background: '0 0 0',
+	surface: '20 20 20',
+	'surface-soft': '35 35 35',
+	border: '80 80 80',
+
+	primary: '0 170 255',
+	'primary-pressed': '0 140 220',
+
+	'text-primary': '255 255 255',
+	'text-secondary': '210 210 210',
+	'text-muted': '160 160 160',
+
+	success: '0 230 140',
+	warning: '255 200 0',
+	danger: '255 70 70',
+
+	overlay: '0 0 0'
+} satisfies ThemeObject
+
+export const colorfulVibrant = {
+	background: '245 247 255',
+	surface: '255 255 255',
+	'surface-soft': '230 236 255',
+	border: '200 210 240',
+
+	primary: '124 58 237', // purple vibrante
+	'primary-pressed': '109 40 217',
+
+	'text-primary': '20 20 35',
+	'text-secondary': '70 70 110',
+	'text-muted': '120 120 160',
+
+	success: '34 197 94',
+	warning: '245 158 11',
+	danger: '239 68 68',
+
+	overlay: '220 225 240'
+} satisfies ThemeObject
+
+export const deepSpaceBlue = {
+	background: '7 12 22',
+	surface: '14 20 36',
+	'surface-soft': '22 30 50',
+	border: '40 55 90',
+
+	primary: '56 189 248', // cyan brillante elegante
+	'primary-pressed': '14 165 233',
+
+	'text-primary': '240 245 255',
+	'text-secondary': '170 185 220',
+	'text-muted': '120 140 180',
+
+	success: '52 211 153',
+	warning: '255 176 32',
+	danger: '255 85 85',
+
+	overlay: '0 0 0'
+} satisfies ThemeObject
+
+export const neonPopDark = {
+	background: '12 12 18',
+	surface: '22 22 30',
+	'surface-soft': '32 32 44',
+	border: '60 60 90',
+
+	primary: '255 0 128', // magenta neon
+	'primary-pressed': '220 0 110',
+
+	'text-primary': '255 255 255',
+	'text-secondary': '210 210 230',
+	'text-muted': '150 150 180',
+
+	success: '0 255 170',
+	warning: '255 200 0',
+	danger: '255 60 60',
 
 	overlay: '0 0 0'
 } satisfies ThemeObject
@@ -105,7 +288,7 @@ export const emeraldDeep = {
  * Definidas en formato "r g b" para usar con tailwindcss
  * @property {string} background - Main backgroind (deeper and cleaner)
  * @property {string} surface - Surface (cards / modals)
- * @property {string} surfaceSoft - Soft surface (inputs / secondary elements)
+ * @property {string} "surface-soft" - Soft surface (inputs / secondary elements)
  * @property {string} border - Border (subtle borders)
  * @property {string} primary - Primary color (buttons)
  * @property {string} primary-pressed - Primary color pressed (buttons pressed)
@@ -120,15 +303,31 @@ export const emeraldDeep = {
 export const THEMES = {
 	dark,
 	light,
-	glassBlue,
 	violetNight,
-	emeraldDeep
+	emeraldDeep,
+	sunsetCoral,
+	midnightIndigo,
+	arcticLight,
+	sandstone,
+	graphiteMinimal,
+	fullDarkHard,
+	highContrastDark,
+	colorfulVibrant,
+	neonPopDark
 } as const
 
 export const THEMES_LABELS = {
 	dark: 'Oscuro',
 	light: 'Claro',
-	glassBlue: 'Azul Glass',
 	violetNight: 'Violeta Nocturno',
-	emeraldDeep: 'Esmeralda Profundo'
+	emeraldDeep: 'Esmeralda Profundo',
+	sunsetCoral: 'Coral Atardecer',
+	midnightIndigo: 'Indigo Noche',
+	arcticLight: 'Ártico Claro',
+	sandstone: 'Arena',
+	graphiteMinimal: 'Gráfico Minimal',
+	fullDarkHard: 'Oscuro Profundo',
+	highContrastDark: 'Oscuro Contraste Alto',
+	colorfulVibrant: 'Vibrante Colorido',
+	neonPopDark: 'Oscuro Pop Neon'
 } satisfies Record<Theme, string>
