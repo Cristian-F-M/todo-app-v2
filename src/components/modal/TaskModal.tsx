@@ -191,9 +191,13 @@ export function TaskModal() {
 					<Pressable
 						onPress={() => handleSetNotificate(!notificate)}
 						className={twMerge(
-							'flex flex-row gap-2 items-center justify-between px-2 py-0 w-full',
-							notificate && 'bg-surface'
+							'flex flex-row gap-2 items-center justify-between px-2 py-0 w-full'
 						)}
+						style={{
+							backgroundColor: notificate
+								? getThemeColor('surface-soft')
+								: 'transparent'
+						}}
 					>
 						<View className="flex flex-row gap-2 items-center">
 							<IconBell

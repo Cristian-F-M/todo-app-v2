@@ -21,7 +21,7 @@ export function ChangeThemeModalContent() {
 	return (
 		<View className="flex flex-col justify-center py-6 px-6">
 			<Text
-				className="text-text-primary text-2xl font-bold mb-5"
+				className="text-2xl font-bold mb-5"
 				style={{ color: getThemeColor('text-primary') }}
 			>
 				Selecciona un tema

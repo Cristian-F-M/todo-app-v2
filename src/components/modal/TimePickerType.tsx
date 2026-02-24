@@ -51,7 +51,7 @@ export function TimePickerType() {
 		<View className="py-6 px-2">
 			<View>
 				<Text
-					className="text-text-primary text-2xl font-bold text-center"
+					className="text-2xl font-bold text-center"
 					style={{ color: getThemeColor('text-primary') }}
 				>
 					Selecciona el tipo de selector de tiempo

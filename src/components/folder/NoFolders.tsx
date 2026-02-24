@@ -4,6 +4,7 @@ import { Animated, Pressable, Text, useAnimatedValue } from 'react-native'
 import { StyledPressable } from '@/components/layout/StyledPressable'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
+import { getThemeColor } from '@/utils/theme'
 
 export function NoFolders() {
 	const { openModal } = useModal()
@@ -30,16 +31,38 @@ export function NoFolders() {
 
 	return (
 		<Animated.View
-			className="items-center mt-36 w-11/12 mx-auto bg-gray-200 dark:bg-gray-950 py-10 px-4 rounded-lg shadow dark:shadow-white/70 shadow-gray-300/30"
-			style={{ opacity: opacityValue }}
+			className="items-center mt-36 w-11/12 mx-auto py-10 px-4 rounded-lg shadow dark:shadow-white/70 shadow-gray-300/30"
+			style={{
+				opacity: opacityValue,
+				backgroundColor: getThemeColor('surface-soft')
+			}}
 		>
-			<Pressable className="flex-row items-center justify-center bg-gray-300 dark:bg-gray-800 active:bg-gray-100 active:dark:bg-gray-700 rounded-full p-7">
-				<IconFolderPlus width={50} height={50} stroke="#2563eb" />
+			<Pressable
+				className="flex-row items-center justify-center rounded-full p-7"
+				style={{
+					backgroundColor: getThemeColor('surface')
+				}}
+			>
+				<IconFolderPlus
+					width={50}
+					height={50}
+					stroke={getThemeColor('primary')}
+				/>
 			</Pressable>
-			<Text className="dark:text-white text-3xl mt-3 font-semibold">
+			<Text
+				className="text-3xl mt-3 font-semibold"
+				style={{
+					color: getThemeColor('text-primary')
+				}}
+			>
 				No hay carpetas
 			</Text>
-			<Text className="text-gray-500 mt-1 text-center">
+			<Text
+				className="mt-1 text-center"
+				style={{
+					color: getThemeColor('text-muted')
+				}}
+			>
 				Crea tu primera carpeta para comenzar a organizar tus tareas
 			</Text>
 			<StyledPressable

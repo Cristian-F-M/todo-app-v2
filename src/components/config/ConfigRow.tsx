@@ -29,9 +29,19 @@ export function ConfigRow({
 		<View className="">
 			<View className="flex flex-row justify-between relative">
 				<View className="w-[70%]">
-					<Text className="text-text-primary text-base">{text}</Text>
+					<Text
+						className="text-base"
+						style={{ color: getThemeColor('text-primary') }}
+					>
+						{text}
+					</Text>
 					{description && (
-						<Text className="text-text-secondary text-sm">{description}</Text>
+						<Text
+							className="text-sm"
+							style={{ color: getThemeColor('text-secondary') }}
+						>
+							{description}
+						</Text>
 					)}
 				</View>
 				<View className="w-[30%]">
@@ -58,7 +68,10 @@ export function ConfigRow({
 							}}
 						>
 							<TextInput
-								className="text-text-primary text-sm h-full"
+								className="text-sm h-full"
+								style={{
+									color: getThemeColor('text-primary')
+								}}
 								placeholder={placeholder}
 								placeholderTextColor={getThemeColor('text-secondary')}
 								keyboardType={props.textInputProps?.keyboardType ?? 'default'}
@@ -80,13 +93,24 @@ export function ConfigRow({
 					{props.typeConfig === 'other' && props.children}
 				</View>
 				{commingSoon && (
-					<View className="absolute right-0 -top-4 py-1 px-2 rounded-lg border border-border bg-surface-soft animate-bounce flex-row gap-x-1">
+					<View
+						className="absolute right-0 -top-4 py-1 px-2 rounded-lg border animate-bounce flex-row gap-x-1"
+						style={{
+							backgroundColor: getThemeColor('surface-soft'),
+							borderColor: getThemeColor('border')
+						}}
+					>
 						<IconSparkles
 							color={getThemeColor('text-primary')}
 							width={15}
 							height={15}
 						/>
-						<Text className="text-sm text-text-primary">Proximamente</Text>
+						<Text
+							className="text-sm"
+							style={{ color: getThemeColor('text-primary') }}
+						>
+							Proximamente
+						</Text>
 					</View>
 				)}
 			</View>

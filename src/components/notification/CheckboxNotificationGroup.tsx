@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { Text, View } from 'react-native'
 import { Checkbox } from '@/components/Checkbox/Checkbox'
 import type { NotificationType } from '@/types/modal'
+import { getThemeColor } from '@/utils/theme'
 
 interface CheckboxNotificationGroupProps {
 	notificationType: NotificationType
@@ -21,6 +22,8 @@ export function CheckboxNotificationGroup({
 		[notificationType, onChange]
 	)
 
+	const textColor = getThemeColor('text-primary')
+
 	return (
 		<View className="w-full flex-col gap-2">
 			<View className="flex-row items-center gap-x-2 flex">
@@ -30,7 +33,8 @@ export function CheckboxNotificationGroup({
 					disableText
 				/>
 				<Text
-					className="text-text-primary"
+					className="text-lg"
+					style={{ color: textColor }}
 					onPress={() => {
 						handleChangeNotificationType('TIME')
 					}}
@@ -46,10 +50,11 @@ export function CheckboxNotificationGroup({
 				/>
 
 				<Text
-					className="text-text-primary"
+					className="text-lg"
 					onPress={() => {
 						handleChangeNotificationType('DATE_TIME')
 					}}
+					style={{ color: textColor }}
 				>
 					Notificar fecha y hora:
 				</Text>

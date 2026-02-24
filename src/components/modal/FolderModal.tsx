@@ -61,7 +61,7 @@ export function FolderModal() {
 						{/* <View></View> */}
 						<TextInput
 							value={textInput}
-							className="text-text-primary px-3 h-12"
+							className="px-3 h-12"
 							placeholderTextColor={getThemeColor('text-primary', 0.7)}
 							placeholder="Nombre de la carpeta"
 							onChange={(e) => {

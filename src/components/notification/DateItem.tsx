@@ -1,5 +1,6 @@
 import { Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
+import { getThemeColor } from '@/utils/theme'
 
 export function DateItem({
 	value,
@@ -10,7 +11,9 @@ export function DateItem({
 }) {
 	return (
 		<View className={twMerge('', className)}>
-			<Text className="dark:text-gray-300 text-gray-800">{value}</Text>
+			<Text className="" style={{ color: getThemeColor('text-primary') }}>
+				{value}
+			</Text>
 		</View>
 	)
 }

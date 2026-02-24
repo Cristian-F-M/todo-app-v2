@@ -103,7 +103,10 @@ export default function Folder() {
 			{folder && (
 				<View className="px-2">
 					<View className="flex flex-row items-center justify-between mt-3 px-2">
-						<Text className="text-text-secondary text-base">
+						<Text
+							className="text-base"
+							style={{ color: getThemeColor('text-secondary') }}
+						>
 							{folder.taskCount} tareas
 						</Text>
 						<Animated.View style={{ opacity: opacityValue }}>

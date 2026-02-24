@@ -71,10 +71,16 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 					<View className="flex flex-row gap-x-2 items-center justify-center">
 						<IconFolder color={getThemeColor('text-muted')} />
 						<View className="flex flex-col">
-							<Text className="text-text-primary text-lg tracking-wider leading-tight items-center justify-center">
+							<Text
+								className="text-lg tracking-wider leading-tight items-center justify-center"
+								style={{ color: getThemeColor('text-primary') }}
+							>
 								{folder.name}
 							</Text>
-							<Text className="text-xs text-text-muted leading-tight">
+							<Text
+								className="text-xs leading-tight"
+								style={{ color: getThemeColor('text-muted') }}
+							>
 								{folder.taskCount} tareas
 							</Text>
 						</View>

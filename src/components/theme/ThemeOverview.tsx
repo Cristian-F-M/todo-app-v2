@@ -41,7 +41,7 @@ export function ThemeOverview({
 		>
 			<View className="w-5/12">
 				<Text
-					className="text-text-primary text-lg font-bold"
+					className="text-lg font-bold"
 					style={{ color: getThemeColor('text-secondary') }}
 				>
 					{label}

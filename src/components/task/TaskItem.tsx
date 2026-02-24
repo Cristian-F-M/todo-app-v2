@@ -65,9 +65,13 @@ export function TaskItem({ task }: { task: Task }) {
 	return (
 		<Animated.View
 			className={twMerge(
-				'bg-surface border-border px-4 py-4 mb-4 items-center rounded-lg inline-flex flex-row justify-between active:opacity-75 border',
+				'px-4 py-4 mb-4 items-center rounded-lg inline-flex flex-row justify-between active:opacity-75 border',
 				isChecked && 'opacity-95'
 			)}
+			style={{
+				backgroundColor: getThemeColor('surface'),
+				borderColor: getThemeColor('border')
+			}}
 			layout={LinearTransition.stiffness(2)}
 			entering={FadeIn}
 			exiting={FadeOut}
@@ -81,12 +85,11 @@ export function TaskItem({ task }: { task: Task }) {
 					style={{ maxHeight: 80 }}
 				>
 					<Text
-						className={twMerge(
-							'text-lg h-full',
-							isChecked && 'opacity-75 text-text-muted',
-							!isChecked && 'text-text-secondary'
-						)}
+						className={twMerge('text-lg h-full', isChecked && 'opacity-75')}
 						onPress={handleCompleteTask}
+						style={{
+							color: getThemeColor(isChecked ? 'text-muted' : 'text-secondary')
+						}}
 					>
 						{task.name}
 					</Text>

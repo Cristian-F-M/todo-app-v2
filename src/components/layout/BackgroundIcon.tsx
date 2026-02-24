@@ -5,9 +5,12 @@ import { getThemeColor } from '@/utils/theme'
 export function BackgroundIcon() {
 	return (
 		<View
-			style={{ filter: 'blur(15px)' }}
 			// TODO: Remove backdrop-blur-3xl blur-3xl class names
-			className="absolute bg-overlay w-full h-full flex items-center justify-center backdrop-blur-3xl blur-3xl"
+			style={{
+				backgroundColor: getThemeColor('background'),
+				filter: 'blur(15px)'
+			}}
+			className="absolute w-full h-full flex items-center justify-center"
 		>
 			<CMLogo
 				// TODO: Change size to 200

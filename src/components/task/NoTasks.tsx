@@ -14,13 +14,30 @@ export function NoTasks() {
 
 	return (
 		<View className="flex-1 items-center justify-center mt-24 w-4/5 mx-auto">
-			<Pressable className="flex-row items-center justify-center bg-surface-soft rounded-full p-7">
+			<Pressable
+				className="flex-row items-center justify-center rounded-full p-7"
+				style={{
+					backgroundColor: getThemeColor('surface-soft')
+				}}
+			>
 				<IconFolder width={50} height={50} stroke={getThemeColor('primary')} />
 			</Pressable>
-			<Text className="text-text-primary text-3xl mt-3 font-semibold">
+			<Text
+				className="text-3xl mt-3 font-semibold"
+				style={{
+					color: getThemeColor('text-primary')
+				}}
+			>
 				No hay tasks
 			</Text>
-			<Text className="text-text-muted mt-1">Esta carpeta está vacía</Text>
+			<Text
+				className="mt-1"
+				style={{
+					color: getThemeColor('text-muted')
+				}}
+			>
+				Esta carpeta está vacía
+			</Text>
 			<StyledPressable
 				text="Agregar primera tarea"
 				pressableClassName="mt-8"

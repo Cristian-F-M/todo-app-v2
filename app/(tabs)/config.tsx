@@ -57,8 +57,11 @@ export default function ConfigPage() {
 					>
 						<View className="">
 							<Pressable
-								className="p-2 rounded-lg bg-primary active:bg-primary-pressed w-12 items-center justify-center self-end mr-1"
+								className="p-2 rounded-lg active:bg-primary-pressed w-12 items-center justify-center self-end mr-1"
 								onPress={() => modalRef.current?.open()}
+								style={{
+									backgroundColor: getThemeColor('primary')
+								}}
 							>
 								<IconExternalLink color={getThemeColor('text-primary')} />
 							</Pressable>
@@ -73,8 +76,11 @@ export default function ConfigPage() {
 						description="Define el tipo de selector de hora."
 					>
 						<Pressable
-							className="p-2 rounded-lg bg-primary active:bg-primary-pressed w-12 items-center justify-center self-end mr-1"
+							className="p-2 rounded-lg active:bg-primary-pressed w-12 items-center justify-center self-end mr-1"
 							onPress={() => pickerTimeTypeRef.current?.open()}
+							style={{
+								backgroundColor: getThemeColor('primary')
+							}}
 						>
 							<IconExternalLink color={getThemeColor('text-primary')} />
 						</Pressable>

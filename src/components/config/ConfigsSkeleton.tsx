@@ -1,15 +1,22 @@
 import { View } from 'react-native'
+import { getThemeColor } from '@/utils/theme'
 
 export function ConfigsSkeleton({
 	configsLength = 2
 }: {
 	configsLength?: number
 }) {
+	const textColor = getThemeColor('text-muted')
+
 	return (
 		<View className="animate-pulse flex flex-col gap-y-16 w-[95%] mx-auto mt-6">
 			{Array.from({ length: configsLength }).map((_, index) => (
 				<View
-					className=" gap-x-3 gap-y-4 flex-col border-b border-gray-700 pb-10"
+					className=" gap-x-3 gap-y-4 flex-col border-b pb-10"
+					style={{
+						backgroundColor: getThemeColor('surface-soft'),
+						borderColor: getThemeColor('border')
+					}}
 					key={index}
 				>
 					<View className="w-20 h-4 dark:bg-gray-600 bg-gray-500" />
@@ -18,10 +25,19 @@ export function ConfigsSkeleton({
 						<View className="flex flex-row items-center justify-between">
 							<View className="">
 								{/* Title */}
-								<View className="w-16 h-4 dark:bg-gray-600 bg-gray-400 mt-6"></View>
+								<View
+									className="w-16 h-4 dark:bg-gray-600 bg-gray-400 mt-6"
+									style={{ backgroundColor: textColor }}
+								></View>
 								{/* Description */}
-								<View className="w-60 h-2 dark:bg-gray-600 bg-gray-400 mt-2"></View>
-								<View className="w-32 h-2 dark:bg-gray-600 bg-gray-400 mt-px"></View>
+								<View
+									className="w-60 h-2 dark:bg-gray-600 bg-gray-400 mt-2"
+									style={{ backgroundColor: textColor }}
+								></View>
+								<View
+									className="w-32 h-2 dark:bg-gray-600 bg-gray-400 mt-px"
+									style={{ backgroundColor: textColor }}
+								></View>
 							</View>
 							{/* Type */}
 							<View className="w-24 h-12 dark:bg-gray-600 bg-gray-400 mt-6 rounded-lg"></View>
@@ -29,10 +45,19 @@ export function ConfigsSkeleton({
 						<View className="flex flex-row items-center justify-between">
 							<View className="">
 								{/* Title */}
-								<View className="w-16 h-4 dark:bg-gray-600 bg-gray-400 mt-6"></View>
+								<View
+									className="w-16 h-4 dark:bg-gray-600 bg-gray-400 mt-6"
+									style={{ backgroundColor: textColor }}
+								></View>
 								{/* Description */}
-								<View className="w-60 h-2 dark:bg-gray-600 bg-gray-400 mt-2"></View>
-								<View className="w-32 h-2 dark:bg-gray-600 bg-gray-400 mt-px"></View>
+								<View
+									className="w-60 h-2 dark:bg-gray-600 bg-gray-400 mt-2"
+									style={{ backgroundColor: textColor }}
+								></View>
+								<View
+									className="w-32 h-2 dark:bg-gray-600 bg-gray-400 mt-px"
+									style={{ backgroundColor: textColor }}
+								></View>
 							</View>
 							{/* Type */}
 							<View className="w-10 h-6 dark:bg-gray-600 bg-gray-400 mt-6 rounded-sm"></View>

@@ -1,6 +1,18 @@
-import { useEffect, useRef, useState } from 'react'
+import { Children, useEffect, useRef, useState } from 'react'
 import { Dimensions, Modal, Pressable, View } from 'react-native'
 import type { DropdownMenuProps } from '@/types/dropdown'
+import { getThemeColor } from '@/utils/theme'
+
+export function HorizontalSeparator() {
+	return (
+		<View
+			className="w-full h-px"
+			style={{
+				backgroundColor: getThemeColor('border')
+			}}
+		/>
+	)
+}
 
 export function DropdownMenu({
 	visible,
@@ -41,6 +53,8 @@ export function DropdownMenu({
 		}
 	}, [visible, dropdownWidth])
 
+	const childrenArray = Children.toArray(children)
+
 	return (
 		<View>
 			<View ref={triggerRef}>{trigger}</View>
@@ -56,15 +70,26 @@ export function DropdownMenu({
 					onPress={handleClose}
 				>
 					<View
-						className="absolute z-50 bg-gray-100 dark:bg-[#1f2937] border-gray-400/60 dark:border-gray-500 border shadow-lg rounded-lg overflow-hidden"
+						className="absolute z-50 border shadow-lg rounded-lg overflow-hidden"
 						style={{
 							top: position.y,
 							left: position.x,
-							width: dropdownWidth
+							width: dropdownWidth,
+							backgroundColor: getThemeColor('surface'),
+							borderColor: getThemeColor('border')
 						}}
 						{...props}
 					>
-						{children}
+						{childrenArray.map((child, index) => {
+							const showSeparator = index > 0 && index < childrenArray.length
+
+							return (
+								<>
+									{showSeparator && <HorizontalSeparator />}
+									{child}
+								</>
+							)
+						})}
 					</View>
 				</Pressable>
 			</Modal>
