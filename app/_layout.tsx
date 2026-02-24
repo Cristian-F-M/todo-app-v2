@@ -7,7 +7,7 @@ import * as Notifications from 'expo-notifications'
 import * as SplashScreen from 'expo-splash-screen'
 import * as SystemUI from 'expo-system-ui'
 import { vars } from 'nativewind'
-import { useCallback, useLayoutEffect, useRef } from 'react'
+import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
 import type { Modalize } from 'react-native-modalize'
 import { Host } from 'react-native-portalize'
 import {
@@ -24,7 +24,9 @@ import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import { useTheme } from '@/state/theme'
+import type { Theme } from '@/types/theme'
 import { migrateDB, removeNotificationId } from '@/utils/database'
+import { getThemeColor } from '@/utils/theme'
 
 // This is the default configuration
 configureReanimatedLogger({
@@ -56,6 +58,16 @@ export default function RootLayout() {
 	const taskModalRef = useRef<Modalize>(null)
 	const folderModalRef = useRef<Modalize>(null)
 	const deleteModalRef = useRef<Modalize>(null)
+
+	const themeVars = useMemo(() => {
+		const entries = Object.entries(THEMES[theme as Theme]).map(
+			([key, value]) => {
+				return [`--${key}`, value]
+			}
+		)
+
+		return Object.fromEntries(entries)
+	}, [theme])
 
 	useLayoutEffect(() => {
 		useTheme.getState().load()
@@ -89,8 +101,13 @@ export default function RootLayout() {
 		<GestureHandlerRootView>
 			<Host>
 				<View
-					style={vars(THEMES[theme as keyof typeof THEMES])}
-					className="flex-1 dark:bg-gray-900 bg-gray-300"
+					style={[
+						vars(themeVars),
+						{
+							backgroundColor: getThemeColor('background')
+						}
+					]}
+					className="flex-1"
 				>
 					<StatusBar style={themeStyle} backgroundColor="transparent" />
 					<Stack
