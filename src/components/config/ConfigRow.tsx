@@ -86,7 +86,13 @@ export function ConfigRow({
 					{props.typeConfig === 'modal' && (
 						<>
 							{props.children}
-							<Modal modalRef={props.modalRef}>{props.modalContent}</Modal>
+							<Modal
+								flatListProps={props.flatList ? props.flatListProps : undefined}
+								modalRef={props.modalRef}
+								{...props.modalProps}
+							>
+								{!props.flatList && props.modalContent}
+							</Modal>
 						</>
 					)}
 
