@@ -11,7 +11,7 @@ interface ModalProps extends ModalizeProps {
 export function Modal({ modalRef, children, ...props }: ModalProps) {
 	const { setItem } = useModal()
 
-	const modalStyle = useThemeStyles(() => ({
+	const modalStyle = useThemeStyles<ModalizeProps['modalStyle']>(() => ({
 		backgroundColor: getThemeColor('background'),
 		paddingBottom: 20,
 		paddingHorizontal: 5
