@@ -1,5 +1,6 @@
 import { Children, useEffect, useRef, useState } from 'react'
 import { Dimensions, Modal, Pressable, View } from 'react-native'
+import uuid from 'react-native-uuid'
 import type { DropdownMenuProps } from '@/types/dropdown'
 import { getThemeColor } from '@/utils/theme'
 
@@ -54,6 +55,7 @@ export function DropdownMenu({
 	}, [visible, dropdownWidth])
 
 	const childrenArray = Children.toArray(children)
+	const childrenIds = childrenArray.map(() => uuid.v4())
 
 	return (
 		<View>
@@ -84,10 +86,10 @@ export function DropdownMenu({
 							const showSeparator = index > 0 && index < childrenArray.length
 
 							return (
-								<>
+								<View key={childrenIds[index]}>
 									{showSeparator && <HorizontalSeparator />}
 									{child}
-								</>
+								</View>
 							)
 						})}
 					</View>
