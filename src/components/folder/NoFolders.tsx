@@ -67,7 +67,7 @@ export function NoFolders() {
 			</Text>
 			<StyledPressable
 				text="Agregar primera carpeta"
-				pressableClassName="mt-8"
+				className="mt-8"
 				onPress={handleClickOpenModal}
 			/>
 		</Animated.View>

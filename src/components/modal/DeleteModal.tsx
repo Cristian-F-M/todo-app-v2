@@ -90,7 +90,7 @@ export function DeleteModal() {
 			<View className="flex flex-row justify-between mt-5 w-full">
 				<StyledPressable
 					text="Cancelar"
-					className="!w-[48%]"
+					className="w-[48%]"
 					style={{
 						backgroundColor: 'transparent',
 						borderWidth: 1,
@@ -100,7 +100,7 @@ export function DeleteModal() {
 				/>
 				<StyledPressable
 					text="Eliminar"
-					className="!w-[48%]"
+					className="w-[48%]"
 					onPress={handleDeleteItem}
 				/>
 			</View>

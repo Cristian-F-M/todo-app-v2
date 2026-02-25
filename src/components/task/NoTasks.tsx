@@ -40,7 +40,7 @@ export function NoTasks() {
 			</Text>
 			<StyledPressable
 				text="Agregar primera tarea"
-				pressableClassName="mt-8"
+				className="mt-8"
 				onPress={handleClickOpenModal}
 			/>
 		</View>

@@ -278,7 +278,7 @@ export function TaskModal() {
 				<View className="mt-2">
 					<StyledPressable
 						text={pressableText}
-						pressableClassName="mt-3"
+						className="mt-3"
 						onPress={handleSubmit}
 					/>
 				</View>

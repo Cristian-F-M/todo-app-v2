@@ -22,11 +22,10 @@ export function Folder404() {
 				La carpeta que estás buscando no existe o ha sido eliminada
 			</Text>
 			<StyledPressable
-				icon={IconArrowLeft}
+				icon={() => <IconArrowLeft color="white" size={24} />}
 				onPress={() => router.back()}
-				iconProps={{ color: 'white', width: 24, height: 24 }}
 				text="Volver al mis carpetas"
-				pressableClassName="mt-8"
+				className="mt-8"
 			/>
 		</View>
 	)
