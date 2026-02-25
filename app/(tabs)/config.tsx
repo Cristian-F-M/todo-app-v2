@@ -2,13 +2,13 @@ import { IconExternalLink } from '@tabler/icons-react-native'
 import { Stack } from 'expo-router'
 import type { ExtendedStackNavigationOptions } from 'expo-router/build/layouts/StackClient'
 import { useCallback, useEffect, useRef } from 'react'
-import { Pressable, ScrollView, View } from 'react-native'
+import { Dimensions, Pressable, ScrollView, View } from 'react-native'
 import type { Modalize } from 'react-native-modalize'
 import { ConfigCard } from '@/components/config/ConfigCard'
 import { ConfigRow } from '@/components/config/ConfigRow'
 import { Screen } from '@/components/layout/Screen'
 import { TimePickerType } from '@/components/modal/TimePickerType'
-import { ChangeThemeModalContent } from '@/components/theme/ChangeThemeModalContent'
+import { ConfigModalConfig } from '@/components/theme/ChangeThemeModalContent'
 import { useConfig } from '@/state/config'
 import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
 import { getThemeColor, useThemeStyles } from '@/utils/theme'
@@ -17,6 +17,7 @@ import { useDebounce } from '@/utils/useDebounce'
 export default function ConfigPage() {
 	const { configs, setConfigs } = useConfig()
 	const debouncedConfigs = useDebounce<ConfigsType>(configs, 500)
+	const { height: windowHeight } = Dimensions.get('window')
 
 	const screenOptions = useThemeStyles<ExtendedStackNavigationOptions>(() => ({
 		headerShown: true,
@@ -49,10 +50,17 @@ export default function ConfigPage() {
 			<ScrollView className="flex flex-col gap-y-3 w-[95%] mx-auto">
 				<ConfigCard title="Apariencia">
 					<ConfigRow
+						{...ConfigModalConfig}
+						modalProps={{
+							modalStyle: {
+								paddingHorizontal: 10
+							},
+							modalHeight: windowHeight * 0.6,
+							adjustToContentHeight: false
+						}}
 						text={'Tema'}
 						description="Define el tema de la aplicación."
 						typeConfig="modal"
-						modalContent={<ChangeThemeModalContent />}
 						modalRef={modalRef}
 					>
 						<View className="">
@@ -69,6 +77,7 @@ export default function ConfigPage() {
 					</ConfigRow>
 
 					<ConfigRow
+						flatList={false}
 						typeConfig="modal"
 						modalContent={<TimePickerType />}
 						modalRef={pickerTimeTypeRef}
