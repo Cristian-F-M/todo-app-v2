@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { FlatList, Text, View } from 'react-native'
 import uuid from 'react-native-uuid'
 import { THEMES } from '@/constants/theme'
 import { useTheme } from '@/state/theme'
@@ -10,16 +10,14 @@ import { ThemeOverview } from './ThemeOverview'
 export function ChangeThemeModalContent() {
 	const { theme } = useTheme()
 	const themeKeys = useMemo(() => {
-		return [
-			Object.values(THEMES).map((theme) => {
-				return Object.values(theme).map(() => uuid.v4())
-			}),
-			uuid.v4()
-		].flat()
+		return Object.values(THEMES).map(() => uuid.v4())
 	}, [])
 
 	return (
-		<View className="flex flex-col justify-center py-6 px-6">
+		<View
+			className="flex flex-col justify-center py-6 px-6"
+			style={{ maxHeight: 600 }}
+		>
 			<Text
 				className="text-2xl font-bold mb-5"
 				style={{ color: getThemeColor('text-primary') }}
@@ -40,29 +38,22 @@ export function ChangeThemeModalContent() {
 			</View>
 
 			<Text
-				className="text-xl font-bold mt-10"
+				className="text-xl font-bold mt-10 mb-2"
 				style={{ color: getThemeColor('text-secondary') }}
 			>
 				Temas disponibles
 			</Text>
-			<ScrollView
-				className="flex flex-col gap-y-3"
-				nestedScrollEnabled
-				showsVerticalScrollIndicator={true}
-			>
-				{Object.entries(THEMES).map(([key, t], themeIndex) => {
-					const isSelected = theme === key
 
-					return (
-						<ThemeOverview
-							key={themeKeys[themeIndex].at(-1)}
-							theme={t}
-							themeKey={key as Theme}
-							isSelected={isSelected}
-						/>
-					)
-				})}
-			</ScrollView>
+			<FlatList
+				className="mb-4"
+				data={Object.entries(THEMES)}
+				renderItem={({ item }) => (
+					<ThemeOverview theme={item[1]} themeKey={item[0] as Theme} />
+				)}
+				keyExtractor={(_, index) => themeKeys[index]}
+				maxToRenderPerBatch={1}
+				updateCellsBatchingPeriod={1}
+			/>
 		</View>
 	)
 }
