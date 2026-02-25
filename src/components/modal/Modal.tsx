@@ -8,14 +8,22 @@ interface ModalProps extends ModalizeProps {
 	children: React.ReactNode
 }
 
-export function Modal({ modalRef, children, ...props }: ModalProps) {
+export function Modal({
+	modalRef,
+	children,
+	modalStyle: mStyle,
+	...props
+}: ModalProps) {
 	const { setItem } = useModal()
 
-	const modalStyle = useThemeStyles<ModalizeProps['modalStyle']>(() => ({
-		backgroundColor: getThemeColor('background'),
-		paddingBottom: 20,
-		paddingHorizontal: 5
-	}))
+	const modalStyle = useThemeStyles<ModalizeProps['modalStyle']>(() => [
+		{
+			backgroundColor: getThemeColor('background'),
+			paddingBottom: 20,
+			paddingHorizontal: 5
+		},
+		mStyle
+	])
 
 	return (
 		<Portal>
