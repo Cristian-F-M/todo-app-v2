@@ -48,7 +48,11 @@ export function ChangeThemeModalContent() {
 				className="mb-4"
 				data={Object.entries(THEMES)}
 				renderItem={({ item }) => (
-					<ThemeOverview theme={item[1]} themeKey={item[0] as Theme} />
+					<ThemeOverview
+						theme={item[1]}
+						themeKey={item[0] as Theme}
+						isSelected={item[0] === theme}
+					/>
 				)}
 				keyExtractor={(_, index) => themeKeys[index]}
 				maxToRenderPerBatch={1}
