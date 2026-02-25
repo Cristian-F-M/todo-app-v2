@@ -1,4 +1,5 @@
 import type { TextInputProps } from 'react-native'
+import type { ModalizeProps } from 'react-native-modalize'
 
 export type TypeConfig = 'switch' | 'text' | 'other' | 'modal'
 export type TimePickerType = 'WHEEL' | 'CLASIC'
@@ -26,12 +27,26 @@ export interface ConfigRowSwitchProps {
 	onChangeValue: (value: boolean) => void
 }
 
-export interface ConfigRowModalProps {
-	typeConfig: Extract<TypeConfig, 'modal'>
-	children: React.ReactNode
-	modalContent: React.ReactNode
-	modalRef: React.RefObject<Modalize | null>
+export interface ConfigRowModalWithListProps {
+	flatList: true
+	flatListProps: ModalizeProps['flatListProps']
 }
+
+export interface ConfigRowModalWithoutListProps {
+	flatList: false
+	modalContent: React.ReactNode
+}
+
+export interface ConfigRowModalBaseProps {
+	typeConfig: Extract<TypeConfig, 'modal'>
+	modalRef: React.RefObject<Modalize | null>
+	flatList: boolean
+	children: React.ReactNode
+	modalProps?: ModalizeProps
+}
+
+export type ConfigRowModalProps = ConfigRowModalBaseProps &
+	(ConfigRowModalWithListProps | ConfigRowModalWithoutListProps)
 
 export interface ConfigRowOtherProps {
 	typeConfig: Extract<TypeConfig, 'other'>
