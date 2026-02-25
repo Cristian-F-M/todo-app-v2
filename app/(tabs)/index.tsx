@@ -51,7 +51,7 @@ export default function Index() {
 				backgroundColor={'transparent'}
 			/>
 
-			<BackgroundIcon />
+			{thereIsFolders && <BackgroundIcon />}
 			<Header />
 
 			{loading && <Loader cantItems={6} />}
