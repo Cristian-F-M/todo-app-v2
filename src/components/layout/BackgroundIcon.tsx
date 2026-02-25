@@ -10,7 +10,6 @@ export function BackgroundIcon() {
 
 	return (
 		<View
-			// TODO: Remove backdrop-blur-3xl blur-3xl class names
 			style={{ backgroundColor }}
 			className="absolute w-full h-full flex items-center justify-center"
 		>
@@ -18,9 +17,8 @@ export function BackgroundIcon() {
 				style={{
 					filter: 'blur(15px)'
 				}}
-				// TODO: Change size to 200
-				width={300}
-				height={300}
+				width={200}
+				height={200}
 				color={iconColor}
 			/>
 		</View>
