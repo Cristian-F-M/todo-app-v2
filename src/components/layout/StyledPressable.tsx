@@ -8,7 +8,7 @@ interface StyledPressableProps extends PressableProps {
 	onPress?: () => void
 	disabled?: boolean
 	icon?: (props: React.SVGProps<SVGSVGElement>) => React.ReactNode
-	style: StyleProp<ViewStyle>
+	style?: StyleProp<ViewStyle>
 }
 
 export function StyledPressable({
