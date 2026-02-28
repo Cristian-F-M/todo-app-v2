@@ -8,7 +8,10 @@ import { ConfigCard } from '@/components/config/ConfigCard'
 import { ConfigRow } from '@/components/config/ConfigRow'
 import { Screen } from '@/components/layout/Screen'
 import { TimePickerType } from '@/components/modal/TimePickerType'
-import { ConfigModalConfig } from '@/components/theme/ChangeThemeModalContent'
+import {
+	ChangeThemeModalContent,
+	ConfigModalConfig
+} from '@/components/theme/ChangeThemeModalContent'
 import { useConfig } from '@/state/config'
 import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
 import { getThemeColor, useThemeStyles } from '@/utils/theme'
@@ -51,6 +54,14 @@ export default function ConfigPage() {
 				<ConfigCard title="Apariencia">
 					<ConfigRow
 						{...ConfigModalConfig}
+						flatListProps={{
+							...ConfigModalConfig.flatListProps,
+							ListHeaderComponent: () => (
+								<ChangeThemeModalContent
+									closeModal={() => modalRef.current?.close()}
+								/>
+							)
+						}}
 						modalProps={{
 							modalStyle: {
 								paddingHorizontal: 10
