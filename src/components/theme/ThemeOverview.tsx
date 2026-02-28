@@ -1,6 +1,5 @@
-import { useCallback, useMemo } from 'react'
-import { Pressable, ScrollView, Text, View } from 'react-native'
-import uuid from 'react-native-uuid'
+import { useCallback } from 'react'
+import { FlatList, Pressable, Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 import { THEMES_LABELS } from '@/constants/theme'
 import { useTheme } from '@/state/theme'
@@ -18,10 +17,6 @@ export function ThemeOverview({
 }) {
 	const { theme: currentTheme, setTheme } = useTheme()
 	const label = THEMES_LABELS[themeKey]
-	const colorKeys = useMemo(
-		() => Object.values(theme).map(() => uuid.v4()),
-		[theme]
-	)
 
 	const handleSetTheme = useCallback(() => {
 		if (currentTheme === themeKey) return
@@ -48,24 +43,24 @@ export function ThemeOverview({
 				</Text>
 			</View>
 			<View className="w-1/12 h-full" />
-			<ScrollView
+			<FlatList
+				className="pb-4"
 				indicatorStyle="white"
-				persistentScrollbar={true}
-				nestedScrollEnabled
-				showsHorizontalScrollIndicator={true}
 				horizontal
-				className="flex flex-row w-6/12 pb-3"
-			>
-				{Object.values(theme).map((color, index) => {
-					return (
-						<View
-							key={colorKeys[index]}
-							className="w-10 h-10 mr-1 rounded-md"
-							style={{ backgroundColor: `rgb(${color})` }}
-						/>
-					)
-				})}
-			</ScrollView>
+				showsHorizontalScrollIndicator={true}
+				nestedScrollEnabled
+				data={Object.values(theme)}
+				renderItem={({ item }) => (
+					<View
+						className="w-10 h-10 mr-1 rounded-md"
+						style={{ backgroundColor: `rgb(${item})` }}
+					/>
+				)}
+				initialNumToRender={5}
+				maxToRenderPerBatch={3}
+				windowSize={3}
+				removeClippedSubviews={true}
+			/>
 		</Pressable>
 	)
 }
