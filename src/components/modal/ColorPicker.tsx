@@ -9,11 +9,12 @@ import { getThemeColor } from '@/utils/theme'
 import { Modal } from './Modal'
 
 interface ColorPickerModalProps extends ColorPickerProps {
-	value: string
+	value: string | undefined
 	defaultValue?: string
 	modalRef: React.RefObject<Modalize | null>
 	onValueChange?: (color: ColorFormatsObject) => void
 	children: React.ReactNode
+	onClose?: () => void
 }
 
 export function ColorPickerModal({
@@ -22,6 +23,7 @@ export function ColorPickerModal({
 	modalRef,
 	onValueChange,
 	children,
+	onClose,
 	...props
 }: ColorPickerModalProps) {
 	return (
@@ -31,6 +33,7 @@ export function ColorPickerModal({
 				paddingVertical: 20,
 				paddingHorizontal: 20
 			}}
+			onClose={onClose}
 		>
 			<View
 				className="items-center p-4 rounded-lg mb-6"
