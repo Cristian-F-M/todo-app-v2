@@ -19,6 +19,7 @@ export function ColorSquare({
 	style,
 	editable = false,
 	value,
+	onPress,
 	...props
 }: ColorSquareProps) {
 	const pressableEditableStyles: StyleProp<ViewStyle> = {
@@ -33,6 +34,7 @@ export function ColorSquare({
 
 	return (
 		<Pressable
+			onPress={onPress}
 			className={twMerge(
 				'w-10 h-10 rounded-xl active:scale-90 transition-all duration-200',
 				className,
