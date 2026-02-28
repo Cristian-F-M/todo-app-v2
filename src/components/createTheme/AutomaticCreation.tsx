@@ -1,0 +1,189 @@
+import {
+	IconMoon,
+	IconPencilPlus,
+	IconSparkles,
+	IconSun
+} from '@tabler/icons-react-native'
+import { useCallback, useMemo, useRef, useState } from 'react'
+import type { PressableProps } from 'react-native'
+import { Pressable, Text, ToastAndroid, View } from 'react-native'
+import type { Modalize } from 'react-native-modalize'
+import type { SvgProps } from 'react-native-svg'
+import uuid from 'react-native-uuid'
+import {
+	colorKit,
+	HueSlider,
+	Panel1,
+	PreviewText
+} from 'reanimated-color-picker'
+import { twMerge } from 'tailwind-merge'
+import type { ThemeColorsEditorValueKeys } from '@/types/themeColorsEditor'
+import { generateTheme, getThemeColor, saveTheme } from '@/utils/theme'
+import { StyledPressable } from '../layout/StyledPressable'
+import { ColorPickerModal } from '../modal/ColorPicker'
+import { ColorSquare } from './ColorSquare'
+import { ThemeColorsEditor } from './colorsEditor/ThemeColorsEditor'
+
+export type ThemeMode = 'dark' | 'light'
+
+interface ThemeModeButtonProps extends PressableProps {
+	type: ThemeMode
+	selectedType: ThemeMode
+}
+
+export function ThemeModeButton({
+	type,
+	selectedType,
+	className,
+	...props
+}: ThemeModeButtonProps) {
+	const isSelected = type === selectedType
+
+	const Icon = type === 'dark' ? IconMoon : IconSun
+	const text = type === 'dark' ? 'Oscuro' : 'Claro'
+	const backgroundColor = isSelected
+		? getThemeColor('primary', 0.5)
+		: getThemeColor('surface')
+	const textColor = getThemeColor('text-primary')
+	const borderColor = isSelected ? getThemeColor('text-muted') : '#fff0'
+
+	return (
+		<Pressable
+			className={twMerge(
+				'w-[48%] flex-row items-center justify-center rounded-lg px-3 py-2 gap-x-1 active:scale-95 transition-all duration-100',
+				className
+			)}
+			style={{
+				borderWidth: 1,
+				backgroundColor,
+				borderColor
+			}}
+			{...props}
+		>
+			<Icon color={textColor} size={20} />
+			<Text style={{ color: textColor }}>{text}</Text>
+		</Pressable>
+	)
+}
+
+export function AutomaticCreation() {
+	const [selectedMode, setSelectedMode] = useState<ThemeMode>('dark')
+	const colorPickerModalRef = useRef<Modalize>(null)
+	const [generatedTheme, setGeneratedTheme] = useState<
+		Record<ThemeColorsEditorValueKeys, string> | undefined
+	>()
+
+	const colors = useMemo(
+		() =>
+			Array.from({ length: 6 }).map(() => ({
+				id: uuid.v4(),
+				color: colorKit.randomRgbColor().hex()
+			})),
+		[]
+	)
+
+	const defaultColor = colors[0].color
+	const [selectedColor, setSelectedColor] = useState(defaultColor)
+
+	const handleOpenPicker = useCallback(() => {
+		colorPickerModalRef.current?.open()
+	}, [])
+
+	return (
+		<View className="pb-10">
+			<View>
+				<Text
+					style={{
+						color: getThemeColor('text-primary')
+					}}
+				>
+					Color primario
+				</Text>
+
+				<View className="flex-row gap-x-2 mt-2">
+					{colors.map(({ color, id }) => (
+						<ColorSquare
+							key={id}
+							onPress={() => setSelectedColor(color)}
+							value={color}
+						/>
+					))}
+					<ColorSquare
+						onPress={handleOpenPicker}
+						value={selectedColor}
+						editable
+					/>
+				</View>
+
+				<View className="mt-4">
+					<Text
+						style={{
+							color: getThemeColor('text-primary')
+						}}
+					>
+						Modo
+					</Text>
+
+					<View className="flex-row justify-between mt-2">
+						<ThemeModeButton
+							onPress={() => setSelectedMode('dark')}
+							type="dark"
+							selectedType={selectedMode}
+						/>
+						<ThemeModeButton
+							onPress={() => setSelectedMode('light')}
+							type="light"
+							selectedType={selectedMode}
+						/>
+					</View>
+				</View>
+
+				<View className="mt-4 mb-6">
+					<StyledPressable
+						onPress={() => {
+							if (!selectedColor) {
+								ToastAndroid.show(
+									'Debes seleccionar un color',
+									ToastAndroid.SHORT
+								)
+								return
+							}
+							const generetedTheme = generateTheme(selectedColor, selectedMode)
+							setGeneratedTheme(generetedTheme)
+						}}
+						text={!generatedTheme ? 'Generar tema' : 'Volver a generar'}
+						icon={(props: SvgProps) => <IconSparkles {...props} />}
+					/>
+				</View>
+			</View>
+
+			{generatedTheme && (
+				<ThemeColorsEditor
+					editable
+					title="Colores generados"
+					values={generatedTheme}
+					onValuesChange={setGeneratedTheme}
+				/>
+			)}
+
+			{generatedTheme && (
+				<StyledPressable
+					className="mt-6"
+					onPress={() => saveTheme(generatedTheme)}
+					text="Crear tema"
+					icon={(props: SvgProps) => <IconPencilPlus {...props} />}
+				/>
+			)}
+
+			<ColorPickerModal
+				onValueChange={(color) => setSelectedColor(color.hex)}
+				modalRef={colorPickerModalRef}
+				value={selectedColor}
+			>
+				<Panel1 />
+				<HueSlider boundedThumb thumbShape="ring" />
+				<PreviewText style={{ color: getThemeColor('text-primary') }} />
+			</ColorPickerModal>
+		</View>
+	)
+}
