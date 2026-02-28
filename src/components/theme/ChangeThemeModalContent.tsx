@@ -1,4 +1,6 @@
-import { Text, View } from 'react-native'
+import { IconPlus } from '@tabler/icons-react-native'
+import { Link } from 'expo-router'
+import { Pressable, Text, View } from 'react-native'
 import uuid from 'react-native-uuid'
 import { THEMES } from '@/constants/theme'
 import { useTheme } from '@/state/theme'
@@ -21,7 +23,6 @@ export const ConfigModalConfig = {
 			/>
 		),
 		keyExtractor: (_: unknown, index: number) => themeKeys[index],
-		ListHeaderComponent: () => <ChangeThemeModalContent />,
 
 		initialNumToRender: 6,
 		maxToRenderPerBatch: 4,
@@ -30,7 +31,11 @@ export const ConfigModalConfig = {
 	}
 } satisfies ConfigRowModalWithListProps
 
-export function ChangeThemeModalContent() {
+export function ChangeThemeModalContent({
+	closeModal
+}: {
+	closeModal: () => void
+}) {
 	const { theme } = useTheme()
 
 	return (
@@ -41,6 +46,41 @@ export function ChangeThemeModalContent() {
 			>
 				Selecciona un tema
 			</Text>
+
+			<View className="mb-6">
+				<Link
+					href={'/create-theme'}
+					className="flex flex-row items-center justify-center gap-x-4 border-2 rounded-2xl py-3"
+					asChild
+					style={{
+						backgroundColor: getThemeColor('surface', 0.3),
+						borderColor: getThemeColor('primary'),
+						borderStyle: 'dashed'
+					}}
+				>
+					<Pressable
+						className="active:scale-95 transition-all"
+						onPress={closeModal}
+					>
+						<View
+							className="p-1 rounded-full"
+							style={{
+								backgroundColor: getThemeColor('surface-soft')
+							}}
+						>
+							<IconPlus color={getThemeColor('primary')} size={20} />
+						</View>
+						<Text
+							className="text-lg font-semibold"
+							style={{
+								color: getThemeColor('primary')
+							}}
+						>
+							Crear nuevo tema
+						</Text>
+					</Pressable>
+				</Link>
+			</View>
 
 			<View>
 				<Text
