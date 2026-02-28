@@ -1,5 +1,6 @@
 import type { PressableProps, StyleProp, ViewStyle } from 'react-native'
 import { Pressable, Text, View } from 'react-native'
+import type { SvgProps } from 'react-native-svg'
 import { twMerge } from 'tailwind-merge'
 import { getThemeColor } from '@/utils/theme'
 
@@ -7,7 +8,7 @@ interface StyledPressableProps extends PressableProps {
 	text: string
 	onPress?: () => void
 	disabled?: boolean
-	icon?: (props: React.SVGProps<SVGSVGElement>) => React.ReactNode
+	icon?: (props: SvgProps) => React.ReactNode
 	style?: StyleProp<ViewStyle>
 }
 
