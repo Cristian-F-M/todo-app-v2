@@ -5,8 +5,15 @@ import {
 	IconSun
 } from '@tabler/icons-react-native'
 import { useCallback, useMemo, useRef, useState } from 'react'
-import type { PressableProps } from 'react-native'
-import { Pressable, Text, ToastAndroid, View } from 'react-native'
+import type { LayoutChangeEvent, PressableProps } from 'react-native'
+import {
+	Animated,
+	Pressable,
+	Text,
+	ToastAndroid,
+	useAnimatedValue,
+	View
+} from 'react-native'
 import type { Modalize } from 'react-native-modalize'
 import type { SvgProps } from 'react-native-svg'
 import uuid from 'react-native-uuid'
@@ -72,6 +79,8 @@ export function AutomaticCreation() {
 	const [generatedTheme, setGeneratedTheme] = useState<
 		Record<ThemeColorsEditorValueKeys, string> | undefined
 	>()
+	const [layouts, setLayouts] = useState<{ x: number; width: number }[]>([])
+	const selectedColorIndicatorTranslateX = useAnimatedValue(0)
 
 	const colors = useMemo(
 		() =>
@@ -89,6 +98,25 @@ export function AutomaticCreation() {
 		colorPickerModalRef.current?.open()
 	}, [])
 
+	const handleColorSquareLayout = (index: number, event: LayoutChangeEvent) => {
+		const { x, width } = event.nativeEvent.layout
+
+		setLayouts((prev) => {
+			const newLayouts = [...prev]
+			newLayouts[index] = { x, width }
+			return newLayouts
+		})
+	}
+
+	const handleColorSquarePress = (index: number) => {
+		if (!layouts[index]) return
+
+		Animated.spring(selectedColorIndicatorTranslateX, {
+			toValue: layouts[index].x,
+			useNativeDriver: true
+		}).start()
+	}
+
 	return (
 		<View className="pb-10">
 			<View>
@@ -101,21 +129,38 @@ export function AutomaticCreation() {
 				</Text>
 
 				<View className="flex-row gap-x-2 mt-2">
-					{colors.map(({ color, id }) => (
+					{colors.map(({ color, id }, index) => (
 						<ColorSquare
+							onLayout={(e) => handleColorSquareLayout(index, e)}
 							key={id}
-							onPress={() => setSelectedColor(color)}
+							onPress={() => {
+								setSelectedColor(color)
+								handleColorSquarePress(index)
+							}}
 							value={color}
 						/>
 					))}
 					<ColorSquare
-						onPress={handleOpenPicker}
+						onLayout={(e) => handleColorSquareLayout(colors.length, e)}
+						onPress={() => {
+							handleOpenPicker()
+							handleColorSquarePress(colors.length)
+						}}
 						value={selectedColor}
 						editable
 					/>
+
+					{/* <selected-color-indicator /> */}
+					<Animated.View
+						className="w-10 h-2 absolute rounded-xl -bottom-3"
+						style={{
+							backgroundColor: getThemeColor('primary'),
+							transform: [{ translateX: selectedColorIndicatorTranslateX }]
+						}}
+					/>
 				</View>
 
-				<View className="mt-4">
+				<View className="mt-5">
 					<Text
 						style={{
 							color: getThemeColor('text-primary')
