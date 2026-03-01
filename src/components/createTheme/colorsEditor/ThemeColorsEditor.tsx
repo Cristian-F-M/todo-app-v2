@@ -1,5 +1,5 @@
 import { IconCaretDownFilled } from '@tabler/icons-react-native'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import type { Modalize } from 'react-native-modalize'
 import Animated, { LinearTransition } from 'react-native-reanimated'
@@ -31,11 +31,6 @@ export function ThemeColorsEditor({
 	const [currentColor, setCurrentColor] = useState<
 		[ThemeColorsEditorValueKeys, string] | undefined
 	>()
-
-	// biome-ignore lint/correctness/useExhaustiveDependencies: It's necessary to open colors editor when values change
-	useEffect(() => {
-		setOpen(true)
-	}, [values])
 
 	return (
 		<>
