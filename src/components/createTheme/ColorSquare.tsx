@@ -51,8 +51,8 @@ export function ColorSquare({
 				<View
 					className="rounded transition-colors duration-200"
 					style={{
-						width: '85%',
-						height: '85%',
+						width: '90%',
+						height: '90%',
 						alignSelf: 'center',
 						backgroundColor: value
 					}}
