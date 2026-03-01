@@ -25,11 +25,7 @@ export function useThemeStyles<T = any>(fn: () => T) {
 
 export function parseTheme(theme: Record<ThemeKeys, string>) {
 	const entries = Object.entries(theme).map(([k, color]) => {
-		const newColor = color
-			.replace(/[()rgb\s]/g, '')
-			.split(',')
-			.join(' ')
-		return [k, newColor]
+		return [k, formatRGB(color)]
 	})
 
 	return Object.fromEntries(entries)
