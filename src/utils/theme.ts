@@ -1,20 +1,16 @@
 import { useMemo } from 'react'
 import { colorKit } from 'reanimated-color-picker'
 import type { ThemeMode } from '@/components/createTheme/AutomaticCreation'
-import { THEMES } from '@/constants/theme'
 import { useTheme } from '@/state/theme'
-import type { Theme } from '@/types/theme'
 import type {
 	ThemeColorsEditorValue,
 	ThemeKeys
 } from '@/types/themeColorsEditor'
 
-export function getThemeColor(
-	color: keyof (typeof THEMES)[Theme],
-	alpha?: number
-) {
-	const { theme } = useTheme.getState()
-	return `rgba(${THEMES[theme][color]} / ${alpha ?? 1})`
+export function getThemeColor(color: ThemeKeys, alpha?: number) {
+	const { theme, themes } = useTheme.getState()
+	const colors = themes[theme].colors
+	return `rgba(${colors[color]} / ${alpha ?? 1})`
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: -
