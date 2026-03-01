@@ -331,3 +331,19 @@ export const THEMES_LABELS = {
 	colorfulVibrant: 'Vibrante Colorido',
 	neonPopDark: 'Oscuro Pop Neon'
 } satisfies Record<Theme, string>
+
+export const THEME_COLORS = {
+	background: 'background',
+	surface: 'surface',
+	'surface-soft': 'surface-soft',
+	border: 'border',
+	primary: 'primary',
+	'primary-pressed': 'primary-pressed',
+	'text-primary': 'text-primary',
+	'text-secondary': 'text-secondary',
+	'text-muted': 'text-muted',
+	success: 'success',
+	warning: 'warning',
+	danger: 'danger',
+	overlay: 'overlay'
+} satisfies Record<string, string>
