@@ -5,7 +5,7 @@ import uuid from 'react-native-uuid'
 import { THEMES } from '@/constants/theme'
 import { useTheme } from '@/state/theme'
 import type { ConfigRowModalWithListProps } from '@/types/config'
-import type { Theme, ThemeObject } from '@/types/theme'
+import type { ThemeObject } from '@/types/theme'
 import { getThemeColor } from '@/utils/theme'
 import { ThemeOverview } from './ThemeOverview'
 
@@ -14,12 +14,12 @@ const themeKeys = Object.values(THEMES).map(() => uuid.v4())
 export const ConfigModalConfig = {
 	flatList: true,
 	flatListProps: {
-		data: Object.entries(THEMES),
-		renderItem: ({ item }: { item: [string, ThemeObject] }) => (
+		data: Object.values(THEMES),
+		renderItem: ({ item }: { item: ThemeObject }) => (
 			<ThemeOverview
-				theme={item[1]}
-				themeKey={item[0] as Theme}
-				isSelected={item[0] === useTheme.getState().theme}
+				theme={item}
+				themeKey={item.id}
+				isSelected={item.id === useTheme.getState().theme}
 			/>
 		),
 		keyExtractor: (_: unknown, index: number) => themeKeys[index],
@@ -36,7 +36,7 @@ export function ChangeThemeModalContent({
 }: {
 	closeModal: () => void
 }) {
-	const { theme } = useTheme()
+	const { theme, themes } = useTheme()
 
 	return (
 		<View className="flex flex-col w-full" style={{ maxHeight: 400 }}>
@@ -90,7 +90,7 @@ export function ChangeThemeModalContent({
 					Tema seleccionado
 				</Text>
 				<View>
-					<ThemeOverview theme={THEMES[theme]} themeKey={theme} />
+					<ThemeOverview theme={themes[theme]} themeKey={theme} />
 				</View>
 			</View>
 
