@@ -18,7 +18,7 @@ import { DeleteModal } from '@/components/modal/DeleteModal'
 import { FolderModal } from '@/components/modal/FolderModal'
 import { Modal } from '@/components/modal/Modal'
 import { TaskModal } from '@/components/modal/TaskModal'
-import { THEMES } from '@/constants/theme'
+import { THEMES_OBJ } from '@/constants/theme'
 import { useConfig } from '@/state/config'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
@@ -49,7 +49,7 @@ Notifications.setNotificationHandler({
 })
 
 export default function RootLayout() {
-	const { theme } = useTheme()
+	const { theme, themes } = useTheme()
 	const { load: loadConfigs } = useConfig()
 	const themeStyle = theme === 'dark' ? 'light' : 'dark'
 	const { load: loadFolders } = useFolder()
@@ -60,14 +60,14 @@ export default function RootLayout() {
 	const deleteModalRef = useRef<Modalize>(null)
 
 	const themeVars = useMemo(() => {
-		const entries = Object.entries(THEMES[theme as Theme]).map(
+		const entries = Object.entries(themes[theme as Theme]).map(
 			([key, value]) => {
 				return [`--${key}`, value]
 			}
 		)
 
 		return Object.fromEntries(entries)
-	}, [theme])
+	}, [theme, themes])
 
 	useLayoutEffect(() => {
 		useTheme.getState().load()

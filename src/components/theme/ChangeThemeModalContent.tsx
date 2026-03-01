@@ -2,19 +2,19 @@ import { IconPlus } from '@tabler/icons-react-native'
 import { Link } from 'expo-router'
 import { Pressable, Text, View } from 'react-native'
 import uuid from 'react-native-uuid'
-import { THEMES } from '@/constants/theme'
 import { useTheme } from '@/state/theme'
 import type { ConfigRowModalWithListProps } from '@/types/config'
 import type { ThemeObject } from '@/types/theme'
 import { getThemeColor } from '@/utils/theme'
 import { ThemeOverview } from './ThemeOverview'
 
-const themeKeys = Object.values(THEMES).map(() => uuid.v4())
+const { themes } = useTheme.getState()
+const themeKeys = Object.values(themes).map(() => uuid.v4())
 
 export const ConfigModalConfig = {
 	flatList: true,
 	flatListProps: {
-		data: Object.values(THEMES),
+		data: Object.values(themes),
 		renderItem: ({ item }: { item: ThemeObject }) => (
 			<ThemeOverview
 				theme={item}
@@ -36,7 +36,7 @@ export function ChangeThemeModalContent({
 }: {
 	closeModal: () => void
 }) {
-	const { theme, themes } = useTheme()
+	const { theme } = useTheme()
 
 	return (
 		<View className="flex flex-col w-full" style={{ maxHeight: 400 }}>

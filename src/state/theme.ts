@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { THEMES } from '@/constants/theme'
+import { THEMES_OBJ } from '@/constants/theme'
 import type { Theme, ThemeObject } from '@/types/theme'
 import { getItem, saveItem } from '@/utils/asyncStorage'
 
@@ -12,7 +12,7 @@ interface ThemeStore {
 
 export const useTheme = create<ThemeStore>((set) => ({
 	theme: 'dark',
-	themes: {},
+	themes: THEMES_OBJ,
 	setTheme: async (theme) => {
 		await saveItem({ name: 'theme', value: theme })
 		set({ theme })
@@ -21,7 +21,8 @@ export const useTheme = create<ThemeStore>((set) => ({
 		const themes = await getItem<Record<string, ThemeObject>>({
 			name: 'themes'
 		})
+
 		const theme = (await getItem<Theme>({ name: 'theme' })) || 'dark'
-		set({ theme, themes: Object.assign({}, THEMES, themes ?? {}) })
+		set({ theme, themes: Object.assign({}, THEMES_OBJ, themes ?? {}) })
 	}
 }))

@@ -1,7 +1,6 @@
-import type { THEMES } from '@/constants/theme'
 import type { ThemeKeys } from './themeColorsEditor'
 
-export type Theme = keyof typeof THEMES | (string & {})
+export type Theme = string
 
 export type ThemeObject = {
 	id: string

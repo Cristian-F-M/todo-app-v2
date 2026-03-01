@@ -6,18 +6,14 @@ import Animated, { LinearTransition } from 'react-native-reanimated'
 import uuid from 'react-native-uuid'
 import { HueSlider, Panel1, PreviewText } from 'reanimated-color-picker'
 import { twMerge } from 'tailwind-merge'
-import { THEMES } from '@/constants/theme'
+import { THEME_COLORS } from '@/constants/theme'
 import type {
 	ThemeColorsEditorProps,
-	ThemeColorsEditorValueKeys
+	ThemeKeys
 } from '@/types/themeColorsEditor'
 import { getThemeColor } from '@/utils/theme'
 import { ColorPickerModal } from '../../modal/ColorPicker'
 import { SingleColorEditor } from './SingleColorEditor'
-
-const themeColorsEditorValueKeys = Object.keys(
-	THEMES.dark
-) as unknown as ThemeColorsEditorValueKeys[]
 
 export function ThemeColorsEditor({
 	values,
@@ -27,9 +23,9 @@ export function ThemeColorsEditor({
 }: ThemeColorsEditorProps) {
 	const [open, setOpen] = useState(true)
 	const colorPickerModalRef = useRef<Modalize>(null)
-	const ids = useMemo(() => themeColorsEditorValueKeys.map(() => uuid.v4()), [])
+	const ids = useMemo(() => Object.keys(THEME_COLORS).map(() => uuid.v4()), [])
 	const [currentColor, setCurrentColor] = useState<
-		[ThemeColorsEditorValueKeys, string] | undefined
+		[ThemeKeys, string] | undefined
 	>()
 
 	return (
@@ -77,10 +73,10 @@ export function ThemeColorsEditor({
 						borderColor: getThemeColor('border')
 					}}
 				>
-					{themeColorsEditorValueKeys.map((key, index) => {
+					{Object.keys(THEME_COLORS).map((key, index) => {
 						if (!values) return null
 
-						const color = values[key]
+						const color = values[key as ThemeKeys]
 
 						return (
 							<View key={ids[index]}>
@@ -89,11 +85,11 @@ export function ThemeColorsEditor({
 									name={key}
 									editable={editable}
 									onPress={() => {
-										setCurrentColor([key, color])
+										setCurrentColor([key as ThemeKeys, color])
 										setTimeout(() => colorPickerModalRef.current?.open(), 300)
 									}}
 								/>
-								{index < themeColorsEditorValueKeys.length - 1 && (
+								{index < Object.keys(THEME_COLORS).length - 1 && (
 									<View
 										className="w-full my-2"
 										style={{
