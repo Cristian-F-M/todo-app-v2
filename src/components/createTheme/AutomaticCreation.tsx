@@ -30,6 +30,7 @@ import { StyledPressable } from '../layout/StyledPressable'
 import { ColorPickerModal } from '../modal/ColorPicker'
 import { ColorSquare } from './ColorSquare'
 import { ThemeColorsEditor } from './colorsEditor/ThemeColorsEditor'
+import { ThemePreview } from './ThemePreview'
 
 export type ThemeMode = 'dark' | 'light'
 
@@ -202,21 +203,23 @@ export function AutomaticCreation() {
 			</View>
 
 			{generatedTheme && (
-				<ThemeColorsEditor
-					editable
-					title="Colores generados"
-					values={generatedTheme}
-					onValuesChange={setGeneratedTheme}
-				/>
-			)}
+				<>
+					<ThemeColorsEditor
+						editable
+						title="Colores generados"
+						values={generatedTheme}
+						onValuesChange={setGeneratedTheme}
+					/>
+					{/* <theme-preview /> */}
+					<ThemePreview className="mt-5" name="Tema generado" theme={generatedTheme} />
 
-			{generatedTheme && (
-				<StyledPressable
-					className="mt-6"
-					onPress={() => saveTheme(generatedTheme)}
-					text="Crear tema"
-					icon={(props: SvgProps) => <IconPencilPlus {...props} />}
-				/>
+					<StyledPressable
+						className="mt-6"
+						onPress={() => saveTheme(generatedTheme)}
+						text="Crear tema"
+						icon={(props: SvgProps) => <IconPencilPlus {...props} />}
+					/>
+				</>
 			)}
 
 			<ColorPickerModal
