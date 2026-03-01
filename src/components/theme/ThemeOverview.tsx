@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 import { FlatList, Pressable, Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
-import { THEMES_LABELS } from '@/constants/theme'
 import { useTheme } from '@/state/theme'
 import type { Theme, ThemeObject } from '@/types/theme'
 import { getThemeColor } from '@/utils/theme'
@@ -16,7 +15,6 @@ export function ThemeOverview({
 	isSelected?: boolean
 }) {
 	const { theme: currentTheme, setTheme } = useTheme()
-	const label = THEMES_LABELS[themeKey]
 
 	const handleSetTheme = useCallback(() => {
 		if (currentTheme === themeKey) return
@@ -36,10 +34,16 @@ export function ThemeOverview({
 		>
 			<View className="w-5/12">
 				<Text
-					className="text-lg font-bold"
+					className="text-md font-bold"
 					style={{ color: getThemeColor('text-secondary') }}
 				>
-					{label}
+					{theme.name}
+				</Text>
+				<Text
+					className="text-sm"
+					style={{ color: getThemeColor('text-muted') }}
+				>
+					{theme.variant}
 				</Text>
 			</View>
 			<View className="w-1/12 h-full" />
@@ -49,7 +53,7 @@ export function ThemeOverview({
 				horizontal
 				showsHorizontalScrollIndicator={true}
 				nestedScrollEnabled
-				data={Object.values(theme)}
+				data={Object.values(theme.colors)}
 				renderItem={({ item }) => (
 					<View
 						className="w-10 h-10 mr-1 rounded-md"
