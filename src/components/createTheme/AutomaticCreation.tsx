@@ -117,6 +117,15 @@ export function AutomaticCreation() {
 		}).start()
 	}
 
+	const handleGenerateTheme = useCallback(() => {
+		if (!selectedColor) {
+			ToastAndroid.show('Debes seleccionar un color', ToastAndroid.SHORT)
+			return
+		}
+		const generetedTheme = generateTheme(selectedColor, selectedMode)
+		setGeneratedTheme(generetedTheme)
+	}, [selectedColor, selectedMode])
+
 	return (
 		<View className="pb-10">
 			<View>
@@ -185,17 +194,7 @@ export function AutomaticCreation() {
 
 				<View className="mt-4 mb-6">
 					<StyledPressable
-						onPress={() => {
-							if (!selectedColor) {
-								ToastAndroid.show(
-									'Debes seleccionar un color',
-									ToastAndroid.SHORT
-								)
-								return
-							}
-							const generetedTheme = generateTheme(selectedColor, selectedMode)
-							setGeneratedTheme(generetedTheme)
-						}}
+						onPress={handleGenerateTheme}
 						text={!generatedTheme ? 'Generar tema' : 'Volver a generar'}
 						icon={(props: SvgProps) => <IconSparkles {...props} />}
 					/>
