@@ -10,7 +10,8 @@ import { Screen } from '@/components/layout/Screen'
 import { TimePickerType } from '@/components/modal/TimePickerType'
 import {
 	ChangeThemeModalContent,
-	ConfigModalConfig
+	// ConfigModalConfig,
+	useConfigModal
 } from '@/components/theme/ChangeThemeModalContent'
 import { useConfig } from '@/state/config'
 import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
@@ -45,6 +46,7 @@ export default function ConfigPage() {
 
 	const modalRef = useRef<Modalize>(null)
 	const pickerTimeTypeRef = useRef<Modalize>(null)
+	const { config: ConfigModalConfig } = useConfigModal()
 
 	return (
 		<Screen safeArea={false}>

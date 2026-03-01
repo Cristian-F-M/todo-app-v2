@@ -1,5 +1,6 @@
 import { IconPlus } from '@tabler/icons-react-native'
 import { Link } from 'expo-router'
+import { useEffect } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import uuid from 'react-native-uuid'
 import { useTheme } from '@/state/theme'
@@ -8,35 +9,43 @@ import type { ThemeParsedObject } from '@/types/theme'
 import { getThemeColor } from '@/utils/theme'
 import { ThemeOverview } from './ThemeOverview'
 
-const { themes } = useTheme.getState()
-const themeKeys = Object.values(themes).map(() => uuid.v4())
+export const useConfigModal = () => {
+	const { themes, theme } = useTheme()
+	const themeKeys = Object.values(themes).map(() => uuid.v4())
 
-export const ConfigModalConfig = {
-	flatList: true,
-	flatListProps: {
-		data: Object.values(themes),
-		renderItem: ({ item }: { item: ThemeParsedObject }) => (
-			<ThemeOverview
-				theme={item}
-				themeKey={item.id}
-				isSelected={item.id === useTheme.getState().theme}
-			/>
-		),
-		keyExtractor: (_: unknown, index: number) => themeKeys[index],
+	useEffect(() => {
+		console.log(Object.keys(themes).length)
+	}, [themes])
 
-		initialNumToRender: 6,
-		maxToRenderPerBatch: 4,
-		windowSize: 3,
-		removeClippedSubviews: true
-	}
-} satisfies ConfigRowModalWithListProps
+	const ConfigModalConfig = {
+		flatList: true,
+		flatListProps: {
+			data: Object.values(themes),
+			renderItem: ({ item }: { item: ThemeParsedObject }) => (
+				<ThemeOverview
+					theme={item}
+					themeKey={item.id}
+					isSelected={item.id === theme}
+				/>
+			),
+			keyExtractor: (_: unknown, index: number) => themeKeys[index],
+
+			initialNumToRender: 6,
+			maxToRenderPerBatch: 4,
+			windowSize: 3,
+			removeClippedSubviews: true
+		}
+	} satisfies ConfigRowModalWithListProps
+
+	return { config: ConfigModalConfig }
+}
 
 export function ChangeThemeModalContent({
 	closeModal
 }: {
 	closeModal: () => void
 }) {
-	const { theme } = useTheme()
+	const { themes, theme } = useTheme()
 
 	return (
 		<View className="flex flex-col w-full" style={{ maxHeight: 400 }}>
