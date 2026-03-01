@@ -24,7 +24,7 @@ import {
 	PreviewText
 } from 'reanimated-color-picker'
 import { twMerge } from 'tailwind-merge'
-import type { ThemeColorsEditorValueKeys } from '@/types/themeColorsEditor'
+import type { ThemeKeys } from '@/types/themeColorsEditor'
 import { generateTheme, getThemeColor, saveTheme } from '@/utils/theme'
 import { StyledPressable } from '../layout/StyledPressable'
 import { ColorPickerModal } from '../modal/ColorPicker'
@@ -78,7 +78,7 @@ export function AutomaticCreation() {
 	const [selectedMode, setSelectedMode] = useState<ThemeMode>('dark')
 	const colorPickerModalRef = useRef<Modalize>(null)
 	const [generatedTheme, setGeneratedTheme] = useState<
-		Record<ThemeColorsEditorValueKeys, string> | undefined
+		Record<ThemeKeys, string> | undefined
 	>()
 	const [layouts, setLayouts] = useState<{ x: number; width: number }[]>([])
 	const selectedColorIndicatorTranslateX = useAnimatedValue(0)
@@ -211,7 +211,11 @@ export function AutomaticCreation() {
 						onValuesChange={setGeneratedTheme}
 					/>
 					{/* <theme-preview /> */}
-					<ThemePreview className="mt-5" name="Tema generado" theme={generatedTheme} />
+					<ThemePreview
+						className="mt-5"
+						name="Tema generado"
+						theme={generatedTheme}
+					/>
 
 					<StyledPressable
 						className="mt-6"

@@ -1,9 +1,8 @@
 import type { PressableProps, StyleProp, ViewStyle } from 'react-native'
-import type { THEMES } from '@/constants/theme'
+import type { THEME_COLORS } from '@/constants/theme'
 
-export type ThemeColorsEditorValueKeys =
-	keyof (typeof THEMES)[keyof typeof THEMES]
-export type ThemeColorsEditorValue = Record<ThemeColorsEditorValueKeys, string>
+export type ThemeKeys = keyof typeof THEME_COLORS
+export type ThemeColorsEditorValue = Record<ThemeKeys, string>
 
 export interface SingleColorEditorProps extends PressableProps {
 	name: string

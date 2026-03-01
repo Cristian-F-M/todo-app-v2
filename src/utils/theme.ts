@@ -1,10 +1,13 @@
 import { useMemo } from 'react'
 import { colorKit } from 'reanimated-color-picker'
 import type { ThemeMode } from '@/components/createTheme/AutomaticCreation'
-import type { ThemeColorsEditorValueKeys } from '@/components/createTheme/ThemeColorsEditor'
 import { THEMES } from '@/constants/theme'
 import { useTheme } from '@/state/theme'
 import type { Theme } from '@/types/theme'
+import type {
+	ThemeColorsEditorValue,
+	ThemeKeys
+} from '@/types/themeColorsEditor'
 
 export function getThemeColor(
 	color: keyof (typeof THEMES)[Theme],
@@ -24,7 +27,7 @@ export function useThemeStyles<T = any>(fn: () => T) {
 	return memoStyles
 }
 
-export function parseTheme(theme: Record<ThemeColorsEditorValueKeys, string>) {
+export function parseTheme(theme: Record<ThemeKeys, string>) {
 	const entries = Object.entries(theme).map(([k, color]) => {
 		const newColor = color
 			.replace(/[()rgb\s]/g, '')
