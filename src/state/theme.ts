@@ -1,11 +1,11 @@
 import { create } from 'zustand'
 import { THEMES_OBJ } from '@/constants/theme'
-import type { Theme, ThemeObject } from '@/types/theme'
+import type { Theme, ThemeParsedObject } from '@/types/theme'
 import { getItem, saveItem } from '@/utils/asyncStorage'
 
 interface ThemeStore {
 	theme: Theme
-	themes: Record<string, ThemeObject>
+	themes: Record<string, ThemeParsedObject>
 	setTheme: (theme: Theme) => Promise<void>
 	load: () => Promise<void>
 }
@@ -18,7 +18,7 @@ export const useTheme = create<ThemeStore>((set) => ({
 		set({ theme })
 	},
 	load: async () => {
-		const themes = await getItem<Record<string, ThemeObject>>({
+		const themes = await getItem<Record<string, ThemeParsedObject>>({
 			name: 'themes'
 		})
 

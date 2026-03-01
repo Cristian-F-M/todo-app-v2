@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { FlatList, Pressable, Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 import { useTheme } from '@/state/theme'
-import type { Theme, ThemeObject } from '@/types/theme'
+import type { Theme, ThemeParsedObject } from '@/types/theme'
 import { getThemeColor } from '@/utils/theme'
 
 export function ThemeOverview({
@@ -11,7 +11,7 @@ export function ThemeOverview({
 	isSelected = false
 }: {
 	themeKey: Theme
-	theme: ThemeObject
+	theme: ThemeParsedObject
 	isSelected?: boolean
 }) {
 	const { theme: currentTheme, setTheme } = useTheme()

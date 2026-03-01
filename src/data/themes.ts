@@ -1,4 +1,4 @@
-import type { ThemeObject } from '@/types/theme'
+import type { ThemeParsedObject } from '@/types/theme'
 
 export const dark = {
 	id: 'dark',
@@ -24,7 +24,7 @@ export const dark = {
 
 		overlay: '0 0 0'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const light = {
 	id: 'light',
@@ -50,7 +50,7 @@ export const light = {
 
 		overlay: '220 226 235'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const violetNight = {
 	id: 'violet-night',
@@ -76,7 +76,7 @@ export const violetNight = {
 
 		overlay: '0 0 0'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const emeraldDeep = {
 	id: 'emerald-deep',
@@ -102,7 +102,7 @@ export const emeraldDeep = {
 
 		overlay: '0 0 0'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const sunsetCoral = {
 	id: 'sunset-coral',
@@ -128,7 +128,7 @@ export const sunsetCoral = {
 
 		overlay: '0 0 0'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const midnightIndigo = {
 	id: 'midnight-indigo',
@@ -154,7 +154,7 @@ export const midnightIndigo = {
 
 		overlay: '0 0 0'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const arcticLight = {
 	id: 'arctic-light',
@@ -180,7 +180,7 @@ export const arcticLight = {
 
 		overlay: '220 226 235'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const sandstone = {
 	id: 'sandstone',
@@ -206,7 +206,7 @@ export const sandstone = {
 
 		overlay: '230 220 205'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const graphiteMinimal = {
 	id: 'graphite-minimal',
@@ -232,7 +232,7 @@ export const graphiteMinimal = {
 
 		overlay: '0 0 0'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const fullDarkHard = {
 	id: 'full-dark-hard',
@@ -258,7 +258,7 @@ export const fullDarkHard = {
 
 		overlay: '0 0 0'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const highContrastDark = {
 	id: 'high-contrast-dark',
@@ -284,7 +284,7 @@ export const highContrastDark = {
 
 		overlay: '0 0 0'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const colorfulVibrant = {
 	id: 'colorful-vibrant',
@@ -310,7 +310,7 @@ export const colorfulVibrant = {
 
 		overlay: '220 225 240'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const deepSpaceBlue = {
 	id: 'deep-space-blue',
@@ -336,7 +336,7 @@ export const deepSpaceBlue = {
 
 		overlay: '0 0 0'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject
 
 export const neonPopDark = {
 	id: 'neon-pop-dark',
@@ -362,4 +362,4 @@ export const neonPopDark = {
 
 		overlay: '0 0 0'
 	}
-} satisfies ThemeObject
+} satisfies ThemeParsedObject

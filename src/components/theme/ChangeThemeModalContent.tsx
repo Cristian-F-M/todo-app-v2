@@ -4,7 +4,7 @@ import { Pressable, Text, View } from 'react-native'
 import uuid from 'react-native-uuid'
 import { useTheme } from '@/state/theme'
 import type { ConfigRowModalWithListProps } from '@/types/config'
-import type { ThemeObject } from '@/types/theme'
+import type { ThemeParsedObject } from '@/types/theme'
 import { getThemeColor } from '@/utils/theme'
 import { ThemeOverview } from './ThemeOverview'
 
@@ -15,7 +15,7 @@ export const ConfigModalConfig = {
 	flatList: true,
 	flatListProps: {
 		data: Object.values(themes),
-		renderItem: ({ item }: { item: ThemeObject }) => (
+		renderItem: ({ item }: { item: ThemeParsedObject }) => (
 			<ThemeOverview
 				theme={item}
 				themeKey={item.id}

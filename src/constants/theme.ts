@@ -1,5 +1,6 @@
 // Si se agrega la posibilidad de que el usuario pueda personalizar el tema, solucionar par cuando lo quiera eliminar o modificar, para que no de error cuando se quiera usar si no existe
 import * as THEMES from '@/data/themes'
+import type { ThemeParsedObject } from '@/types/theme'
 
 /**
  * Configuración visual global del tema.
@@ -19,7 +20,9 @@ import * as THEMES from '@/data/themes'
  * @property {string} overlay - Overlay background
  */
 export const THEMES_ARR = Object.values(THEMES)
-export const THEMES_OBJ = Object.fromEntries(Object.entries(THEMES).map(([_, theme]) => [theme.id, theme]))
+export const THEMES_OBJ = Object.fromEntries(
+	Object.entries(THEMES).map(([_, theme]) => [theme.id, theme])
+) satisfies Record<string, ThemeParsedObject>
 
 export const THEME_COLORS = {
 	background: 'background',
