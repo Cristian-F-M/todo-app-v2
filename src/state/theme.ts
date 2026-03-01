@@ -8,6 +8,7 @@ interface ThemeStore {
 	themes: Record<string, ThemeParsedObject>
 	setTheme: (theme: Theme) => Promise<void>
 	load: () => Promise<void>
+	setThemes: (themes: Record<string, ThemeParsedObject>) => void
 }
 
 export const useTheme = create<ThemeStore>((set) => ({
@@ -16,6 +17,10 @@ export const useTheme = create<ThemeStore>((set) => ({
 	setTheme: async (theme) => {
 		await saveItem({ name: 'theme', value: theme })
 		set({ theme })
+	},
+	setThemes: (themes) => {
+		console.log('themes')
+		set({ themes })
 	},
 	load: async () => {
 		const themes = await getItem<Record<string, ThemeParsedObject>>({
