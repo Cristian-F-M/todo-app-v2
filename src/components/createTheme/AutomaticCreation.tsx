@@ -1,10 +1,9 @@
 import {
 	IconMoon,
-	IconPencilPlus,
 	IconSparkles,
 	IconSun
 } from '@tabler/icons-react-native'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { LayoutChangeEvent, PressableProps } from 'react-native'
 import {
 	Animated,
@@ -25,7 +24,7 @@ import {
 } from 'reanimated-color-picker'
 import { twMerge } from 'tailwind-merge'
 import type { ThemeKeys } from '@/types/themeColorsEditor'
-import { generateTheme, getThemeColor, saveTheme } from '@/utils/theme'
+import { generateTheme, getThemeColor } from '@/utils/theme'
 import { StyledPressable } from '../layout/StyledPressable'
 import { ColorPickerModal } from '../modal/ColorPicker'
 import { ColorSquare } from './ColorSquare'
@@ -74,7 +73,11 @@ export function ThemeModeButton({
 	)
 }
 
-export function AutomaticCreation() {
+export function AutomaticCreation({
+	onChangeTheme
+}: {
+	onChangeTheme: (theme: Record<ThemeKeys, string> | undefined) => void
+}) {
 	const [selectedMode, setSelectedMode] = useState<ThemeMode>('dark')
 	const colorPickerModalRef = useRef<Modalize>(null)
 	const [generatedTheme, setGeneratedTheme] = useState<
@@ -127,8 +130,12 @@ export function AutomaticCreation() {
 		setGeneratedTheme(generetedTheme)
 	}, [selectedColor, selectedMode])
 
+	useEffect(() => {
+		onChangeTheme(generatedTheme)
+	}, [generatedTheme, onChangeTheme])
+
 	return (
-		<View className="pb-10">
+		<View className="">
 			<View>
 				<Text
 					style={{
@@ -215,13 +222,6 @@ export function AutomaticCreation() {
 						className="mt-5"
 						name="Tema generado"
 						theme={generatedTheme}
-					/>
-
-					<StyledPressable
-						className="mt-6"
-						onPress={() => saveTheme(generatedTheme)}
-						text="Crear tema"
-						icon={(props: SvgProps) => <IconPencilPlus {...props} />}
 					/>
 				</>
 			)}

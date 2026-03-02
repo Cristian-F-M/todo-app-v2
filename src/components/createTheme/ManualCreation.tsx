@@ -1,24 +1,26 @@
-import { IconPencilPlus } from '@tabler/icons-react-native'
-import { useMemo, useState } from 'react'
-import { View } from 'react-native'
-import type { SvgProps } from 'react-native-svg'
+import { useEffect, useMemo, useState } from 'react'
+import { Text, View } from 'react-native'
+
 import { THEME_COLORS } from '@/constants/theme'
-import type { ThemeColorsEditorValueKeys } from '@/types/themeColorsEditor'
-import { saveTheme } from '@/utils/theme'
-import { StyledPressable } from '../layout/StyledPressable'
+import type { ThemeKeys } from '@/types/themeColorsEditor'
+import { getThemeColor } from '@/utils/theme'
 import { ThemeColorsEditor } from './colorsEditor/ThemeColorsEditor'
 import { ThemePreview } from './ThemePreview'
 
-export function ManualCreation() {
+export function ManualCreation({
+	onChangeTheme
+}: {
+	onChangeTheme: (theme: Record<ThemeKeys, string> | undefined) => void
+}) {
 	const defaultColors = useMemo(() => {
 		const entries = Object.values(THEME_COLORS).map((key) => [key, '#fff'])
-		return Object.fromEntries(entries) as Record<
-			ThemeColorsEditorValueKeys,
-			string
-		>
+		return Object.fromEntries(entries) as Record<ThemeKeys, string>
 	}, [])
-	const [theme, setTheme] =
-		useState<Record<ThemeColorsEditorValueKeys, string>>(defaultColors)
+	const [theme, setTheme] = useState<Record<ThemeKeys, string>>(defaultColors)
+
+	useEffect(() => {
+		onChangeTheme(theme)
+	}, [onChangeTheme, theme])
 
 	return (
 		<View className="mb-10">
@@ -29,16 +31,19 @@ export function ManualCreation() {
 				values={theme}
 			/>
 
-			{theme && (
-				<>
-					<ThemePreview className="mt-5" name="Tema manual" theme={theme} />
-					<StyledPressable
-						className="mt-6"
-						onPress={() => saveTheme(theme)}
-						text="Crear tema"
-						icon={(props: SvgProps) => <IconPencilPlus {...props} />}
-					/>
-				</>
+			{defaultColors === theme && (
+				<Text
+					className="text-center mt-5 text-sm"
+					style={{
+						color: getThemeColor('text-muted')
+					}}
+				>
+					Debes modificar el tema para poder ver la preview.
+				</Text>
+			)}
+
+			{theme && defaultColors !== theme && (
+				<ThemePreview className="mt-5" name="Tema manual" theme={theme} />
 			)}
 		</View>
 	)
