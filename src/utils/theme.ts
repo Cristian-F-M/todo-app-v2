@@ -1,11 +1,11 @@
 import { useMemo } from 'react'
+import uuid from 'react-native-uuid'
 import { colorKit } from 'reanimated-color-picker'
 import type { ThemeMode } from '@/components/createTheme/AutomaticCreation'
 import { useTheme } from '@/state/theme'
-import type {
-	ThemeColorsEditorValue,
-	ThemeKeys
-} from '@/types/themeColorsEditor'
+import type { ThemeObject, ThemeParsedObject } from '@/types/theme'
+import type { ThemeKeys } from '@/types/themeColorsEditor'
+import { getItem, saveItem } from './asyncStorage'
 
 export function getThemeColor(color: ThemeKeys, alpha?: number) {
 	const { theme, themes } = useTheme.getState()
@@ -28,7 +28,7 @@ export function parseTheme(theme: Record<ThemeKeys, string>) {
 		return [k, formatRGB(color)]
 	})
 
-	return Object.fromEntries(entries)
+	return Object.fromEntries(entries) as ThemeParsedObject['colors']
 }
 
 export interface RGBObject {
@@ -126,4 +126,25 @@ export function generateTheme(hex: string, mode: ThemeMode) {
 		...statusColors,
 		overlay
 	}
+}
+
+export async function saveTheme(theme: Omit<ThemeObject, 'id' | 'scope'>) {
+	const previousThemes =
+		(await getItem<Record<string, ThemeParsedObject>>({ name: 'themes' })) ?? {}
+	const themeId = uuid.v4()
+	const { setThemes, themes } = useTheme.getState()
+
+	const parsedColors = parseTheme(theme.colors)
+	const themeObject: ThemeParsedObject = {
+		id: themeId,
+		name: theme.name,
+		variant: theme.variant,
+		scope: 'user',
+		colors: parsedColors
+	}
+
+	Object.assign(previousThemes, { [themeId]: themeObject })
+	await saveItem({ name: 'themes', value: previousThemes })
+
+	setThemes(Object.assign({}, themes, previousThemes))
 }
