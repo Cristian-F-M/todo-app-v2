@@ -1,8 +1,10 @@
+import { IconPencilPlus } from '@tabler/icons-react-native'
 import { Stack } from 'expo-router'
 import type { ExtendedStackNavigationOptions } from 'expo-router/build/layouts/StackClient'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import type { SvgProps } from 'react-native-svg'
 import { AutomaticCreation } from '@/components/createTheme/AutomaticCreation'
 import { ManualCreation } from '@/components/createTheme/ManualCreation'
 import {
@@ -11,7 +13,9 @@ import {
 } from '@/components/createTheme/ThemeCreationModeCard'
 import { Input } from '@/components/layout/Input'
 import { Screen } from '@/components/layout/Screen'
-import { getThemeColor, useThemeStyles } from '@/utils/theme'
+import { StyledPressable } from '@/components/layout/StyledPressable'
+import type { ThemeKeys } from '@/types/themeColorsEditor'
+import { getThemeColor, saveTheme, useThemeStyles } from '@/utils/theme'
 
 export interface ThemeInfo {
 	name: string
@@ -24,6 +28,7 @@ export default function CreateTheme() {
 		variant: ''
 	})
 	const [creationMode, setCreationMode] = useState<ThemeModeType>('automatic')
+	const [theme, setTheme] = useState<Record<ThemeKeys, string> | undefined>()
 
 	const screenOptions = useThemeStyles<ExtendedStackNavigationOptions>(() => ({
 		headerShown: true,
@@ -34,6 +39,15 @@ export default function CreateTheme() {
 		},
 		headerTintColor: getThemeColor('text-primary')
 	}))
+
+	const handleCreateTheme = useCallback(() => {
+		if (!theme) return
+		if (!themeInfo.name || !themeInfo.variant) return // TODO: Use zod
+		saveTheme({
+			colors: theme,
+			...themeInfo
+		})
+	}, [theme, themeInfo])
 
 	return (
 		<Screen className="px-4">
@@ -108,9 +122,22 @@ export default function CreateTheme() {
 					</View>
 				</View>
 
-				<View className="mt-5">
-					{creationMode === 'automatic' && <AutomaticCreation />}
-					{creationMode === 'manual' && <ManualCreation />}
+				<View className="mt-5 mb-5">
+					{creationMode === 'automatic' && (
+						<AutomaticCreation onChangeTheme={setTheme} />
+					)}
+					{creationMode === 'manual' && (
+						<ManualCreation onChangeTheme={setTheme} />
+					)}
+
+					{theme && (
+						<StyledPressable
+							className="mt-3"
+							onPress={handleCreateTheme}
+							text="Crear tema"
+							icon={(props: SvgProps) => <IconPencilPlus {...props} />}
+						/>
+					)}
 				</View>
 			</ScrollView>
 		</Screen>
