@@ -1,6 +1,5 @@
 import { IconPlus } from '@tabler/icons-react-native'
 import { Link } from 'expo-router'
-import { useEffect } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import uuid from 'react-native-uuid'
 import { useTheme } from '@/state/theme'
@@ -12,10 +11,6 @@ import { ThemeOverview } from './ThemeOverview'
 export const useConfigModal = () => {
 	const { themes, theme } = useTheme()
 	const themeKeys = Object.values(themes).map(() => uuid.v4())
-
-	useEffect(() => {
-		console.log(Object.keys(themes).length)
-	}, [themes])
 
 	const ConfigModalConfig = {
 		flatList: true,
