@@ -60,7 +60,7 @@ export default function RootLayout() {
 	const deleteModalRef = useRef<Modalize>(null)
 
 	const themeVars = useMemo(() => {
-		const entries = Object.entries(themes[theme as Theme]).map(
+		const entries = Object.entries(themes[theme as Theme].colors).map(
 			([key, value]) => {
 				return [`--${key}`, value]
 			}
