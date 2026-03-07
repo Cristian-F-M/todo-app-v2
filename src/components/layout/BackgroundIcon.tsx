@@ -10,17 +10,10 @@ export function BackgroundIcon() {
 
 	return (
 		<View
-			style={{ backgroundColor }}
+			style={{ backgroundColor, filter: 'blur(10px)' }}
 			className="absolute w-full h-full flex items-center justify-center"
 		>
-			<CMLogo
-				style={{
-					filter: 'blur(15px)'
-				}}
-				width={200}
-				height={200}
-				color={iconColor}
-			/>
+			<CMLogo width={200} height={200} color={iconColor} />
 		</View>
 	)
 }
