@@ -23,19 +23,20 @@ export function Modal({
 	const modalStyle = useThemeStyles<ModalizeProps['modalStyle']>(() => [
 		{
 			backgroundColor: getThemeColor('background'),
-			paddingBottom: 20,
-			paddingHorizontal: 5
+			// paddingBottom: 20,
+			paddingHorizontal: 5,
+			paddingBottom: paddingBottom.value
 		},
 		mStyle
 	])
 
 	useEffect(() => {
 		const subsKeyboardDidShow = Keyboard.addListener('keyboardDidShow', () => {
-			paddingBottom.value = Keyboard.metrics()?.height ?? 0
+			paddingBottom.value = Keyboard.metrics()?.height ?? 20
 		})
 
 		const subsKeyboardDidHide = Keyboard.addListener('keyboardDidHide', () => {
-			paddingBottom.value = 0
+			paddingBottom.value = 20
 		})
 
 		return () => {
@@ -55,13 +56,15 @@ export function Modal({
 				}}
 				{...props}
 			>
-				<Animated.View
-					style={{
-						paddingBottom
-					}}
-				>
-					{children}
-				</Animated.View>
+				{!props.flatListProps && (
+					<Animated.View
+						style={{
+							paddingBottom
+						}}
+					>
+						{children}
+					</Animated.View>
+				)}
 			</Modalize>
 		</Portal>
 	)
