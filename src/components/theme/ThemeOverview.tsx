@@ -1,12 +1,9 @@
-import { useCallback } from 'react'
 import { FlatList, Pressable, Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
-import { useTheme } from '@/state/theme'
 import type { Theme, ThemeParsedObject } from '@/types/theme'
 import { getThemeColor } from '@/utils/theme'
 
 export function ThemeOverview({
-	themeKey,
 	theme,
 	isSelected = false
 }: {
@@ -14,16 +11,8 @@ export function ThemeOverview({
 	theme: ThemeParsedObject
 	isSelected?: boolean
 }) {
-	const { theme: currentTheme, setTheme } = useTheme()
-
-	const handleSetTheme = useCallback(() => {
-		if (currentTheme === themeKey) return
-		setTheme(themeKey)
-	}, [currentTheme, setTheme, themeKey])
-
 	return (
 		<Pressable
-			onPress={handleSetTheme}
 			className={twMerge(
 				'flex flex-row justify-between items-center mt-2 py-3 px-3 rounded-lg border-2 border-transparent'
 			)}
