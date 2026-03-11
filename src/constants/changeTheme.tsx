@@ -1,0 +1,51 @@
+import uuid from 'react-native-uuid'
+import { ContextMenu } from '@/components/context-menu/ContextMenu'
+import { ThemeOverview } from '@/components/theme/ThemeOverview'
+import { useTheme } from '@/state/theme'
+import type { ConfigRowModalWithListProps } from '@/types/config'
+import type { ContextMenuItemData } from '@/types/contextMenu'
+import type { ThemeParsedObject } from '@/types/theme'
+import { THEME_OVERVIEW_MENU_ACTIONS } from './contextMenu'
+
+export const useConfigModal = () => {
+	const { themes, theme, setTheme } = useTheme()
+	const themeKeys = Object.values(themes).map(() => uuid.v4())
+
+	const ConfigModalConfig = {
+		flatList: true,
+		flatListProps: {
+			data: Object.values(themes),
+			renderItem: ({ item }: { item: ThemeParsedObject }) => {
+				const handleSetTheme = (contextMenuItem: ContextMenuItemData) => {
+					if (contextMenuItem.id === 'select-theme') setTheme(item.id)
+				}
+				const actions = THEME_OVERVIEW_MENU_ACTIONS.filter(
+					({ id }) => id === 'select-theme'
+				)
+
+				return (
+					<ContextMenu
+						items={actions}
+						showOnLongPress
+						onItemPress={handleSetTheme}
+						title={item.name}
+					>
+						<ThemeOverview
+							theme={item}
+							themeKey={item.id}
+							isSelected={item.id === theme}
+						/>
+					</ContextMenu>
+				)
+			},
+			keyExtractor: (_: unknown, index: number) => themeKeys[index],
+
+			initialNumToRender: 6,
+			maxToRenderPerBatch: 4,
+			windowSize: 3,
+			removeClippedSubviews: true
+		}
+	} satisfies ConfigRowModalWithListProps
+
+	return { config: ConfigModalConfig }
+}

@@ -1,39 +1,9 @@
 import { IconPlus } from '@tabler/icons-react-native'
 import { Link } from 'expo-router'
 import { Pressable, Text, View } from 'react-native'
-import uuid from 'react-native-uuid'
 import { useTheme } from '@/state/theme'
-import type { ConfigRowModalWithListProps } from '@/types/config'
-import type { ThemeParsedObject } from '@/types/theme'
 import { getThemeColor } from '@/utils/theme'
 import { ThemeOverview } from './ThemeOverview'
-
-export const useConfigModal = () => {
-	const { themes, theme } = useTheme()
-	const themeKeys = Object.values(themes).map(() => uuid.v4())
-
-	const ConfigModalConfig = {
-		flatList: true,
-		flatListProps: {
-			data: Object.values(themes),
-			renderItem: ({ item }: { item: ThemeParsedObject }) => (
-				<ThemeOverview
-					theme={item}
-					themeKey={item.id}
-					isSelected={item.id === theme}
-				/>
-			),
-			keyExtractor: (_: unknown, index: number) => themeKeys[index],
-
-			initialNumToRender: 6,
-			maxToRenderPerBatch: 4,
-			windowSize: 3,
-			removeClippedSubviews: true
-		}
-	} satisfies ConfigRowModalWithListProps
-
-	return { config: ConfigModalConfig }
-}
 
 export function ChangeThemeModalContent({
 	closeModal
