@@ -21,13 +21,17 @@ export async function getNotificationsPermissions(): Promise<GetNotificationsPer
 
 	if (granted) return { status, canAskAgain, granted }
 
-	if (!granted && canAskAgain) return getNotificationsPermissions()
+	if (!granted && canAskAgain)
+		return await Notifications.requestPermissionsAsync()
 
 	if (!granted && !canAskAgain) {
-		ToastAndroid.show('Abriendo las configuraciones', ToastAndroid.SHORT)
-		openSettingsTimeout = setTimeout(() => {
-			Linking.openSettings()
-		}, 2000)
+		ToastAndroid.show(
+			'Debes otorgar el permiso de notificaciones',
+			ToastAndroid.SHORT
+		)
+		openSettingsTimeout = setTimeout(async () => {
+			await Linking.openSettings()
+		}, 2300)
 	}
 
 	return { status, canAskAgain, granted }
