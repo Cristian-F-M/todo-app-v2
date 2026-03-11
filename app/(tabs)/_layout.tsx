@@ -21,7 +21,7 @@ export default function TabsLayout() {
 		tabBarActiveTintColor: getThemeColor('primary'),
 		tabBarInactiveTintColor: getThemeColor('text-secondary'),
 		sceneStyle: {
-			backgroundColor: getThemeColor('overlay')
+			backgroundColor: getThemeColor('background')
 		}
 	}))
 
