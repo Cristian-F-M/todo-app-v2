@@ -44,11 +44,14 @@ export function TaskModal() {
 				: sumDate(dateTimeValue, timeValue)
 
 		let notificationId: string | null = null
-		if (notificate)
+		if (notificate) {
 			notificationId = await sendNotification({
 				title: textInput,
 				trigger: { date }
 			})
+
+			if (!notificationId) return
+		}
 
 		// TODO: Use zod
 		if (textInput.trim() === '') {
