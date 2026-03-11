@@ -5,6 +5,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo } from 'react'
 import { Animated, FlatList, Text, useAnimatedValue, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { Folder404 } from '@/components/folder/Folder404'
+import { BackgroundIcon } from '@/components/layout/BackgroundIcon'
 import { Screen } from '@/components/layout/Screen'
 import { StyledPressable } from '@/components/layout/StyledPressable'
 import { NoTasks } from '@/components/task/NoTasks'
@@ -99,6 +100,7 @@ export default function Folder() {
 			{!folder && <Folder404 />}
 
 			<Stack.Screen options={screenOptions} />
+			{tasks.length > 0 && <BackgroundIcon />}
 
 			{folder && (
 				<View className="px-2">
