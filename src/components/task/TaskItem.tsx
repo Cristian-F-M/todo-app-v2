@@ -3,9 +3,8 @@ import {
 	IconEdit,
 	IconTrash
 } from '@tabler/icons-react-native'
-import { useColorScheme } from 'nativewind'
 import { useCallback, useState } from 'react'
-import { Pressable, ScrollView, Text, View } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 import Animated, {
 	FadeIn,
 	FadeOut,
@@ -13,8 +12,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { twMerge } from 'tailwind-merge'
 import { Checkbox } from '@/components/Checkbox/Checkbox'
-import { DropdownMenu } from '@/components/Dropdown/Dropdown'
-import { DropdownOption } from '@/components/Dropdown/DropdownOption'
+import { ContextMenu } from '@/components/context-menu/ContextMenu'
 import { useConfig } from '@/state/config'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
@@ -24,19 +22,9 @@ import { getThemeColor } from '@/utils/theme'
 
 export function TaskItem({ task }: { task: Task }) {
 	const { openModal, setItem } = useModal()
-	const [dropdownVisible, setDropdownVisible] = useState(false)
 	const [isChecked, setIsChecked] = useState(task.isCompleted)
 	const { delete: deleteTask, update } = useTask()
-	const { colorScheme } = useColorScheme()
 	const { configs } = useConfig()
-
-	const handleOpenDropdown = useCallback(() => {
-		setDropdownVisible(true)
-	}, [])
-
-	const handleCloseDropdown = useCallback(() => {
-		setDropdownVisible(false)
-	}, [])
 
 	const handleEditTask = useCallback(() => {
 		setItem({ type: 'TASK', data: task })
@@ -96,38 +84,28 @@ export function TaskItem({ task }: { task: Task }) {
 				</ScrollView>
 			</View>
 
-			<DropdownMenu
-				visible={dropdownVisible}
-				handleOpen={() => setDropdownVisible(true)}
-				handleClose={() => setDropdownVisible(false)}
-				trigger={
-					<Pressable
-						className="active:bg-primary-pressed  p-1 rounded-lg"
-						onPress={() => setDropdownVisible(true)}
-					>
-						<IconDotsVertical color={getThemeColor('text-primary')} />
-					</Pressable>
-				}
+			<ContextMenu
+				title={task.name}
+				items={[
+					{
+						id: 'edit-task',
+						text: 'Editar',
+						icon: () => <IconEdit />,
+						onPress: handleEditTask
+					},
+					{
+						id: 'delete-task',
+						text: 'Eliminar',
+						icon: () => <IconTrash />,
+						variant: 'destructive',
+						onPress: handleDeleteTask
+					}
+				]}
 			>
-				<DropdownOption
-					onPress={handleEditTask}
-					text="Editar"
-					handleClose={handleCloseDropdown}
-					handleOpen={handleOpenDropdown}
-					icon={IconEdit}
-					iconProps={{ stroke: getThemeColor('text-primary') }}
-				/>
-
-				<DropdownOption
-					text="Eliminar"
-					textClassName={'!text-danger/70'}
-					handleClose={handleCloseDropdown}
-					handleOpen={handleOpenDropdown}
-					onPress={handleDeleteTask}
-					icon={IconTrash}
-					iconProps={{ stroke: getThemeColor('danger', 0.7) }}
-				/>
-			</DropdownMenu>
+				<View className="active:bg-primary-pressed  p-1 rounded-lg">
+					<IconDotsVertical color={getThemeColor('text-primary')} />
+				</View>
+			</ContextMenu>
 		</Animated.View>
 	)
 }

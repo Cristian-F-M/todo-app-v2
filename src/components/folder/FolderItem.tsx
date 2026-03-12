@@ -5,15 +5,14 @@ import {
 	IconTrash
 } from '@tabler/icons-react-native'
 import { Link } from 'expo-router'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import Animated, {
 	FadeInRight,
 	FadeOutLeft,
 	LinearTransition
 } from 'react-native-reanimated'
-import { DropdownMenu } from '@/components/Dropdown/Dropdown'
-import { DropdownOption } from '@/components/Dropdown/DropdownOption'
+import { ContextMenu } from '@/components/context-menu/ContextMenu'
 import { useConfig } from '@/state/config'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
@@ -21,18 +20,9 @@ import type { Folder as FolderType } from '@/types/folder'
 import { getThemeColor } from '@/utils/theme'
 
 export function FolderItem({ folder }: { folder: FolderType }) {
-	const [dropDownVisible, setDropDownVisible] = useState(false)
 	const { openModal, setItem } = useModal()
 	const { delete: deleteFolder } = useFolder()
 	const { configs } = useConfig()
-
-	const openDropdown = useCallback(() => {
-		setDropDownVisible(true)
-	}, [])
-
-	const closeDropdown = useCallback(() => {
-		setDropDownVisible(false)
-	}, [])
 
 	const openEditModal = useCallback(() => {
 		setItem({ type: 'FOLDER', data: folder })
@@ -85,39 +75,28 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 							</Text>
 						</View>
 					</View>
-					<DropdownMenu
-						handleOpen={openDropdown}
-						handleClose={closeDropdown}
-						visible={dropDownVisible}
-						trigger={
-							<Pressable
-								className="active:bg-primary-pressed p-1 rounded-lg"
-								onPress={() => setDropDownVisible(true)}
-							>
-								<IconDotsVertical color={getThemeColor('text-primary')} />
-							</Pressable>
-						}
+					<ContextMenu
+						title={folder.name}
+						items={[
+							{
+								id: 'edit-folder',
+								text: 'Editar',
+								icon: () => <IconEdit />,
+								onPress: openEditModal
+							},
+							{
+								id: 'delete-folder',
+								text: 'Eliminar',
+								icon: () => <IconTrash />,
+								variant: 'destructive',
+								onPress: handleClickDeleteFolder
+							}
+						]}
 					>
-						<DropdownOption
-							handleClose={closeDropdown}
-							handleOpen={openDropdown}
-							text="Editar"
-							icon={IconEdit}
-							onPress={openEditModal}
-							iconProps={{
-								stroke: getThemeColor('text-primary')
-							}}
-						/>
-						<DropdownOption
-							handleClose={closeDropdown}
-							handleOpen={openDropdown}
-							text="Eliminar"
-							textClassName={'!text-danger/70'}
-							icon={IconTrash}
-							iconProps={{ stroke: getThemeColor('danger', 0.7) }}
-							onPress={handleClickDeleteFolder}
-						/>
-					</DropdownMenu>
+						<View className="active:bg-primary-pressed p-1 rounded-lg">
+							<IconDotsVertical color={getThemeColor('text-primary')} />
+						</View>
+					</ContextMenu>
 				</Animated.View>
 			</Pressable>
 		</Link>
