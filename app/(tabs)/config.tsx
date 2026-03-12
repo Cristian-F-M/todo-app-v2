@@ -9,14 +9,14 @@ import { ConfigRow } from '@/components/config/ConfigRow'
 import { Screen } from '@/components/layout/Screen'
 import { TimePickerType } from '@/components/modal/TimePickerType'
 import {
-	ChangeThemeModalContent,
+	ChangeThemeModalContent
 	// ConfigModalConfig,
 } from '@/components/theme/ChangeThemeModalContent'
+import { useConfigModal } from '@/constants/changeTheme'
 import { useConfig } from '@/state/config'
 import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
 import { getThemeColor, useThemeStyles } from '@/utils/theme'
 import { useDebounce } from '@/utils/useDebounce'
-import { useConfigModal } from '@/constants/changeTheme'
 
 export default function ConfigPage() {
 	const { configs, setConfigs } = useConfig()
@@ -66,7 +66,8 @@ export default function ConfigPage() {
 						}}
 						modalProps={{
 							modalStyle: {
-								paddingHorizontal: 10
+								paddingHorizontal: 10,
+								paddingVertical: 20
 							},
 							modalHeight: windowHeight * 0.6,
 							adjustToContentHeight: false

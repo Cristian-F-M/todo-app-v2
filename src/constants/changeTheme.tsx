@@ -57,7 +57,8 @@ export const useConfigModal = () => {
 			initialNumToRender: 6,
 			maxToRenderPerBatch: 4,
 			windowSize: 3,
-			removeClippedSubviews: true
+			removeClippedSubviews: true,
+			contentContainerStyle: { paddingBottom: 20 }
 		}
 	} satisfies ConfigRowModalWithListProps
 
