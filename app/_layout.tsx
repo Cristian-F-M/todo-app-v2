@@ -28,6 +28,7 @@ import type { Theme } from '@/types/theme'
 import { migrateDB, removeNotificationId } from '@/utils/database'
 import { getThemeColor, useThemeStyles } from '@/utils/theme'
 
+
 // This is the default configuration
 configureReanimatedLogger({
 	level: ReanimatedLogLevel.warn,
@@ -127,7 +128,10 @@ export default function RootLayout() {
 					<Stack
 						screenOptions={{
 							headerShown: false,
-							animation: 'slide_from_right'
+							animation: 'slide_from_right',
+							contentStyle: {
+								backgroundColor: getThemeColor('background')
+							}
 						}}
 					/>
 				</View>
