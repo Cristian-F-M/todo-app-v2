@@ -14,7 +14,7 @@ export function CheckboxIcon({
 			style={{
 				width: size,
 				height: size,
-				backgroundColor: getThemeColor('primary')
+				backgroundColor: getThemeColor('primary', 0.5)
 			}}
 			className={twMerge(
 				'rounded-full transition-opacity opacity-0',

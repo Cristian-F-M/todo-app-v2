@@ -17,7 +17,7 @@ export function Checkbox({
 	onValueChange,
 	...props
 }: CheckboxProps) {
-	const fillColor = getThemeColor('text-primary')
+	const fillColor = getThemeColor('text-muted', 0.2)
 	const unFillColor = getThemeColor('surface-soft')
 	const defaultSize = size ?? 20
 	const padding = 2
