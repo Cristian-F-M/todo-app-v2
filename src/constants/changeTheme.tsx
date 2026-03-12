@@ -5,6 +5,7 @@ import { useTheme } from '@/state/theme'
 import type { ConfigRowModalWithListProps } from '@/types/config'
 import type { ContextMenuItemData } from '@/types/contextMenu'
 import type { ThemeParsedObject } from '@/types/theme'
+import { removeTheme } from '@/utils/theme'
 import { THEME_OVERVIEW_MENU_ACTIONS } from './contextMenu'
 
 export const useConfigModal = () => {
@@ -16,12 +17,25 @@ export const useConfigModal = () => {
 		flatListProps: {
 			data: Object.values(themes),
 			renderItem: ({ item }: { item: ThemeParsedObject }) => {
+				const isSelected = item.id === theme
+
 				const handleSetTheme = (contextMenuItem: ContextMenuItemData) => {
 					if (contextMenuItem.id === 'select-theme') setTheme(item.id)
+					if (contextMenuItem.id === 'delete-theme') {
+						removeTheme(item.id)
+					}
 				}
-				const actions = THEME_OVERVIEW_MENU_ACTIONS.filter(
-					({ id }) => id === 'select-theme'
+				let actions = THEME_OVERVIEW_MENU_ACTIONS.filter(
+					({ id }) => id !== 'edit-theme'
 				)
+
+				if (item.scope === 'system')
+					actions = actions.filter(({ id }) => id === 'select-theme')
+
+				if (isSelected)
+					actions = actions.filter(
+						({ id }) => id !== 'select-theme' && id !== 'delete-theme'
+					)
 
 				return (
 					<ContextMenu
@@ -33,7 +47,7 @@ export const useConfigModal = () => {
 						<ThemeOverview
 							theme={item}
 							themeKey={item.id}
-							isSelected={item.id === theme}
+							isSelected={isSelected}
 						/>
 					</ContextMenu>
 				)
