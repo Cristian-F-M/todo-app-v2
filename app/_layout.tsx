@@ -28,7 +28,6 @@ import type { Theme } from '@/types/theme'
 import { migrateDB, removeNotificationId } from '@/utils/database'
 import { getThemeColor, useThemeStyles } from '@/utils/theme'
 
-
 // This is the default configuration
 configureReanimatedLogger({
 	level: ReanimatedLogLevel.warn,
@@ -50,7 +49,7 @@ Notifications.setNotificationHandler({
 })
 
 export default function RootLayout() {
-	const { theme, themes } = useTheme()
+	const { theme, themes, load } = useTheme()
 	const { load: loadConfigs } = useConfig()
 	const { load: loadFolders } = useFolder()
 	const { load: loadTasks } = useTask()
@@ -82,19 +81,18 @@ export default function RootLayout() {
 	})
 
 	useLayoutEffect(() => {
-		useTheme.getState().load()
-	}, [])
-
-	useLayoutEffect(() => {
 		async function init() {
 			await migrateDB()
 
 			loadFolders()
 			loadTasks()
-			loadConfigs()
+			await loadConfigs()
+			await load()
+
+			SplashScreen.hideAsync()
 		}
 		init()
-	}, [loadFolders, loadTasks, loadConfigs])
+	}, [loadFolders, loadTasks, loadConfigs, load])
 
 	const getModalFns = useCallback((ref: React.RefObject<Modalize | null>) => {
 		return {
