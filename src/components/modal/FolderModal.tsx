@@ -5,6 +5,8 @@ import { twMerge } from 'tailwind-merge'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import { getThemeColor } from '@/utils/theme'
+import { zodParse } from '@/utils/zod'
+import { createFolderSchema } from '@/zod-schemes/folder'
 import { StyledPressable } from '../layout/StyledPressable'
 
 export function FolderModal() {
@@ -18,9 +20,12 @@ export function FolderModal() {
 	const pressableText = thereIsItem ? 'Guardar' : 'Agregar'
 
 	const handleSubmit = useCallback(() => {
-		// TODO: Use zod
-		if (textInput.trim() === '') {
-			setError('El nombre de la carpeta no puede estar vacío')
+		const result = zodParse(createFolderSchema, {
+			title: textInput
+		})
+
+		if (!result.success) {
+			setError(result.errors.title)
 			return
 		}
 

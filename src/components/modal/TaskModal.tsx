@@ -14,6 +14,8 @@ import type { TimeValueType } from '@/types/timePicker'
 import { formatDateString, sumDate } from '@/utils/dateTime'
 import { removeNotification, sendNotification } from '@/utils/notifications'
 import { getThemeColor } from '@/utils/theme'
+import { zodParse } from '@/utils/zod'
+import { createTaskSchema } from '@/zod-schemes/task'
 import { DateTimePicker } from '../DateTimePicker/DateTimePicker'
 import { StyledPressable } from '../layout/StyledPressable'
 import { CheckboxNotificationGroup } from '../notification/CheckboxNotificationGroup'
@@ -53,9 +55,12 @@ export function TaskModal() {
 			if (!notificationId) return
 		}
 
-		// TODO: Use zod
-		if (textInput.trim() === '') {
-			setError('El nombre de la carpeta no puede estar vacío')
+		const result = zodParse(createTaskSchema, {
+			title: textInput
+		})
+
+		if (!result.success) {
+			setError(result.errors.title)
 			return
 		}
 

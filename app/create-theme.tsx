@@ -17,6 +17,8 @@ import { Screen } from '@/components/layout/Screen'
 import { StyledPressable } from '@/components/layout/StyledPressable'
 import type { ThemeKeys } from '@/types/themeColorsEditor'
 import { getThemeColor, saveTheme, useThemeStyles } from '@/utils/theme'
+import { zodParse } from '@/utils/zod'
+import { createThemeSchema } from '@/zod-schemes/theme'
 
 export interface ThemeInfo {
 	name: string
@@ -52,15 +54,11 @@ export default function CreateTheme() {
 
 	const handleCreateTheme = useCallback(async () => {
 		if (!theme) return
-		if (!themeInfo.name || !themeInfo.variant) {
-			const errors: Errors = {
-				name: '',
-				variant: ''
-			}
-			if (!themeInfo.name) errors.name = 'El nombre del tema es requerido'
-			if (!themeInfo.variant) errors.variant = 'La variante es requerida'
 
-			setErrors(errors)
+		const result = zodParse(createThemeSchema, themeInfo)
+
+		if (!result.success) {
+			setErrors(result.errors as unknown as Errors)
 
 			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
 			scrollViewRef.current?.scrollTo({
@@ -101,6 +99,7 @@ export default function CreateTheme() {
 						value={themeInfo.name}
 						onValueChange={(value) => {
 							setThemeInfo({ ...themeInfo, name: value })
+							setErrors({ ...errors, name: '' })
 						}}
 						placeholder="Arctic"
 						error={errors.name}
@@ -119,6 +118,7 @@ export default function CreateTheme() {
 						value={themeInfo.variant}
 						onValueChange={(value) => {
 							setThemeInfo({ ...themeInfo, variant: value })
+							setErrors({ ...errors, variant: '' })
 						}}
 						placeholder="Light"
 						error={errors.variant}
