@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router'
-import { StatusBar } from 'expo-status-bar'
+import { StatusBar, type StatusBarStyle } from 'expo-status-bar'
 import { View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import '../global.css'
@@ -14,6 +14,7 @@ import {
 	configureReanimatedLogger,
 	ReanimatedLogLevel
 } from 'react-native-reanimated'
+import { colorKit } from 'reanimated-color-picker'
 import { DeleteModal } from '@/components/modal/DeleteModal'
 import { FolderModal } from '@/components/modal/FolderModal'
 import { Modal } from '@/components/modal/Modal'
@@ -25,7 +26,7 @@ import useTask from '@/state/Task'
 import { useTheme } from '@/state/theme'
 import type { Theme } from '@/types/theme'
 import { migrateDB, removeNotificationId } from '@/utils/database'
-import { getThemeColor } from '@/utils/theme'
+import { getThemeColor, useThemeStyles } from '@/utils/theme'
 
 // This is the default configuration
 configureReanimatedLogger({
@@ -50,7 +51,6 @@ Notifications.setNotificationHandler({
 export default function RootLayout() {
 	const { theme, themes } = useTheme()
 	const { load: loadConfigs } = useConfig()
-	const themeStyle = theme === 'dark' ? 'light' : 'dark'
 	const { load: loadFolders } = useFolder()
 	const { load: loadTasks } = useTask()
 	const { setModal } = useModal()
@@ -67,6 +67,18 @@ export default function RootLayout() {
 
 		return Object.fromEntries(entries)
 	}, [theme, themes])
+
+	const statusBarProps = useThemeStyles(() => {
+		const backgroundColor = getThemeColor('background')
+		const style: StatusBarStyle = colorKit.isDark(backgroundColor)
+			? 'light'
+			: 'dark'
+
+		return {
+			backgroundColor,
+			style
+		}
+	})
 
 	useLayoutEffect(() => {
 		useTheme.getState().load()
@@ -108,7 +120,10 @@ export default function RootLayout() {
 					]}
 					className="flex-1"
 				>
-					<StatusBar style={themeStyle} backgroundColor="transparent" />
+					<StatusBar
+						style={statusBarProps.style}
+						backgroundColor={statusBarProps.backgroundColor}
+					/>
 					<Stack
 						screenOptions={{
 							headerShown: false,

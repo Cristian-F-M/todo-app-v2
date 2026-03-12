@@ -92,11 +92,11 @@ export default function Folder() {
 
 	return (
 		<Screen safeArea={false}>
-			<StatusBar
+			{/* <StatusBar
 				translucent={false}
 				style={themeStyle}
 				backgroundColor={statusBarBackgroundColor}
-			/>
+			/> */}
 			{!folder && <Folder404 />}
 
 			<Stack.Screen options={screenOptions} />

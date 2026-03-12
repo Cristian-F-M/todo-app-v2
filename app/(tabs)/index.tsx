@@ -45,11 +45,11 @@ export default function Index() {
 
 	return (
 		<Screen safeArea={true} style={{ opacity: opacityValue }}>
-			<StatusBar
+			{/* <StatusBar
 				translucent={false}
 				style={themeStyle}
 				backgroundColor={'transparent'}
-			/>
+			/> */}
 
 			{thereIsFolders && <BackgroundIcon />}
 			<Header />
