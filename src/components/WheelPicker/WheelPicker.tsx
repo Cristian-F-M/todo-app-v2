@@ -138,9 +138,9 @@ export function WheelPicker({
 				)}
 				style={{
 					height: containerHeight,
-					borderColor: getThemeColor('surface', 0.5),
+					borderColor: getThemeColor('surface-soft', 0.5),
 					borderWidth: 6,
-					backgroundColor: getThemeColor('primary', 0.5)
+					backgroundColor: getThemeColor('surface', 0.5)
 				}}
 			>
 				{/* <selected-item-indicator /> */}
@@ -151,7 +151,7 @@ export function WheelPicker({
 						right: 0,
 						height: itemHeight,
 						top: (containerHeight - itemHeight) / 2,
-						backgroundColor: getThemeColor('primary'),
+						backgroundColor: getThemeColor('primary', 0.2),
 						borderColor: getThemeColor('border')
 					}}
 					pointerEvents="none"
