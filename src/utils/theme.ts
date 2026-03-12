@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { ToastAndroid } from 'react-native'
 import uuid from 'react-native-uuid'
 import { colorKit } from 'reanimated-color-picker'
 import type { ThemeMode } from '@/components/createTheme/AutomaticCreation'
@@ -147,4 +148,22 @@ export async function saveTheme(theme: Omit<ThemeObject, 'id' | 'scope'>) {
 	await saveItem({ name: 'themes', value: previousThemes })
 
 	setThemes(Object.assign({}, themes, previousThemes))
+}
+
+export async function removeTheme(themeId: string) {
+	const { setThemes, themes, theme } = useTheme.getState()
+
+	if (themeId === theme) {
+		return ToastAndroid.show(
+			'No puedes eliminar el tema actual',
+			ToastAndroid.LONG
+		)
+	}
+
+	const newThemes = Object.assign({}, themes)
+	delete newThemes[themeId]
+
+	setThemes(newThemes)
+	await saveItem({ name: 'themes', value: newThemes })
+	ToastAndroid.show('Tema eliminado', ToastAndroid.SHORT)
 }
