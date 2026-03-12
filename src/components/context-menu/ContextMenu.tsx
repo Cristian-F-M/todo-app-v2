@@ -193,6 +193,19 @@ export function ContextMenu({
 									</View>
 								)
 							})}
+
+							{items.length <= 0 && (
+								<View className="w-full px-4 py-2">
+									<Text
+										className="text-center text-xs"
+										style={{
+											color: getThemeColor('text-muted')
+										}}
+									>
+										No hay acciones
+									</Text>
+								</View>
+							)}
 						</Animated.View>
 					</Pressable>
 				</Modal>
