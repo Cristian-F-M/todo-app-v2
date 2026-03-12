@@ -130,24 +130,31 @@ export function generateTheme(hex: string, mode: ThemeMode) {
 }
 
 export async function saveTheme(theme: Omit<ThemeObject, 'id' | 'scope'>) {
-	const previousThemes =
-		(await getItem<Record<string, ThemeParsedObject>>({ name: 'themes' })) ?? {}
-	const themeId = uuid.v4()
-	const { setThemes, themes } = useTheme.getState()
+	try {
+		const previousThemes =
+			(await getItem<Record<string, ThemeParsedObject>>({ name: 'themes' })) ??
+			{}
+		const themeId = uuid.v4()
+		const { setThemes, themes } = useTheme.getState()
 
-	const parsedColors = parseTheme(theme.colors)
-	const themeObject: ThemeParsedObject = {
-		id: themeId,
-		name: theme.name,
-		variant: theme.variant,
-		scope: 'user',
-		colors: parsedColors
+		const parsedColors = parseTheme(theme.colors)
+		const themeObject: ThemeParsedObject = {
+			id: themeId,
+			name: theme.name,
+			variant: theme.variant,
+			scope: 'user',
+			colors: parsedColors
+		}
+
+		Object.assign(previousThemes, { [themeId]: themeObject })
+		await saveItem({ name: 'themes', value: previousThemes })
+
+		setThemes(Object.assign({}, themes, previousThemes))
+		return true
+	} catch (error) {
+		console.error(error)
+		return false
 	}
-
-	Object.assign(previousThemes, { [themeId]: themeObject })
-	await saveItem({ name: 'themes', value: previousThemes })
-
-	setThemes(Object.assign({}, themes, previousThemes))
 }
 
 export async function removeTheme(themeId: string) {
