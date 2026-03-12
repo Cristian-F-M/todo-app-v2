@@ -19,7 +19,6 @@ export const useTheme = create<ThemeStore>((set) => ({
 		set({ theme })
 	},
 	setThemes: (themes) => {
-		console.log('themes')
 		set({ themes })
 	},
 	load: async () => {
