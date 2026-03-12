@@ -1,8 +1,9 @@
 import { IconPencilPlus } from '@tabler/icons-react-native'
-import { Stack } from 'expo-router'
+import * as Haptics from 'expo-haptics'
+import { router, Stack } from 'expo-router'
 import type { ExtendedStackNavigationOptions } from 'expo-router/build/layouts/StackClient'
-import { useCallback, useState } from 'react'
-import { Text, View } from 'react-native'
+import { useCallback, useRef, useState } from 'react'
+import { Text, ToastAndroid, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import type { SvgProps } from 'react-native-svg'
 import { AutomaticCreation } from '@/components/createTheme/AutomaticCreation'
@@ -21,6 +22,10 @@ export interface ThemeInfo {
 	name: string
 	variant: string
 }
+interface Errors {
+	name: string
+	variant: string
+}
 
 export default function CreateTheme() {
 	const [themeInfo, setThemeInfo] = useState<ThemeInfo>({
@@ -29,6 +34,11 @@ export default function CreateTheme() {
 	})
 	const [creationMode, setCreationMode] = useState<ThemeModeType>('automatic')
 	const [theme, setTheme] = useState<Record<ThemeKeys, string> | undefined>()
+	const [errors, setErrors] = useState<Errors>({
+		name: '',
+		variant: ''
+	})
+	const scrollViewRef = useRef<ScrollView>(null)
 
 	const screenOptions = useThemeStyles<ExtendedStackNavigationOptions>(() => ({
 		headerShown: true,
@@ -40,19 +50,44 @@ export default function CreateTheme() {
 		headerTintColor: getThemeColor('text-primary')
 	}))
 
-	const handleCreateTheme = useCallback(() => {
+	const handleCreateTheme = useCallback(async () => {
 		if (!theme) return
-		if (!themeInfo.name || !themeInfo.variant) return // TODO: Use zod
-		saveTheme({
+		if (!themeInfo.name || !themeInfo.variant) {
+			const errors: Errors = {
+				name: '',
+				variant: ''
+			}
+			if (!themeInfo.name) errors.name = 'El nombre del tema es requerido'
+			if (!themeInfo.variant) errors.variant = 'La variante es requerida'
+
+			setErrors(errors)
+
+			Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
+			scrollViewRef.current?.scrollTo({
+				y: 0,
+				animated: true
+			})
+			return
+		}
+		const succes = await saveTheme({
 			colors: theme,
 			...themeInfo
 		})
+
+		if (!succes) {
+			ToastAndroid.show('Error al crear el tema', ToastAndroid.SHORT)
+			return
+		}
+
+		Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+		ToastAndroid.show('Tema creado', ToastAndroid.SHORT)
+		router.back()
 	}, [theme, themeInfo])
 
 	return (
 		<Screen className="px-4">
 			<Stack.Screen options={screenOptions} />
-			<ScrollView showsVerticalScrollIndicator={false}>
+			<ScrollView showsVerticalScrollIndicator={false} ref={scrollViewRef}>
 				<View className="mt-4">
 					<Text
 						className="text-base mb-1"
@@ -68,9 +103,7 @@ export default function CreateTheme() {
 							setThemeInfo({ ...themeInfo, name: value })
 						}}
 						placeholder="Arctic"
-						error={
-							themeInfo.name === '' ? 'El nombre del tema es requerido' : null
-						}
+						error={errors.name}
 					/>
 				</View>
 				<View className="mt-4">
@@ -88,11 +121,7 @@ export default function CreateTheme() {
 							setThemeInfo({ ...themeInfo, variant: value })
 						}}
 						placeholder="Light"
-						error={
-							themeInfo.variant === ''
-								? 'La variante del tema es requerida'
-								: null
-						}
+						error={errors.variant}
 					/>
 				</View>
 
