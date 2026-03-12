@@ -1,8 +1,9 @@
-import { useEffect, useId, useMemo } from 'react'
+import { useEffect, useId, useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
 	cancelAnimation,
+	useAnimatedReaction,
 	useAnimatedStyle,
 	useSharedValue,
 	withDecay,
@@ -41,6 +42,19 @@ export function WheelPicker({
 	const containerHeight = itemHeight * visibleItems
 	const maxTranslateY = 0
 	const minTranslateY = -(items.length - 1) * itemHeight
+	const [index, setIndex] = useState(0)
+
+	useAnimatedReaction(
+		() => {
+			const raw = Math.round(-translateY.value / itemHeight)
+			return Math.max(0, Math.min(items.length - 1, raw))
+		},
+		(index, prev) => {
+			if (index !== prev) {
+				scheduleOnRN(setIndex, index)
+			}
+		}
+	)
 
 	const gesture = Gesture.Pan()
 		.onStart(() => {
@@ -64,6 +78,7 @@ export function WheelPicker({
 			translateY.value = next
 		})
 		.onEnd((event) => {
+			'worklet'
 			if (isSnapping.value) return
 			isSnapping.value = true
 
@@ -95,6 +110,10 @@ export function WheelPicker({
 	useEffect(() => {
 		translateY.value = withSpring(-selectedIndex * itemHeight)
 	}, [selectedIndex, itemHeight, translateY])
+
+	useEffect(() => {
+		setIndex(0)
+	}, [])
 
 	const classNamesWithLabel = twMerge(
 		labelPosition === 'top' && 'rounded-none rounded-bl-lg rounded-br-lg',
@@ -141,13 +160,15 @@ export function WheelPicker({
 				<GestureDetector gesture={gesture}>
 					<Animated.View className="flex-1">
 						<Animated.View style={containerStyle}>
-							{items.map((item, index) => (
+							{items.map((item, i) => (
 								<WheelItem
-									key={itemsIds[index]}
+									key={itemsIds[i]}
 									label={item.label}
-									index={index}
+									index={i}
 									translateY={translateY}
 									itemHeight={itemHeight}
+									currentIndex={index}
+									visibleItems={visibleItems}
 								/>
 							))}
 						</Animated.View>

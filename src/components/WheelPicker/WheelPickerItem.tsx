@@ -7,24 +7,34 @@ export function WheelItem({
 	label,
 	index,
 	translateY,
-	itemHeight
+	itemHeight,
+	currentIndex,
+	visibleItems
 }: WheelItemProps) {
 	const h = itemHeight * 2
+	const half = visibleItems
+	const shouldRender =
+		index > currentIndex - half && index < currentIndex + half
 
 	const animatedStyle = useAnimatedStyle(() => {
-		const position = translateY.value + index * itemHeight
-		const distance = Math.abs(position)
-		const clamped = Math.min(distance / h, 1)
+		if (index < currentIndex - half || index > currentIndex + half) {
+			return {}
+		}
 
-		const opacity = 1 - clamped * 0.7
-		const scale = 1 - clamped * 0.2
-		const rotateX = -Math.min(Math.max(position / h, -1), 1) * 45
+		const position = translateY.value + index * itemHeight
+		const ratio = position / h
+
+		const clamped = Math.max(-1, Math.min(ratio, 1))
+		const abs = Math.abs(clamped)
 
 		return {
-			opacity,
-			transform: [{ scale }, { rotateX: `${rotateX}deg` }]
+			opacity: 1 - abs * 0.7,
+			transform: [{ scale: 1 - abs * 0.2 }, { rotateX: `${-clamped * 45}deg` }]
 		}
 	})
+
+	if (!shouldRender) return <Animated.View style={[{ height: itemHeight }]} />
+
 	return (
 		<Animated.View
 			className="flex justify-center items-center"

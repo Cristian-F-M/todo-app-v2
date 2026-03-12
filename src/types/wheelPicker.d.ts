@@ -27,4 +27,6 @@ export interface WheelItemProps {
 	index: number
 	translateY: SharedValue<number>
 	itemHeight: number
+	currentIndex: number
+	visibleItems: number
 }
