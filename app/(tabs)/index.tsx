@@ -1,6 +1,3 @@
-import { SplashScreen } from 'expo-router'
-import { StatusBar } from 'expo-status-bar'
-import { useColorScheme } from 'nativewind'
 import { useEffect, useState } from 'react'
 import { Animated, FlatList, useAnimatedValue, View } from 'react-native'
 import { FolderItem } from '@/components/folder/FolderItem'
@@ -22,10 +19,6 @@ export default function Index() {
 	}, [folders])
 
 	useEffect(() => {
-		SplashScreen.hideAsync()
-	}, [])
-
-	useEffect(() => {
 		const animation = Animated.timing(opacityValue, {
 			toValue: 1,
 			duration: 300,
@@ -39,18 +32,8 @@ export default function Index() {
 		}
 	}, [opacityValue])
 
-	const { colorScheme } = useColorScheme()
-	// TODO: Do something with this
-	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
-
 	return (
 		<Screen safeArea={true} style={{ opacity: opacityValue }}>
-			{/* <StatusBar
-				translucent={false}
-				style={themeStyle}
-				backgroundColor={'transparent'}
-			/> */}
-
 			{thereIsFolders && <BackgroundIcon />}
 			<Header />
 
