@@ -2,6 +2,7 @@ import * as Haptics from 'expo-haptics'
 import { useCallback, useState } from 'react'
 import {
 	Dimensions,
+	FlatList,
 	type GestureResponderEvent,
 	type LayoutChangeEvent,
 	Modal,
@@ -10,8 +11,6 @@ import {
 	View,
 	type ViewProps
 } from 'react-native'
-import { Portal } from 'react-native-portalize'
-import Animated from 'react-native-reanimated'
 import { twMerge } from 'tailwind-merge'
 import type { ContextMenuItemData } from '@/types/contextMenu'
 import { getThemeColor } from '@/utils/theme'
@@ -118,55 +117,67 @@ export function ContextMenu({
 					{children}
 				</View>
 			</Pressable>
-			<Portal>
-				<Modal
-					transparent
-					visible={isShowed}
-					animationType="fade"
-					onRequestClose={handleHideMenu}
-					onDismiss={handleHideMenu}
-				>
-					<Pressable onPress={handleHideMenu} className="w-full h-full">
-						<Animated.View
-							onLayout={onContextMenuLayout}
-							className={twMerge(
-								'absolute rounded-lg max-w-44 shadow-lg overflow-hidden',
-								className
-							)}
-							style={[
-								{
-									top: contextMenuMeta.y,
-									left: contextMenuMeta.x,
-									backgroundColor: getThemeColor('surface-soft'),
-									borderWidth: 1,
-									borderColor: getThemeColor('border')
-								},
-								style
-							]}
-							{...props}
-						>
-							{title && (
-								<>
-									<View className="w-full px-4 py-1">
-										<Text
-											className="text-center text-xs"
-											style={{
-												color: getThemeColor('text-muted')
-											}}
-										>
-											{title}
-										</Text>
-									</View>
-									<View
-										className="w-full"
+			<Modal
+				transparent
+				visible={isShowed}
+				animationType="fade"
+				onRequestClose={handleHideMenu}
+				onDismiss={handleHideMenu}
+			>
+				<Pressable onPress={handleHideMenu} className="w-full h-full">
+					<View
+						onLayout={onContextMenuLayout}
+						className={twMerge(
+							'absolute rounded-lg max-w-44 shadow-lg overflow-hidden',
+							className
+						)}
+						style={[
+							{
+								top: contextMenuMeta.y,
+								left: contextMenuMeta.x,
+								backgroundColor: getThemeColor('surface-soft'),
+								borderWidth: 1,
+								borderColor: getThemeColor('border')
+							},
+							style
+						]}
+						{...props}
+					>
+						{title && (
+							<>
+								<View className="w-full px-4 py-1">
+									<Text
+										className="text-center text-xs"
 										style={{
-											height: 1,
-											backgroundColor: getThemeColor('border')
+											color: getThemeColor('text-muted')
 										}}
-									/>
-								</>
+									>
+										{title}
+									</Text>
+								</View>
+								<View
+									className="w-full"
+									style={{
+										height: 1,
+										backgroundColor: getThemeColor('border')
+									}}
+								/>
+							</>
+						)}
+
+						<FlatList
+							data={items}
+							keyExtractor={({ id }) => id}
+							ItemSeparatorComponent={() => (
+								<View
+									className="w-full"
+									style={{
+										height: 1,
+										backgroundColor: getThemeColor('border')
+									}}
+								/>
 							)}
-							{items.map((item, index) => {
+							renderItem={({ item, index }) => {
 								function onPress() {
 									item.onPress?.()
 									handleHideMenu()
@@ -177,39 +188,25 @@ export function ContextMenu({
 									onPress
 								})
 
-								return (
-									<View key={item.id}>
-										<ContextMenuItem item={complexItem} />
+								return <ContextMenuItem item={complexItem} />
+							}}
+						/>
 
-										{index < items.length - 1 && (
-											<View
-												className="w-full"
-												style={{
-													height: 1,
-													backgroundColor: getThemeColor('border')
-												}}
-											/>
-										)}
-									</View>
-								)
-							})}
-
-							{items.length <= 0 && (
-								<View className="w-full px-4 py-2">
-									<Text
-										className="text-center text-xs"
-										style={{
-											color: getThemeColor('text-muted')
-										}}
-									>
-										No hay acciones
-									</Text>
-								</View>
-							)}
-						</Animated.View>
-					</Pressable>
-				</Modal>
-			</Portal>
+						{items.length <= 0 && (
+							<View className="w-full px-4 py-2">
+								<Text
+									className="text-center text-xs"
+									style={{
+										color: getThemeColor('text-muted')
+									}}
+								>
+									No hay acciones
+								</Text>
+							</View>
+						)}
+					</View>
+				</Pressable>
+			</Modal>
 		</>
 	)
 }
