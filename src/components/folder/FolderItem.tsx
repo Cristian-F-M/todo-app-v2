@@ -8,8 +8,8 @@ import { Link } from 'expo-router'
 import { useCallback } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import Animated, {
-	FadeInRight,
-	FadeOutLeft,
+	FadeIn,
+	FadeOut,
 	LinearTransition
 } from 'react-native-reanimated'
 import { ContextMenu } from '@/components/context-menu/ContextMenu'
@@ -53,10 +53,9 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 			<Pressable className="w-full flex flex-row items-center">
 				<Animated.View
 					className="flex flex-row flex-1 items-center justify-between"
-					// TODO: Change animations for FadeIn && FadeOut
 					layout={LinearTransition.stiffness(2)}
-					entering={FadeInRight}
-					exiting={FadeOutLeft}
+					entering={FadeIn}
+					exiting={FadeOut}
 				>
 					<View className="flex flex-row gap-x-2 items-center justify-center">
 						<IconFolder color={getThemeColor('text-muted')} />
