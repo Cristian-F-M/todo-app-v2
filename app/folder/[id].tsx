@@ -1,6 +1,4 @@
 import { Stack, useGlobalSearchParams } from 'expo-router'
-import { StatusBar } from 'expo-status-bar'
-import { useColorScheme } from 'nativewind'
 import { useCallback, useEffect, useLayoutEffect, useMemo } from 'react'
 import { Animated, FlatList, Text, useAnimatedValue, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -17,7 +15,6 @@ import { getThemeColor, useThemeStyles } from '@/utils/theme'
 
 export default function Folder() {
 	const { id } = useGlobalSearchParams()
-	const { colorScheme } = useColorScheme()
 	const { getTasksByFolderId, getById } = useFolder()
 	const { tasks: tasksFromContext } = useTask()
 	const { openModal, setFolderId } = useModal()
@@ -68,11 +65,7 @@ export default function Folder() {
 	}, [openModal])
 
 	const pageTitle = folder ? folder.name : 'Carpeta no encontrada'
-	const themeStyle = colorScheme === 'dark' ? 'light' : 'dark'
 
-	const statusBarBackgroundColor = useThemeStyles(() =>
-		getThemeColor('surface')
-	)
 	const screenOptions = useThemeStyles(() => ({
 		headerShown: true,
 		title: pageTitle,
@@ -92,11 +85,6 @@ export default function Folder() {
 
 	return (
 		<Screen safeArea={false}>
-			{/* <StatusBar
-				translucent={false}
-				style={themeStyle}
-				backgroundColor={statusBarBackgroundColor}
-			/> */}
 			{!folder && <Folder404 />}
 
 			<Stack.Screen options={screenOptions} />
