@@ -1,7 +1,31 @@
 {
 	"name": "todo-v2",
-	"version": "1.2.2",
+	"version": "1.14.2",
 	"main": "expo-router/entry",
+	"author": {
+		"email": "cfmorales.diaz@gmail.com",
+		"name": "Cristian Morales",
+		"url": "https://github.com/Cristian-F-M"
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Cristian-F-M/todo-app-v2.git"
+	},
+	"private": false,
+	"keywords": [
+		"todo",
+		"CM",
+		"lista de tareas",
+		"tareas",
+		"tasks",
+		"folders",
+		"themes",
+		"temas",
+		"personalización",
+		"theme-creation"
+	],
+	"description": "Android application made with react-native + expo, which allows the user to create tasks, organize them into folders, mark them as completed, allows changing themes, creation of automatic and manual themes 100% customizable.",
 	"expo": {
 		"doctor": {
 			"reactNativeDirectoryCheck": {
@@ -72,6 +96,5 @@
 		"eslint-plugin-prettier": "^5.2.3",
 		"prettier": "^3.5.3",
 		"typescript": "~5.9.2"
-	},
-	"private": true
+	}
 }
