@@ -1,17 +1,14 @@
-import { IconAlertCircle, IconExternalLink } from '@tabler/icons-react-native'
+import { IconExternalLink } from '@tabler/icons-react-native'
 import { Link, Stack } from 'expo-router'
 import type { ExtendedStackNavigationOptions } from 'expo-router/build/layouts/StackClient'
 import { useCallback, useEffect, useRef } from 'react'
-import { Dimensions, Pressable, ScrollView, Text, View } from 'react-native'
+import { Dimensions, Pressable, ScrollView, View } from 'react-native'
 import type { Modalize } from 'react-native-modalize'
 import { ConfigCard } from '@/components/config/ConfigCard'
 import { ConfigRow } from '@/components/config/ConfigRow'
 import { Screen } from '@/components/layout/Screen'
 import { TimePickerType } from '@/components/modal/TimePickerType'
-import {
-	ChangeThemeModalContent
-	// ConfigModalConfig,
-} from '@/components/theme/ChangeThemeModalContent'
+import { ChangeThemeModalContent } from '@/components/theme/ChangeThemeModalContent'
 import { useConfigModal } from '@/constants/changeTheme'
 import { useConfig } from '@/state/config'
 import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
