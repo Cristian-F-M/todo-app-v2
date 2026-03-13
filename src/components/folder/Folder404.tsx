@@ -13,7 +13,11 @@ export function Folder404() {
 					backgroundColor: getThemeColor('primary')
 				}}
 			>
-				<IconFolderX color="#f87171" width={50} height={50} />
+				<IconFolderX
+					color={getThemeColor('text-secondary')}
+					width={50}
+					height={50}
+				/>
 			</Pressable>
 			<Text className="text-2xl font-medium mt-3 mb-2 dark:text-gray-300">
 				Carpeta no disponible
