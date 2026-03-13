@@ -122,6 +122,7 @@ export default function RootLayout() {
 					<StatusBar
 						style={statusBarProps.style}
 						backgroundColor={statusBarProps.backgroundColor}
+						translucent={false}
 					/>
 					<Stack
 						screenOptions={{
