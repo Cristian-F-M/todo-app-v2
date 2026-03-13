@@ -1,8 +1,8 @@
-import { IconExternalLink } from '@tabler/icons-react-native'
-import { Stack } from 'expo-router'
+import { IconAlertCircle, IconExternalLink } from '@tabler/icons-react-native'
+import { Link, Stack } from 'expo-router'
 import type { ExtendedStackNavigationOptions } from 'expo-router/build/layouts/StackClient'
 import { useCallback, useEffect, useRef } from 'react'
-import { Dimensions, Pressable, ScrollView, View } from 'react-native'
+import { Dimensions, Pressable, ScrollView, Text, View } from 'react-native'
 import type { Modalize } from 'react-native-modalize'
 import { ConfigCard } from '@/components/config/ConfigCard'
 import { ConfigRow } from '@/components/config/ConfigRow'
@@ -52,7 +52,10 @@ export default function ConfigPage() {
 		<Screen safeArea={false}>
 			<Stack.Screen options={screenOptions} />
 
-			<ScrollView className="flex flex-col gap-y-3 w-[95%] mx-auto">
+			<ScrollView
+				className="flex flex-col gap-y-3 w-[95%] mx-auto"
+				showsVerticalScrollIndicator={false}
+			>
 				<ConfigCard title="Apariencia">
 					<ConfigRow
 						{...ConfigModalConfig}
@@ -143,6 +146,24 @@ export default function ConfigPage() {
 							handleChangeConfig(value, 'clearTaskAfter')
 						}}
 					/>
+				</ConfigCard>
+				<ConfigCard title="Soporte">
+					<ConfigRow
+						text={'Ayuda e información'}
+						description="Información sobre la aplicación y ayuda."
+						typeConfig="other"
+					>
+						<Link href="/about" asChild>
+							<Pressable
+								className="p-2 rounded-lg active:bg-primary-pressed w-12 items-center justify-center self-end mr-1"
+								style={{
+									backgroundColor: getThemeColor('primary')
+								}}
+							>
+								<IconExternalLink color={getThemeColor('text-primary')} />
+							</Pressable>
+						</Link>
+					</ConfigRow>
 				</ConfigCard>
 			</ScrollView>
 		</Screen>
