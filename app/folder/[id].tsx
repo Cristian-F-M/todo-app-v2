@@ -1,4 +1,5 @@
 import { Stack, useGlobalSearchParams } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
 import { useCallback, useLayoutEffect, useMemo } from 'react'
 import { FlatList, type ListRenderItemInfo, Text, View } from 'react-native'
 import { Folder404 } from '@/components/folder/Folder404'
@@ -138,6 +139,7 @@ export default function Folder() {
 	if (!folder) return <Folder404 />
 	return (
 		<Screen safeArea={false}>
+			<StatusBar translucent={false} />
 			<Stack.Screen options={screenOptions} />
 			{thereAreTasks && <BackgroundIcon />}
 
