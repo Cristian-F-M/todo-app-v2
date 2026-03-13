@@ -21,7 +21,6 @@ const fileTransport: transportFunctionType<any> = async ({ msg, level }) => {
 		}
 
 		existing = LOG_FILE.textSync()
-		console.log(existing)
 
 		const line = `[${new Date().toISOString()}] [${level.text}] ${msg}\n`
 

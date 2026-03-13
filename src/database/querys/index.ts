@@ -1,5 +1,6 @@
 import * as SQLite from 'expo-sqlite'
 import type { Params } from '@/types/database'
+import { LOGGER } from '@/utils/logger'
 
 export function connectDB() {
 	try {
@@ -8,7 +9,7 @@ export function connectDB() {
 		})
 		return db
 	} catch (err: unknown) {
-		console.log(err)
+		LOGGER.error(err)
 	}
 }
 
