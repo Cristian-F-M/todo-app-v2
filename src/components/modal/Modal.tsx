@@ -1,9 +1,6 @@
 import type React from 'react'
-import { useEffect } from 'react'
-import { Keyboard } from 'react-native'
 import { Modalize, type ModalizeProps } from 'react-native-modalize'
 import { Portal } from 'react-native-portalize'
-import Animated, { useSharedValue } from 'react-native-reanimated'
 import { useModal } from '@/state/modal'
 import { getThemeColor, useThemeStyles } from '@/utils/theme'
 
@@ -19,31 +16,14 @@ export function Modal({
 	...props
 }: ModalProps) {
 	const { setItem } = useModal()
-	// const paddingBottom = useSharedValue(0)
 	const modalStyle = useThemeStyles<ModalizeProps['modalStyle']>(() => [
 		{
 			backgroundColor: getThemeColor('background'),
 			paddingBottom: 20,
-			paddingHorizontal: 5,
-			// paddingBottom: paddingBottom.value
+			paddingHorizontal: 5
 		},
 		mStyle
 	])
-
-	// useEffect(() => {
-	// 	const subsKeyboardDidShow = Keyboard.addListener('keyboardDidShow', () => {
-	// 		paddingBottom.value = Keyboard.metrics()?.height ?? 20
-	// 	})
-
-	// 	const subsKeyboardDidHide = Keyboard.addListener('keyboardDidHide', () => {
-	// 		paddingBottom.value = 20
-	// 	})
-
-	// 	return () => {
-	// 		subsKeyboardDidShow.remove()
-	// 		subsKeyboardDidHide.remove()
-	// 	}
-	// }, [paddingBottom])
 
 	return (
 		<Portal>
@@ -56,15 +36,7 @@ export function Modal({
 				}}
 				{...props}
 			>
-				{!props.flatListProps && (
-					<Animated.View
-						// style={{
-						// 	paddingBottom
-						// }}
-					>
-						{children}
-					</Animated.View>
-				)}
+				{!props.flatListProps && children}
 			</Modalize>
 		</Portal>
 	)

@@ -1,5 +1,4 @@
 import { IconBell } from '@tabler/icons-react-native'
-import { useColorScheme } from 'nativewind'
 import { useCallback, useMemo, useState } from 'react'
 import { Pressable, Text, TextInput, View } from 'react-native'
 import { Switch } from 'react-native-gesture-handler'
@@ -21,7 +20,6 @@ import { StyledPressable } from '../layout/StyledPressable'
 import { CheckboxNotificationGroup } from '../notification/CheckboxNotificationGroup'
 
 export function TaskModal() {
-	const { colorScheme } = useColorScheme()
 	const { item, closeModal, folderId } = useModal()
 	const { update, create } = useTask()
 	const [error, setError] = useState<string | null>(null)

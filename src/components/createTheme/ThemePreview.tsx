@@ -122,7 +122,6 @@ function Point({
 	text: string
 	textColor: string
 }) {
-	// https://github.com/mrousavy/react-native-mmkv?tab=readme-ov-file
 	return (
 		<View className="flex-row items-center gap-x-2">
 			<View
