@@ -13,7 +13,7 @@ export function NoFolders() {
 	}, [openModal])
 
 	return (
-		<Animated.View className="items-center mt-36 w-11/12 mx-auto py-10 px-4 rounded-lg">
+		<Animated.View className="items-center mt-16 w-11/12 mx-auto py-10 px-4 rounded-lg">
 			<Pressable
 				className="flex-row items-center justify-center rounded-full p-7"
 				style={{
