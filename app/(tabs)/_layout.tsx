@@ -1,10 +1,9 @@
+import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs'
 import { IconHomeFilled, IconSettingsFilled } from '@tabler/icons-react-native'
 import { Tabs } from 'expo-router'
-import type { ExpoTabs } from 'expo-router/build/layouts/TabsClient'
-import type { ComponentProps } from 'react'
 import { getThemeColor, useThemeStyles } from '@/utils/theme'
 
-type ScreeOptions = ComponentProps<typeof ExpoTabs>['screenOptions']
+type ScreeOptions = BottomTabNavigationOptions
 
 export default function TabsLayout() {
 	const screenOptions = useThemeStyles<ScreeOptions>(() => ({

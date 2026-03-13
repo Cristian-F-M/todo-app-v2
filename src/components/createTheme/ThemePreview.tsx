@@ -1,10 +1,10 @@
 import { Pressable, Text, View, type ViewProps } from 'react-native'
 import { twMerge } from 'tailwind-merge'
-import type { ThemeColorsEditorValueKeys } from '@/types/themeColorsEditor'
+import type { ThemeKeys } from '@/types/themeColorsEditor'
 
 export interface ThemePreviewProps extends ViewProps {
 	name: string
-	theme: Record<ThemeColorsEditorValueKeys, string>
+	theme: Record<ThemeKeys, string>
 }
 
 export function ThemePreview({
