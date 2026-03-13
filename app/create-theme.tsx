@@ -98,7 +98,7 @@ export default function CreateTheme() {
 					<Input
 						value={themeInfo.name}
 						onValueChange={(value) => {
-							setThemeInfo({ ...themeInfo, name: value })
+							setThemeInfo({ ...themeInfo, name: value.trim() })
 							setErrors({ ...errors, name: '' })
 						}}
 						placeholder="Arctic"
@@ -117,7 +117,7 @@ export default function CreateTheme() {
 					<Input
 						value={themeInfo.variant}
 						onValueChange={(value) => {
-							setThemeInfo({ ...themeInfo, variant: value })
+							setThemeInfo({ ...themeInfo, variant: value.trim() })
 							setErrors({ ...errors, variant: '' })
 						}}
 						placeholder="Light"
