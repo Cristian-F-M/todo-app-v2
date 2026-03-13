@@ -1,7 +1,6 @@
 import { Stack, useGlobalSearchParams } from 'expo-router'
-import { useCallback, useEffect, useLayoutEffect, useMemo } from 'react'
-import { Animated, FlatList, Text, useAnimatedValue, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { useCallback, useLayoutEffect, useMemo } from 'react'
+import { FlatList, Text, View } from 'react-native'
 import { Folder404 } from '@/components/folder/Folder404'
 import { BackgroundIcon } from '@/components/layout/BackgroundIcon'
 import { Screen } from '@/components/layout/Screen'
@@ -33,32 +32,6 @@ export default function Folder() {
 	)
 
 	const thereAreTasks = tasks.length > 0
-	const opacityValue = useAnimatedValue(thereAreTasks ? 0 : 1)
-	const opacityValue2 = useAnimatedValue(thereAreTasks ? 1 : 0)
-
-	useEffect(() => {
-		const toValue = thereAreTasks ? 1 : 0
-
-		const opacityAnimation = Animated.timing(opacityValue, {
-			toValue,
-			duration: 200,
-			useNativeDriver: true
-		})
-
-		opacityAnimation.start()
-	}, [opacityValue, thereAreTasks])
-
-	useEffect(() => {
-		const toValue = thereAreTasks ? 0 : 1
-
-		const opacityAnimation = Animated.timing(opacityValue2, {
-			toValue,
-			duration: 200,
-			useNativeDriver: true
-		})
-
-		opacityAnimation.start()
-	}, [opacityValue2, thereAreTasks])
 
 	const openCreateTaskModal = useCallback(() => {
 		openModal('task')
@@ -83,49 +56,43 @@ export default function Folder() {
 		}
 	}, [setFolderId, folderId])
 
+	if (!folder) return <Folder404 />
+
 	return (
 		<Screen safeArea={false}>
-			{!folder && <Folder404 />}
-
 			<Stack.Screen options={screenOptions} />
-			{tasks.length > 0 && <BackgroundIcon />}
+			{thereAreTasks && <BackgroundIcon />}
 
-			{folder && (
-				<View className="px-2">
-					<View className="flex flex-row items-center justify-between mt-3 px-2">
-						<Text
-							className="text-base"
-							style={{ color: getThemeColor('text-secondary') }}
-						>
-							{folder.taskCount} tareas
-						</Text>
-						<Animated.View style={{ opacity: opacityValue }}>
+			<View className="px-2">
+				<View className="flex flex-row items-center justify-between mt-3 px-2">
+					<Text
+						className="text-base"
+						style={{ color: getThemeColor('text-secondary') }}
+					>
+						{folder.taskCount} tareas
+					</Text>
+					{thereAreTasks && (
+						<View>
 							<StyledPressable
 								text="Agregar"
 								className="max-w-40 px-4"
 								onPress={openCreateTaskModal}
 							/>
-						</Animated.View>
-					</View>
-
-					{tasks.length > 0 && (
-						<FlatList
-							className="mt-7"
-							data={sortedTasks}
-							renderItem={({ item }) => <TaskItem task={item} />}
-							keyExtractor={(item) => item.id}
-						/>
+						</View>
 					)}
-
-					<ScrollView>
-						{tasks.length === 0 && (
-							<Animated.View style={{ opacity: opacityValue2 }}>
-								<NoTasks />
-							</Animated.View>
-						)}
-					</ScrollView>
 				</View>
-			)}
+
+				{thereAreTasks && (
+					<FlatList
+						className="mt-7"
+						data={sortedTasks}
+						renderItem={({ item }) => <TaskItem task={item} />}
+						keyExtractor={(item) => item.id}
+					/>
+				)}
+
+				{!thereAreTasks && <NoTasks />}
+			</View>
 		</Screen>
 	)
 }
