@@ -13,7 +13,7 @@ export function NoTasks() {
 	}, [openModal])
 
 	return (
-		<View className="flex-1 items-center justify-center mt-24 w-4/5 mx-auto">
+		<View className="items-center justify-center mt-24 w-4/5 mx-auto">
 			<Pressable
 				className="flex-row items-center justify-center rounded-full p-7"
 				style={{
