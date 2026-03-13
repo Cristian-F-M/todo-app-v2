@@ -60,7 +60,7 @@ export function TaskItem({ task }: { task: Task }) {
 				backgroundColor: getThemeColor('surface'),
 				borderColor: getThemeColor('border')
 			}}
-			layout={LinearTransition.stiffness(2)}
+			layout={LinearTransition.stiffness(2).duration(150)}
 			entering={FadeIn}
 			exiting={FadeOut}
 		>
@@ -73,7 +73,10 @@ export function TaskItem({ task }: { task: Task }) {
 					style={{ maxHeight: 80 }}
 				>
 					<Text
-						className={twMerge('text-lg h-full', isChecked && 'opacity-75')}
+						className={twMerge(
+							'text-lg h-full mr-auto',
+							isChecked && 'opacity-75'
+						)}
 						onPress={handleCompleteTask}
 						style={{
 							color: getThemeColor(isChecked ? 'text-muted' : 'text-secondary')
