@@ -20,8 +20,10 @@ export function FolderModal() {
 	const pressableText = thereIsItem ? 'Guardar' : 'Agregar'
 
 	const handleSubmit = useCallback(() => {
+		const folderName = textInput.trim()
+
 		const result = zodParse(createFolderSchema, {
-			title: textInput
+			title: folderName
 		})
 
 		if (!result.success) {
@@ -30,12 +32,12 @@ export function FolderModal() {
 		}
 
 		if (thereIsItem && item.type === 'FOLDER') {
-			update({ ...item.data, name: textInput })
+			update({ ...item.data, name: folderName })
 			closeModal('folder')
 			return
 		}
 
-		const newFolder = { id: uuid.v4(), name: textInput, taskCount: 0 }
+		const newFolder = { id: uuid.v4(), name: folderName, taskCount: 0 }
 		create(newFolder)
 
 		closeModal('folder')

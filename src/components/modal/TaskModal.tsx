@@ -38,6 +38,7 @@ export function TaskModal() {
 	const pressableText = thereIsItem ? 'Guardar' : 'Agregar'
 
 	const handleSubmit = useCallback(async () => {
+		const taskName = textInput.trim()
 		const date =
 			notificationType === 'DATE_TIME'
 				? dateTimeValue
@@ -46,7 +47,7 @@ export function TaskModal() {
 		let notificationId: string | null = null
 		if (notificate) {
 			notificationId = await sendNotification({
-				title: textInput,
+				title: taskName,
 				trigger: { date }
 			})
 
@@ -54,7 +55,7 @@ export function TaskModal() {
 		}
 
 		const result = zodParse(createTaskSchema, {
-			title: textInput
+			title: taskName
 		})
 
 		if (!result.success) {
@@ -65,7 +66,7 @@ export function TaskModal() {
 		if (thereIsItem && item.type === 'TASK') {
 			if (notificate) removeNotification(item.data.notificationId ?? '')
 
-			update({ ...item.data, name: textInput, notificationId })
+			update({ ...item.data, name: taskName, notificationId })
 			closeModal('task')
 
 			return
@@ -75,7 +76,7 @@ export function TaskModal() {
 
 		const newTask = {
 			id: uuid.v4(),
-			name: textInput,
+			name: taskName,
 			folderId,
 			isCompleted: false,
 			notificationId
