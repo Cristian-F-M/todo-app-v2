@@ -1,6 +1,6 @@
 import { Stack, useGlobalSearchParams } from 'expo-router'
 import { useCallback, useLayoutEffect, useMemo } from 'react'
-import { FlatList, Text, View } from 'react-native'
+import { FlatList, type ListRenderItemInfo, Text, View } from 'react-native'
 import { Folder404 } from '@/components/folder/Folder404'
 import { BackgroundIcon } from '@/components/layout/BackgroundIcon'
 import { Screen } from '@/components/layout/Screen'
@@ -10,7 +10,16 @@ import { TaskItem } from '@/components/task/TaskItem'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
+import type { Task } from '@/types/task'
 import { getThemeColor, useThemeStyles } from '@/utils/theme'
+
+type TaskRenderItem =
+	| Task
+	| {
+			id: string
+			type: string
+			title: string
+	  }
 
 export default function Folder() {
 	const { id } = useGlobalSearchParams()
@@ -30,6 +39,47 @@ export default function Folder() {
 			[...tasks].sort((a, b) => Number(a.isCompleted) - Number(b.isCompleted)),
 		[tasks]
 	)
+
+	const completedTasks = useMemo(() => {
+		return sortedTasks.filter((task) => task.isCompleted)
+	}, [sortedTasks])
+
+	const pendingTasks = useMemo(() => {
+		return sortedTasks.filter((task) => !task.isCompleted)
+	}, [sortedTasks])
+
+	const parseFlatListData = useMemo(() => {
+		const getHeader = (id: string, title: string) => {
+			return {
+				id: `${id.toLowerCase()}-header`,
+				type: 'header',
+				title
+			}
+		}
+
+		const getNoTasks = (id: string, title: string) => {
+			return {
+				id,
+				type: 'no-tasks',
+				title
+			}
+		}
+
+		const pendingTaskToRender = !pendingTasks.length
+			? getNoTasks('no-pending-tasks', 'No hay tareas pendientes')
+			: pendingTasks
+
+		const completedTaskToRender = !completedTasks.length
+			? getNoTasks('no-completed-tasks', 'No hay tareas completadas')
+			: completedTasks
+
+		return [
+			getHeader('pending', 'Pendientes'),
+			pendingTaskToRender,
+			getHeader('completed', 'Completadas'),
+			completedTaskToRender
+		].flat()
+	}, [pendingTasks, completedTasks])
 
 	const thereAreTasks = tasks.length > 0
 
@@ -56,8 +106,36 @@ export default function Folder() {
 		}
 	}, [setFolderId, folderId])
 
-	if (!folder) return <Folder404 />
+	const renderItem = useCallback(
+		({ item }: ListRenderItemInfo<TaskRenderItem>) => {
+			if (!('type' in item)) return <TaskItem task={item as Task} />
 
+			if (item.type === 'no-tasks')
+				return (
+					<Text
+						className="text-sm mb-4"
+						style={{ color: getThemeColor('text-muted') }}
+					>
+						{item.title}
+					</Text>
+				)
+
+			if (item.type === 'header')
+				return (
+					<Text
+						className="text-base my-1"
+						style={{ color: getThemeColor('text-secondary') }}
+					>
+						{item.title}
+					</Text>
+				)
+
+			return null
+		},
+		[]
+	)
+
+	if (!folder) return <Folder404 />
 	return (
 		<Screen safeArea={false}>
 			<Stack.Screen options={screenOptions} />
@@ -85,8 +163,8 @@ export default function Folder() {
 				{thereAreTasks && (
 					<FlatList
 						className="mt-7"
-						data={sortedTasks}
-						renderItem={({ item }) => <TaskItem task={item} />}
+						data={parseFlatListData}
+						renderItem={renderItem}
 						keyExtractor={(item) => item.id}
 					/>
 				)}
