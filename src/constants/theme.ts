@@ -1,6 +1,7 @@
 // Si se agrega la posibilidad de que el usuario pueda personalizar el tema, solucionar par cuando lo quiera eliminar o modificar, para que no de error cuando se quiera usar si no existe
 import * as THEMES from '@/data/themes'
 import type { ThemeParsedObject } from '@/types/theme'
+import type { ThemeKeys } from '@/types/themeColorsEditor'
 
 /**
  * Configuración visual global del tema.
@@ -39,3 +40,19 @@ export const THEME_COLORS = {
 	danger: 'danger',
 	overlay: 'overlay'
 } satisfies Record<string, string>
+
+export const THEME_COLORS_VARIABLE_NAMES = {
+	background: 'background',
+	surface: 'surface',
+	'surfaceSoft': 'surface-soft',
+	border: 'border',
+	primary: 'primary',
+	'primaryPressed': 'primary-pressed',
+	'textPrimary': 'text-primary',
+	'textSecondary': 'text-secondary',
+	'textMuted': 'text-muted',
+	success: 'success',
+	warning: 'warning',
+	danger: 'danger',
+	overlay: 'overlay'
+} satisfies Record<string, ThemeKeys>
