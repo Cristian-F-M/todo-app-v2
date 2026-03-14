@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { THEMES_OBJ } from '@/constants/theme'
 import type { Theme, ThemeParsedObject } from '@/types/theme'
 import { getItem, saveItem } from '@/utils/asyncStorage'
+import { getRandomTheme } from '@/utils/theme'
 
 interface ThemeStore {
 	theme: Theme
@@ -26,7 +27,7 @@ export const useTheme = create<ThemeStore>((set) => ({
 			name: 'themes'
 		})
 
-		const theme = (await getItem<Theme>({ name: 'theme' })) || 'dark'
+		const theme = (await getItem<Theme>({ name: 'theme' })) || getRandomTheme()
 		set({ theme, themes: Object.assign({}, THEMES_OBJ, themes ?? {}) })
 	}
 }))
