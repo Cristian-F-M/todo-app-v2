@@ -4,7 +4,12 @@ import uuid from 'react-native-uuid'
 import { colorKit } from 'reanimated-color-picker'
 import type { ThemeMode } from '@/components/createTheme/AutomaticCreation'
 import { useTheme } from '@/state/theme'
-import type { ThemeObject, ThemeParsedObject } from '@/types/theme'
+import type {
+	ThemeColorVariableNames,
+	ThemeObject,
+	ThemeParsedObject,
+	useThemeStyleReturnType
+} from '@/types/theme'
 import type { ThemeKeys } from '@/types/themeColorsEditor'
 import { getItem, saveItem } from './asyncStorage'
 
@@ -14,14 +19,43 @@ export function getThemeColor(color: ThemeKeys, alpha?: number) {
 	return `rgba(${colors[color]} / ${alpha ?? 1})`
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: -
-export function useThemeStyles<T = any>(fn: () => T) {
-	const { theme } = useTheme()
+export function RGBA(c: string, alpha = 1) {
+	return `rgb(${c} / ${alpha})`
+}
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: -
-	const memoStyles = useMemo(() => fn(), [fn, theme])
+function getColorFNName(colorName: string) {
+	const makeFirstLetterUppercase = (text: string) =>
+		`${text[0].toUpperCase()}${text.slice(1)}`
 
-	return memoStyles
+	const splited = colorName.split('-')
+
+	let fnName = colorName
+
+	if (splited.length > 1)
+		fnName = splited[0] + makeFirstLetterUppercase(splited[1])
+
+	return fnName
+}
+
+export function getColorFn(value: string) {
+	const fn = (alpha?: number) => RGBA(value, alpha)
+	return fn
+}
+
+export function useThemeStyles() {
+	const { theme, themes } = useTheme()
+	const firstTheme = Object.values(themes)[0].colors
+
+	const finalTheme = useMemo(() => {
+		const entries = Object.entries(themes[theme]?.colors ?? firstTheme)
+		const result = entries.map(([key, color]) => {
+			return [getColorFNName(key), getColorFn(color)]
+		}) as [ThemeColorVariableNames, (a?: number) => string][]
+
+		return Object.fromEntries(result) as useThemeStyleReturnType
+	}, [firstTheme, theme, themes])
+
+	return finalTheme
 }
 
 export function parseTheme(theme: Record<ThemeKeys, string>) {
