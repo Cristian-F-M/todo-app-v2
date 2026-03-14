@@ -25,5 +25,5 @@ export type ThemeColorVariableNames = keyof typeof THEME_COLORS_VARIABLE_NAMES
 
 export type useThemeStyleReturnType = Record<
 	ThemeColorVariableNames,
-	(a?: number) => string
+	(alpha?: number) => string
 >
