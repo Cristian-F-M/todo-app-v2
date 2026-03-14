@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 import type { DropdownOptionProps } from '@/types/dropdown'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function DropdownOption({
 	onPress,
@@ -16,6 +16,7 @@ export function DropdownOption({
 	handleOpen,
 	...props
 }: DropdownOptionProps) {
+	const themeStyles = useThemeStyles()
 	const Icon = icon
 
 	const handlePress = useCallback(() => {
@@ -30,7 +31,7 @@ export function DropdownOption({
 				className
 			)}
 			style={{
-				borderColor: getThemeColor('border')
+				borderColor: themeStyles.border()
 			}}
 			onPress={handlePress}
 			{...props}

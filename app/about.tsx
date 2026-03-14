@@ -7,7 +7,7 @@ import * as Clipboard from 'expo-clipboard'
 import * as Linking from 'expo-linking'
 import { Stack } from 'expo-router'
 import type { ExtendedStackNavigationOptions } from 'expo-router/build/layouts/StackClient'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import {
 	Pressable,
 	ScrollView,
@@ -20,19 +20,44 @@ import { SocialNetworks } from '@/components/about/social-networks/SocialNetwork
 import { Screen } from '@/components/layout/Screen'
 import { APP_INFO } from '@/constants/about'
 import CMLogo from '@/icons/CMLogo'
-import { getThemeColor, useThemeStyles } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import packageJson from '../package.json'
 
 export default function AboutPage() {
-	const screenOptions = useThemeStyles<ExtendedStackNavigationOptions>(() => ({
-		headerShown: true,
-		headerTitle: '',
-		headerTitleAlign: 'center',
-		headerStyle: {
-			backgroundColor: getThemeColor('surface')
+	const themeStyles = useThemeStyles()
+	const styles = StyleSheet.create({
+		card: {
+			paddingHorizontal: 10,
+			paddingVertical: 10,
+			borderWidth: 1,
+			borderColor: themeStyles.border(),
+			alignSelf: 'center',
+			borderRadius: 8,
+			display: 'flex',
+			flexDirection: 'row',
+			width: '100%',
+			gap: 10
 		},
-		headerTintColor: getThemeColor('text-primary')
-	}))
+		cardText: {
+			color: themeStyles.textPrimary()
+		},
+		cardTexts: {
+			flex: 1
+		}
+	})
+
+	const screenOptions = useMemo<ExtendedStackNavigationOptions>(
+		() => ({
+			headerShown: true,
+			headerTitle: '',
+			headerTitleAlign: 'center',
+			headerStyle: {
+				backgroundColor: themeStyles.surface()
+			},
+			headerTintColor: themeStyles.textPrimary()
+		}),
+		[themeStyles]
+	)
 
 	const handleCopySystemInfo = useCallback(async () => {
 		const systemInfo = APP_INFO.map(([key, value]) => `${key}: ${value}`).join(
@@ -74,7 +99,6 @@ export default function AboutPage() {
 		const url = `mailto:${packageJson.author.email}?subject=${subject}&body=${body}`
 		Linking.openURL(url)
 	}, [])
-
 	return (
 		<Screen className="w-[90%] mx-auto">
 			<ScrollView showsVerticalScrollIndicator={false} className="py-4">
@@ -84,20 +108,16 @@ export default function AboutPage() {
 					<View
 						className="rounded-full p-4"
 						style={{
-							backgroundColor: getThemeColor('primary', 0.4)
+							backgroundColor: themeStyles.primary(0.4)
 						}}
 					>
-						<CMLogo
-							width={40}
-							height={40}
-							color={getThemeColor('text-primary')}
-						/>
+						<CMLogo width={40} height={40} color={themeStyles.textPrimary()} />
 					</View>
 					{/* <version /> */}
 					<View className="mt-1">
 						<Text
 							style={{
-								color: getThemeColor('text-secondary')
+								color: themeStyles.textSecondary()
 							}}
 						>
 							versión {packageJson.version}
@@ -117,7 +137,7 @@ export default function AboutPage() {
 					<Pressable style={styles.card} onPress={handleSendFeedback}>
 						<View>
 							<IconMessageReportFilled
-								color={getThemeColor('text-primary')}
+								color={themeStyles.textPrimary()}
 								size={24}
 							/>
 						</View>
@@ -127,7 +147,7 @@ export default function AboutPage() {
 							</Text>
 							<Text
 								style={{
-									color: getThemeColor('text-muted')
+									color: themeStyles.textMuted()
 								}}
 							>
 								Comparte sugerencias o comentarios con nosotros.
@@ -138,7 +158,7 @@ export default function AboutPage() {
 					{/* <bug-report /> */}
 					<Pressable style={styles.card} onPress={handleSendBugReport}>
 						<View>
-							<IconBugFilled color={getThemeColor('text-primary')} size={24} />
+							<IconBugFilled color={themeStyles.textPrimary()} size={24} />
 						</View>
 						<View style={styles.cardTexts}>
 							<Text className="font-semibold" style={styles.cardText}>
@@ -146,7 +166,7 @@ export default function AboutPage() {
 							</Text>
 							<Text
 								style={{
-									color: getThemeColor('text-muted')
+									color: themeStyles.textMuted()
 								}}
 							>
 								Ayúdanos a mejorar la aplicación.
@@ -160,7 +180,7 @@ export default function AboutPage() {
 					<View className="flex-row items-center justify-between">
 						<Text
 							style={{
-								color: getThemeColor('text-secondary')
+								color: themeStyles.textSecondary()
 							}}
 						>
 							Información de la aplicación
@@ -169,7 +189,7 @@ export default function AboutPage() {
 							onPress={handleCopySystemInfo}
 							className="active:bg-surface-soft p-1 rounded"
 						>
-							<IconCopy color={getThemeColor('text-primary')} size={20} />
+							<IconCopy color={themeStyles.textMuted()} size={20} />
 						</Pressable>
 					</View>
 
@@ -182,14 +202,14 @@ export default function AboutPage() {
 								<View className="flex-row items-center justify-between">
 									<Text
 										style={{
-											color: getThemeColor('text-secondary')
+											color: themeStyles.textSecondary()
 										}}
 									>
 										{key}
 									</Text>
 									<Text
 										style={{
-											color: getThemeColor('text-primary')
+											color: themeStyles.textPrimary()
 										}}
 									>
 										{value}
@@ -199,7 +219,7 @@ export default function AboutPage() {
 									<View
 										className="h-[1px] my-2"
 										style={{
-											backgroundColor: getThemeColor('border')
+											backgroundColor: themeStyles.border()
 										}}
 									/>
 								)}
@@ -211,24 +231,3 @@ export default function AboutPage() {
 		</Screen>
 	)
 }
-
-const styles = StyleSheet.create({
-	card: {
-		paddingHorizontal: 10,
-		paddingVertical: 10,
-		borderWidth: 1,
-		borderColor: getThemeColor('border'),
-		alignSelf: 'center',
-		borderRadius: 8,
-		display: 'flex',
-		flexDirection: 'row',
-		width: '100%',
-		gap: 10
-	},
-	cardText: {
-		color: getThemeColor('text-primary')
-	},
-	cardTexts: {
-		flex: 1
-	}
-})

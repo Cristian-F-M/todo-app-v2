@@ -6,7 +6,7 @@ import {
 	type ViewStyle
 } from 'react-native'
 import { twMerge } from 'tailwind-merge'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 interface ColorSquareProps extends PressableProps {
 	editable?: boolean
@@ -22,10 +22,11 @@ export function ColorSquare({
 	onPress,
 	...props
 }: ColorSquareProps) {
+	const themeStyles = useThemeStyles()
 	const pressableEditableStyles: StyleProp<ViewStyle> = {
 		borderWidth: 1,
 		borderStyle: 'dashed',
-		borderColor: getThemeColor('text-secondary'),
+		borderColor: themeStyles.textSecondary(),
 		backgroundColor: 'transparent'
 	}
 

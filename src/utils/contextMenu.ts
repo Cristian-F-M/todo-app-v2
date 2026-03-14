@@ -1,12 +1,11 @@
 import type { ContextMenuItemData } from '@/types/contextMenu'
-import type { ThemeKeys } from '@/types/themeColorsEditor'
-import { getThemeColor } from './theme'
+import type { ThemeColorVariableNames } from '@/types/theme'
 
 export function getVariantStyles(
 	variant: Required<ContextMenuItemData['variant']>
 ) {
-	const colorNames: Record<string, ThemeKeys> = {
-		color: 'text-primary'
+	const colorNames: Record<string, ThemeColorVariableNames> = {
+		color: 'textPrimary'
 	}
 
 	if (variant === 'destructive') colorNames.color = 'danger'
@@ -15,10 +14,10 @@ export function getVariantStyles(
 
 	return {
 		text: {
-			color: getThemeColor(colorNames.color)
+			color: colorNames.color
 		},
 		icon: {
-			color: getThemeColor(colorNames.color)
+			color: colorNames.color
 		}
 	}
 }

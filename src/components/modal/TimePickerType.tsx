@@ -8,7 +8,7 @@ import { twMerge } from 'tailwind-merge'
 import { SingleTimePicker } from '@/components/TimePicker/SingleTimePicker'
 import { useConfig } from '@/state/config'
 import type { TimePickerType as TimePickerTypeEnum } from '@/types/config'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import { WheelPicker } from '../WheelPicker/WheelPicker'
 
 interface TimePicker {
@@ -46,13 +46,14 @@ const TIME_PICKERS = {
 
 export function TimePickerType() {
 	const { configs, setConfigs } = useConfig()
+	const themeStyles = useThemeStyles()
 
 	return (
 		<View className="py-6 px-2">
 			<View>
 				<Text
 					className="text-2xl font-bold text-center"
-					style={{ color: getThemeColor('text-primary') }}
+					style={{ color: themeStyles.textPrimary() }}
 				>
 					Selecciona el tipo de selector de tiempo
 				</Text>
@@ -63,8 +64,8 @@ export function TimePickerType() {
 					const Icon = picker.icon
 					const isSelected = configs.timePickerType === k
 
-					let iconColor = getThemeColor('text-primary')
-					if (isSelected) iconColor = getThemeColor('primary')
+					let iconColor = themeStyles.textPrimary()
+					if (isSelected) iconColor = themeStyles.primary()
 
 					return (
 						<Pressable
@@ -79,21 +80,15 @@ export function TimePickerType() {
 								'w-28 border px-2 py-5 rounded-lg transition-colors'
 							)}
 							style={{
-								borderColor: getThemeColor(
-									'text-muted',
-									isSelected ? 0.6 : 0.4
-								),
-								backgroundColor: getThemeColor(
-									'text-muted',
-									isSelected ? 0.3 : 0.1
-								)
+								borderColor: themeStyles.textMuted(isSelected ? 0.6 : 0.4),
+								backgroundColor: themeStyles.textMuted(isSelected ? 0.3 : 0.1)
 							}}
 						>
 							<View className="flex flex-col items-center justify-center">
 								{<Icon size={30} color={iconColor} />}
 								<Text
 									className={twMerge('font-semibold transition-colors')}
-									style={{ color: getThemeColor('text-primary') }}
+									style={{ color: themeStyles.textPrimary() }}
 								>
 									{picker.name}
 								</Text>

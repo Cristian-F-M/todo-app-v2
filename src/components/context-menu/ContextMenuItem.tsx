@@ -10,7 +10,7 @@ import type { SvgProps } from 'react-native-svg'
 import { twMerge } from 'tailwind-merge'
 import type { ContextMenuItemData } from '@/types/contextMenu'
 import { getVariantStyles } from '@/utils/contextMenu'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 interface ContextMenuItemProps extends PressableProps {
 	item: ContextMenuItemData
@@ -24,6 +24,7 @@ export function ContextMenuItem({
 	...props
 }: ContextMenuItemProps) {
 	const variantStyles = getVariantStyles(item.variant)
+	const themeStyles = useThemeStyles()
 
 	let icon = item?.icon?.() as React.ReactElement<SvgProps> | undefined
 
@@ -31,7 +32,7 @@ export function ContextMenuItem({
 		icon = React.cloneElement(icon, {
 			width: 18,
 			height: 18,
-			color: variantStyles.icon.color
+			color: themeStyles[variantStyles.icon.color]()
 		})
 
 	return (
@@ -44,7 +45,7 @@ export function ContextMenuItem({
 			style={[
 				style,
 				{
-					backgroundColor: getThemeColor('surface')
+					backgroundColor: themeStyles.surface()
 				}
 			]}
 			{...props}
@@ -53,7 +54,7 @@ export function ContextMenuItem({
 			<Text
 				className="text-sm"
 				style={{
-					color: variantStyles.text.color
+					color: themeStyles[variantStyles.text.color]()
 				}}
 			>
 				{item.text}

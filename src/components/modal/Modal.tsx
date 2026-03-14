@@ -1,11 +1,11 @@
 import type React from 'react'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Keyboard } from 'react-native'
 import { Modalize, type ModalizeProps } from 'react-native-modalize'
 import { Portal } from 'react-native-portalize'
 import Animated, { useSharedValue } from 'react-native-reanimated'
 import { useModal } from '@/state/modal'
-import { getThemeColor, useThemeStyles } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 interface ModalProps extends ModalizeProps {
 	modalRef: React.RefObject<Modalize | null>
@@ -20,15 +20,19 @@ export function Modal({
 }: ModalProps) {
 	const { setItem } = useModal()
 	const paddingBottom = useSharedValue(0)
-	const modalStyle = useThemeStyles<ModalizeProps['modalStyle']>(() => [
-		{
-			backgroundColor: getThemeColor('background'),
-			// paddingBottom: 20,
-			paddingHorizontal: 5,
-			paddingBottom: paddingBottom.value
-		},
-		mStyle
-	])
+	const themeStyles = useThemeStyles()
+	const modalStyle = useMemo<ModalizeProps['modalStyle']>(
+		() => [
+			{
+				backgroundColor: themeStyles.background(),
+				// paddingBottom: 20,
+				paddingHorizontal: 5,
+				paddingBottom: paddingBottom.value
+			},
+			mStyle
+		],
+		[mStyle, paddingBottom, themeStyles]
+	)
 
 	useEffect(() => {
 		const subsKeyboardDidShow = Keyboard.addListener('keyboardDidShow', () => {

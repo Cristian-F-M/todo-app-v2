@@ -11,7 +11,7 @@ import type {
 	ThemeColorsEditorProps,
 	ThemeKeys
 } from '@/types/themeColorsEditor'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import { ColorPickerModal } from '../../modal/ColorPicker'
 import { SingleColorEditor } from './SingleColorEditor'
 
@@ -27,6 +27,7 @@ export function ThemeColorsEditor({
 	const [currentColor, setCurrentColor] = useState<
 		[ThemeKeys, string] | undefined
 	>()
+	const themeStyles = useThemeStyles()
 
 	return (
 		<>
@@ -42,13 +43,13 @@ export function ThemeColorsEditor({
 					)}
 					style={{
 						borderWidth: 1,
-						borderColor: getThemeColor('border'),
-						backgroundColor: getThemeColor('surface-soft')
+						borderColor: themeStyles.border(),
+						backgroundColor: themeStyles.surfaceSoft()
 					}}
 				>
 					<Text
 						style={{
-							color: getThemeColor('text-primary')
+							color: themeStyles.textPrimary()
 						}}
 					>
 						{title}
@@ -59,10 +60,7 @@ export function ThemeColorsEditor({
 							transform: [{ rotateZ: open ? '180deg' : '0deg' }]
 						}}
 					>
-						<IconCaretDownFilled
-							size={20}
-							color={getThemeColor('text-primary')}
-						/>
+						<IconCaretDownFilled size={20} color={themeStyles.textPrimary()} />
 					</View>
 				</Pressable>
 				<View
@@ -70,7 +68,7 @@ export function ThemeColorsEditor({
 					style={{
 						borderWidth: 1,
 						borderTopWidth: 0,
-						borderColor: getThemeColor('border')
+						borderColor: themeStyles.border()
 					}}
 				>
 					{Object.keys(THEME_COLORS).map((key, index) => {
@@ -94,7 +92,7 @@ export function ThemeColorsEditor({
 										className="w-full my-2"
 										style={{
 											height: 1,
-											backgroundColor: getThemeColor('border', 0.8)
+											backgroundColor: themeStyles.border(0.8)
 										}}
 									/>
 								)}
@@ -118,7 +116,7 @@ export function ThemeColorsEditor({
 			>
 				<Panel1 />
 				<HueSlider boundedThumb thumbShape="ring" />
-				<PreviewText style={{ color: getThemeColor('text-primary') }} />
+				<PreviewText style={{ color: themeStyles.textPrimary() }} />
 			</ColorPickerModal>
 		</>
 	)

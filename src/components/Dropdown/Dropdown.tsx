@@ -2,14 +2,16 @@ import { Children, useEffect, useRef, useState } from 'react'
 import { Dimensions, Modal, Pressable, View } from 'react-native'
 import uuid from 'react-native-uuid'
 import type { DropdownMenuProps } from '@/types/dropdown'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function HorizontalSeparator() {
+	const themeStyles = useThemeStyles()
+
 	return (
 		<View
 			className="w-full h-px"
 			style={{
-				backgroundColor: getThemeColor('border')
+				backgroundColor: themeStyles.border()
 			}}
 		/>
 	)
@@ -24,6 +26,7 @@ export function DropdownMenu({
 	children,
 	...props
 }: DropdownMenuProps) {
+	const themeStyles = useThemeStyles()
 	const triggerRef = useRef<View>(null)
 	const [position, setPosition] = useState({
 		x: 0,
@@ -77,8 +80,8 @@ export function DropdownMenu({
 							top: position.y,
 							left: position.x,
 							width: dropdownWidth,
-							backgroundColor: getThemeColor('surface'),
-							borderColor: getThemeColor('border')
+							backgroundColor: themeStyles.surface(),
+							borderColor: themeStyles.border()
 						}}
 						{...props}
 					>

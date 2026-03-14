@@ -5,7 +5,7 @@ import ColorPicker, {
 	type ColorFormatsObject,
 	type ColorPickerProps
 } from 'reanimated-color-picker'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import { Modal } from './Modal'
 
 interface ColorPickerModalProps extends ColorPickerProps {
@@ -26,6 +26,8 @@ export function ColorPickerModal({
 	onClose,
 	...props
 }: ColorPickerModalProps) {
+	const themeStyles = useThemeStyles()
+
 	return (
 		<Modal
 			modalRef={modalRef}
@@ -38,7 +40,7 @@ export function ColorPickerModal({
 			<View
 				className="items-center p-4 rounded-lg mb-6"
 				style={{
-					backgroundColor: getThemeColor('surface-soft')
+					backgroundColor: themeStyles.surfaceSoft()
 				}}
 			>
 				<ColorPicker
@@ -58,12 +60,12 @@ export function ColorPickerModal({
 							marginTop: 5
 						}}
 						size={14}
-						color={getThemeColor('warning')}
+						color={themeStyles.warning()}
 					/>
 					<Text
 						className="text-sm text-center mt-1"
 						style={{
-							color: getThemeColor('text-secondary')
+							color: themeStyles.textSecondary()
 						}}
 					>
 						El color se selecciona automáticamente. Puedes cerrar cuando

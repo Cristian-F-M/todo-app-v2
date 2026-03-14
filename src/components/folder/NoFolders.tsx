@@ -3,10 +3,11 @@ import { useCallback } from 'react'
 import { Animated, Pressable, Text } from 'react-native'
 import { StyledPressable } from '@/components/layout/StyledPressable'
 import { useModal } from '@/state/modal'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function NoFolders() {
 	const { openModal } = useModal()
+	const themeStyles = useThemeStyles()
 
 	const handleClickOpenModal = useCallback(() => {
 		openModal('folder')
@@ -17,19 +18,15 @@ export function NoFolders() {
 			<Pressable
 				className="flex-row items-center justify-center rounded-full p-7"
 				style={{
-					backgroundColor: getThemeColor('surface')
+					backgroundColor: themeStyles.surface()
 				}}
 			>
-				<IconFolderPlus
-					width={50}
-					height={50}
-					stroke={getThemeColor('primary')}
-				/>
+				<IconFolderPlus width={50} height={50} stroke={themeStyles.primary()} />
 			</Pressable>
 			<Text
 				className="text-3xl mt-3 font-semibold"
 				style={{
-					color: getThemeColor('text-primary')
+					color: themeStyles.textPrimary()
 				}}
 			>
 				No hay carpetas
@@ -37,7 +34,7 @@ export function NoFolders() {
 			<Text
 				className="mt-1 text-center"
 				style={{
-					color: getThemeColor('text-muted')
+					color: themeStyles.textMuted()
 				}}
 			>
 				Crea tu primera carpeta para comenzar a organizar tus tareas

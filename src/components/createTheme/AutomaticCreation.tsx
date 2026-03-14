@@ -1,8 +1,4 @@
-import {
-	IconMoon,
-	IconSparkles,
-	IconSun
-} from '@tabler/icons-react-native'
+import { IconMoon, IconSparkles, IconSun } from '@tabler/icons-react-native'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { LayoutChangeEvent, PressableProps } from 'react-native'
 import {
@@ -24,7 +20,7 @@ import {
 } from 'reanimated-color-picker'
 import { twMerge } from 'tailwind-merge'
 import type { ThemeKeys } from '@/types/themeColorsEditor'
-import { generateTheme, getThemeColor } from '@/utils/theme'
+import { generateTheme, useThemeStyles } from '@/utils/theme'
 import { StyledPressable } from '../layout/StyledPressable'
 import { ColorPickerModal } from '../modal/ColorPicker'
 import { ColorSquare } from './ColorSquare'
@@ -44,15 +40,16 @@ export function ThemeModeButton({
 	className,
 	...props
 }: ThemeModeButtonProps) {
+	const themeStyles = useThemeStyles()
 	const isSelected = type === selectedType
 
 	const Icon = type === 'dark' ? IconMoon : IconSun
 	const text = type === 'dark' ? 'Oscuro' : 'Claro'
 	const backgroundColor = isSelected
-		? getThemeColor('primary', 0.5)
-		: getThemeColor('surface')
-	const textColor = getThemeColor('text-primary')
-	const borderColor = isSelected ? getThemeColor('text-muted') : '#fff0'
+		? themeStyles.primary(0.5)
+		: themeStyles.surface()
+	const textColor = themeStyles.textPrimary()
+	const borderColor = isSelected ? themeStyles.textMuted() : '#fff0'
 
 	return (
 		<Pressable
@@ -78,6 +75,7 @@ export function AutomaticCreation({
 }: {
 	onChangeTheme: (theme: Record<ThemeKeys, string> | undefined) => void
 }) {
+	const themeStyles = useThemeStyles()
 	const [selectedMode, setSelectedMode] = useState<ThemeMode>('dark')
 	const colorPickerModalRef = useRef<Modalize>(null)
 	const [generatedTheme, setGeneratedTheme] = useState<
@@ -139,7 +137,7 @@ export function AutomaticCreation({
 			<View>
 				<Text
 					style={{
-						color: getThemeColor('text-primary')
+						color: themeStyles.textPrimary()
 					}}
 				>
 					Color primario
@@ -171,7 +169,7 @@ export function AutomaticCreation({
 					<Animated.View
 						className="w-10 h-2 absolute rounded-xl -bottom-3"
 						style={{
-							backgroundColor: getThemeColor('primary'),
+							backgroundColor: themeStyles.primary(),
 							transform: [{ translateX: selectedColorIndicatorTranslateX }]
 						}}
 					/>
@@ -180,7 +178,7 @@ export function AutomaticCreation({
 				<View className="mt-5">
 					<Text
 						style={{
-							color: getThemeColor('text-primary')
+							color: themeStyles.textPrimary()
 						}}
 					>
 						Modo
@@ -233,7 +231,7 @@ export function AutomaticCreation({
 			>
 				<Panel1 />
 				<HueSlider boundedThumb thumbShape="ring" />
-				<PreviewText style={{ color: getThemeColor('text-primary') }} />
+				<PreviewText style={{ color: themeStyles.textPrimary() }} />
 			</ColorPickerModal>
 		</View>
 	)

@@ -4,7 +4,7 @@ import { SingleTimePicker } from '@/components/TimePicker/SingleTimePicker'
 import { WheelPicker } from '@/components/WheelPicker/WheelPicker'
 import { useConfig } from '@/state/config'
 import type { TimeValueType } from '@/types/timePicker'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export interface TimePickerProps {
 	value: TimeValueType
@@ -14,6 +14,8 @@ export interface TimePickerProps {
 export function TimePicker({ value, onChange }: TimePickerProps) {
 	const animatedValue = useAnimatedValue(0)
 	const { configs } = useConfig()
+	const themeStyles = useThemeStyles()
+
 	useEffect(() => {
 		const animation = Animated.timing(animatedValue, {
 			toValue: 1,
@@ -69,7 +71,7 @@ export function TimePicker({ value, onChange }: TimePickerProps) {
 					/>
 					<View
 						className="w-1 h-full rounded mx-3"
-						style={{ backgroundColor: getThemeColor('primary') }}
+						style={{ backgroundColor: themeStyles.primary() }}
 					/>
 					<SingleTimePicker
 						text="Minutos"

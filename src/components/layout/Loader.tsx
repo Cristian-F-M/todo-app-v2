@@ -9,7 +9,7 @@ import {
 	View
 } from 'react-native'
 import uuid from 'react-native-uuid'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function Loader({
 	type = 'FOLDER',
@@ -18,6 +18,7 @@ export function Loader({
 	type?: 'FOLDER' | 'TASK'
 	cantItems?: number
 }) {
+	const themeStyles = useThemeStyles()
 	const loadingText = `Cargando ${type === 'FOLDER' ? 'carpetas' : 'tareas'}`
 	const opacityValue = useAnimatedValue(0)
 
@@ -38,7 +39,7 @@ export function Loader({
 	}, [opacityValue])
 
 	const textStyles = {
-		backgroundColor: getThemeColor('text-muted')
+		backgroundColor: themeStyles.textMuted()
 	}
 
 	const items = Array.from({ length: cantItems }, () => uuid.v4())
@@ -49,11 +50,11 @@ export function Loader({
 			style={{ opacity: opacityValue }}
 		>
 			<View className="flex-row gap-x-3 items-center">
-				<ActivityIndicator size={30} color={getThemeColor('text-muted')} />
+				<ActivityIndicator size={30} color={themeStyles.textMuted()} />
 				<Text
 					className="text-lg"
 					style={{
-						color: getThemeColor('text-muted')
+						color: themeStyles.textMuted()
 					}}
 				>
 					{loadingText}
@@ -70,8 +71,8 @@ export function Loader({
 							key={itemId}
 							className="flex flex-row items-center justify-between p-3 w-full animate-pulse py-4 mb-3 h-16 rounded-lg"
 							style={{
-								backgroundColor: getThemeColor('surface-soft'),
-								borderColor: getThemeColor('border'),
+								backgroundColor: themeStyles.surfaceSoft(),
+								borderColor: themeStyles.border(),
 								borderWidth: 1
 							}}
 						>

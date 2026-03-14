@@ -15,7 +15,7 @@ import type { DecayConfig } from 'react-native-reanimated/lib/typescript/animati
 import { scheduleOnRN } from 'react-native-worklets'
 import { twMerge } from 'tailwind-merge'
 import type { WheelPickerProps } from '@/types/wheelPicker'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import { WheelItem } from './WheelPickerItem'
 import { WheelPickerLabel } from './WheelPickerLabel'
 
@@ -43,6 +43,7 @@ export function WheelPicker({
 	const maxTranslateY = 0
 	const minTranslateY = -(items.length - 1) * itemHeight
 	const [index, setIndex] = useState(0)
+	const themeStyles = useThemeStyles()
 
 	useAnimatedReaction(
 		() => {
@@ -138,9 +139,9 @@ export function WheelPicker({
 				)}
 				style={{
 					height: containerHeight,
-					borderColor: getThemeColor('surface-soft', 0.5),
+					borderColor: themeStyles.surfaceSoft(0.5),
 					borderWidth: 6,
-					backgroundColor: getThemeColor('surface', 0.5)
+					backgroundColor: themeStyles.surface(0.5)
 				}}
 			>
 				{/* <selected-item-indicator /> */}
@@ -151,8 +152,8 @@ export function WheelPicker({
 						right: 0,
 						height: itemHeight,
 						top: (containerHeight - itemHeight) / 2,
-						backgroundColor: getThemeColor('primary', 0.2),
-						borderColor: getThemeColor('border')
+						backgroundColor: themeStyles.primary(0.2),
+						borderColor: themeStyles.border()
 					}}
 					pointerEvents="none"
 				/>

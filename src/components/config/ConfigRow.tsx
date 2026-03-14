@@ -4,7 +4,7 @@ import { Text, TextInput, View } from 'react-native'
 import { Switch } from 'react-native-gesture-handler'
 import { Modal } from '@/components/modal/Modal'
 import type { ConfigRowProps } from '@/types/config'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function ConfigRow({
 	text,
@@ -15,6 +15,8 @@ export function ConfigRow({
 	onChangeValue,
 	...props
 }: ConfigRowProps) {
+	const themeStyles = useThemeStyles()
+
 	const handleClickChangeValue = useCallback(
 		(value: string | boolean | unknown) => {
 			if (!onChangeValue) return
@@ -31,14 +33,14 @@ export function ConfigRow({
 				<View className="w-[70%]">
 					<Text
 						className="text-base"
-						style={{ color: getThemeColor('text-primary') }}
+						style={{ color: themeStyles.textPrimary() }}
 					>
 						{text}
 					</Text>
 					{description && (
 						<Text
 							className="text-sm"
-							style={{ color: getThemeColor('text-secondary') }}
+							style={{ color: themeStyles.textSecondary() }}
 						>
 							{description}
 						</Text>
@@ -48,11 +50,11 @@ export function ConfigRow({
 					{props.typeConfig === 'switch' && (
 						<Switch
 							trackColor={{
-								false: getThemeColor('text-secondary'),
-								true: getThemeColor('primary')
+								false: themeStyles.textSecondary(),
+								true: themeStyles.primary()
 							}}
-							thumbColor={getThemeColor('primary-pressed')}
-							ios_backgroundColor={getThemeColor('text-secondary')}
+							thumbColor={themeStyles.primaryPressed()}
+							ios_backgroundColor={themeStyles.textSecondary()}
 							onValueChange={handleClickChangeValue}
 							value={props.value}
 							disabled={disabled || commingSoon}
@@ -63,17 +65,17 @@ export function ConfigRow({
 						<View
 							className="border rounded-lg px-2 h-12"
 							style={{
-								borderColor: getThemeColor('border'),
-								backgroundColor: getThemeColor('surface-soft')
+								borderColor: themeStyles.border(),
+								backgroundColor: themeStyles.surfaceSoft()
 							}}
 						>
 							<TextInput
 								className="text-sm h-full"
 								style={{
-									color: getThemeColor('text-primary')
+									color: themeStyles.textPrimary()
 								}}
 								placeholder={placeholder}
-								placeholderTextColor={getThemeColor('text-secondary')}
+								placeholderTextColor={themeStyles.textSecondary()}
 								keyboardType={props.textInputProps?.keyboardType ?? 'default'}
 								editable={!disabled && !commingSoon}
 								secureTextEntry={props.textInputProps?.secureTextEntry}
@@ -102,18 +104,18 @@ export function ConfigRow({
 					<View
 						className="absolute right-0 -top-4 py-1 px-2 rounded-lg border animate-bounce flex-row gap-x-1"
 						style={{
-							backgroundColor: getThemeColor('surface-soft'),
-							borderColor: getThemeColor('border')
+							backgroundColor: themeStyles.surfaceSoft(),
+							borderColor: themeStyles.border()
 						}}
 					>
 						<IconSparkles
-							color={getThemeColor('text-primary')}
+							color={themeStyles.textPrimary()}
 							width={15}
 							height={15}
 						/>
 						<Text
 							className="text-sm"
-							style={{ color: getThemeColor('text-primary') }}
+							style={{ color: themeStyles.textPrimary() }}
 						>
 							Proximamente
 						</Text>

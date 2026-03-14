@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { Pressable } from 'react-native'
 import type { BouncyCheckboxProps } from 'react-native-bouncy-checkbox'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import { CheckboxIcon } from './CheckboxIcon'
 
 interface CheckboxProps extends BouncyCheckboxProps {
@@ -17,8 +17,9 @@ export function Checkbox({
 	onValueChange,
 	...props
 }: CheckboxProps) {
-	const fillColor = getThemeColor('text-muted', 0.2)
-	const unFillColor = getThemeColor('surface-soft')
+	const themeStyles = useThemeStyles()
+	const fillColor = themeStyles.textMuted(0.2)
+	const unFillColor = themeStyles.surfaceSoft()
 	const defaultSize = size ?? 20
 	const padding = 2
 	const iconSize = defaultSize * 0.6

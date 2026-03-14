@@ -5,7 +5,7 @@ import { Pressable } from 'react-native'
 import Animated, { LinearTransition } from 'react-native-reanimated'
 import type { SvgProps } from 'react-native-svg'
 import { SOCIAL_MEDIA } from '@/constants/socialMedia'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function SocialNetworks() {
 	const [isSocialMediaOpen, setIsSocialMediaOpen] = useState(false)
@@ -16,6 +16,7 @@ export function SocialNetworks() {
 			isSocialMediaOpen ? SOCIAL_MEDIA.length : socialMediaMaxItems
 		)
 	}, [isSocialMediaOpen])
+	const themeStyles = useThemeStyles()
 
 	return (
 		<Animated.View
@@ -34,7 +35,7 @@ export function SocialNetworks() {
 
 					if (React.isValidElement(Icon)) {
 						Icon = React.cloneElement(Icon, {
-							color: getThemeColor('text-secondary'),
+							color: themeStyles.textSecondary(),
 							width: 20,
 							height: 20
 						})
@@ -54,7 +55,7 @@ export function SocialNetworks() {
 					className="p-1 rounded active:bg-surface-soft"
 					onPress={() => setIsSocialMediaOpen((prev) => !prev)}
 				>
-					<IconChevronRight size={18} color={getThemeColor('text-muted')} />
+					<IconChevronRight size={18} color={themeStyles.textMuted()} />
 				</Pressable>
 			)}
 		</Animated.View>

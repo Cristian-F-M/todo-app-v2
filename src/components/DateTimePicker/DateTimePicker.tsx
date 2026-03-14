@@ -8,7 +8,7 @@ import { Animated, Pressable, Text, useAnimatedValue, View } from 'react-native'
 import { DateItem } from '@/components/notification/DateItem'
 
 import { getDateTime } from '@/utils/dateTime'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 interface DateTimePickerProps {
 	value: Date
@@ -16,6 +16,7 @@ interface DateTimePickerProps {
 }
 
 export function DateTimePicker({ value, onValueChange }: DateTimePickerProps) {
+	const themeStyles = useThemeStyles()
 	const [date, time] = useMemo(() => {
 		const { hour, minute, ampm, ...rest } = getDateTime(value)
 		return [{ ...rest }, { hour, minute, ampm }]
@@ -69,16 +70,16 @@ export function DateTimePicker({ value, onValueChange }: DateTimePickerProps) {
 		}
 	}, [animatedValue])
 
-	const iconColor = getThemeColor('text-muted')
-	const textColor = getThemeColor('text-primary')
+	const iconColor = themeStyles.textMuted()
+	const textColor = themeStyles.textPrimary()
 
 	return (
 		<Animated.View className="gap-y-3" style={{ opacity: animatedValue }}>
 			<Pressable
 				className="border py-2 px-4 rounded-md flex-row items-center justify-between gap-x-3"
 				style={{
-					backgroundColor: getThemeColor('surface-soft'),
-					borderColor: getThemeColor('border')
+					backgroundColor: themeStyles.surfaceSoft(),
+					borderColor: themeStyles.border()
 				}}
 				onPress={handleOpenDatePicker}
 			>
@@ -99,8 +100,8 @@ export function DateTimePicker({ value, onValueChange }: DateTimePickerProps) {
 				className="border py-2 px-4 rounded-md flex-row items-center justify-between gap-x-3"
 				onPress={handleOpenTimePicker}
 				style={{
-					backgroundColor: getThemeColor('surface-soft'),
-					borderColor: getThemeColor('border')
+					backgroundColor: themeStyles.surfaceSoft(),
+					borderColor: themeStyles.border()
 				}}
 			>
 				<View className="flex-row items-center gap-x-1">

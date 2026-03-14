@@ -2,7 +2,7 @@ import type { PressableProps, StyleProp, ViewStyle } from 'react-native'
 import { Pressable, Text, View } from 'react-native'
 import type { SvgProps } from 'react-native-svg'
 import { twMerge } from 'tailwind-merge'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 interface StyledPressableProps extends PressableProps {
 	text: string
@@ -20,8 +20,9 @@ export function StyledPressable({
 	icon,
 	style
 }: StyledPressableProps) {
+	const themeStyles = useThemeStyles()
 	const Icon = icon
-	const iconColor = getThemeColor('text-primary')
+	const iconColor = themeStyles.textPrimary()
 
 	return (
 		<Pressable
@@ -31,7 +32,7 @@ export function StyledPressable({
 			)}
 			style={[
 				{
-					backgroundColor: getThemeColor('primary')
+					backgroundColor: themeStyles.primary()
 				},
 				style
 			]}
@@ -42,7 +43,7 @@ export function StyledPressable({
 				{Icon && <Icon color={iconColor} />}
 				<Text
 					className="text-base text-center"
-					style={{ color: getThemeColor('text-primary') }}
+					style={{ color: themeStyles.textPrimary() }}
 				>
 					{text}
 				</Text>

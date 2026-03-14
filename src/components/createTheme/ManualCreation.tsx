@@ -3,7 +3,7 @@ import { Text, View } from 'react-native'
 
 import { THEME_COLORS } from '@/constants/theme'
 import type { ThemeKeys } from '@/types/themeColorsEditor'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import { ThemeColorsEditor } from './colorsEditor/ThemeColorsEditor'
 import { ThemePreview } from './ThemePreview'
 
@@ -12,6 +12,7 @@ export function ManualCreation({
 }: {
 	onChangeTheme: (theme: Record<ThemeKeys, string> | undefined) => void
 }) {
+	const themeStyles = useThemeStyles()
 	const defaultColors = useMemo(() => {
 		const entries = Object.values(THEME_COLORS).map((key) => [key, '#fff'])
 		return Object.fromEntries(entries) as Record<ThemeKeys, string>
@@ -35,7 +36,7 @@ export function ManualCreation({
 				<Text
 					className="text-center mt-5 text-sm"
 					style={{
-						color: getThemeColor('text-muted')
+						color: themeStyles.textMuted()
 					}}
 				>
 					Debes modificar el tema para poder ver la preview.

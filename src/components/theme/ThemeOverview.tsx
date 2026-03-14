@@ -2,7 +2,7 @@ import { Marquee } from '@animatereactnative/marquee'
 import { Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 import type { Theme, ThemeParsedObject } from '@/types/theme'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function ThemeOverview({
 	theme,
@@ -12,27 +12,26 @@ export function ThemeOverview({
 	theme: ThemeParsedObject
 	isSelected?: boolean
 }) {
+	const themeStyles = useThemeStyles()
+
 	return (
 		<View
 			className={twMerge(
 				'flex flex-row justify-between items-center mt-2 py-3 px-3 rounded-lg border-2 border-transparent'
 			)}
 			style={{
-				backgroundColor: getThemeColor('text-muted', isSelected ? 0.7 : 0.2),
-				borderColor: getThemeColor('text-muted', isSelected ? 1 : 0.3)
+				backgroundColor: themeStyles.textMuted(isSelected ? 0.7 : 0.2),
+				borderColor: themeStyles.textMuted(isSelected ? 1 : 0.3)
 			}}
 		>
 			<View className="w-5/12">
 				<Text
 					className="text-md font-bold"
-					style={{ color: getThemeColor('text-secondary') }}
+					style={{ color: themeStyles.textSecondary() }}
 				>
 					{theme.name}
 				</Text>
-				<Text
-					className="text-sm"
-					style={{ color: getThemeColor('text-muted') }}
-				>
+				<Text className="text-sm" style={{ color: themeStyles.textMuted() }}>
 					{theme.variant}
 				</Text>
 			</View>

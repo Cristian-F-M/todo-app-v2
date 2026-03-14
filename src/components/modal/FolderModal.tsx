@@ -4,7 +4,7 @@ import uuid from 'react-native-uuid'
 import { twMerge } from 'tailwind-merge'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import { zodParse } from '@/utils/zod'
 import { createFolderSchema } from '@/zod-schemes/folder'
 import { StyledPressable } from '../layout/StyledPressable'
@@ -14,6 +14,7 @@ export function FolderModal() {
 	const { update, create } = useFolder()
 	const [error, setError] = useState<string | null>(null)
 	const [textInput, setTextInput] = useState<string>(item?.data.name || '')
+	const themeStyles = useThemeStyles()
 
 	const thereIsItem = !!item
 	const modalTitle = thereIsItem ? 'Editar carpeta' : 'Crear carpeta'
@@ -49,7 +50,7 @@ export function FolderModal() {
 			<View className="flex-row items-center justify-between relative">
 				<Text
 					className="text-start text-2xl font-semibold tracking-wider"
-					style={{ color: getThemeColor('text-primary') }}
+					style={{ color: themeStyles.textPrimary() }}
 				>
 					{modalTitle}
 				</Text>
@@ -61,22 +62,22 @@ export function FolderModal() {
 					<View
 						className="mt-6 rounded-lg border"
 						style={{
-							borderColor: getThemeColor('border'),
-							backgroundColor: getThemeColor('surface-soft')
+							borderColor: themeStyles.border(),
+							backgroundColor: themeStyles.surfaceSoft()
 						}}
 					>
 						{/* <View></View> */}
 						<TextInput
 							value={textInput}
 							className="px-3 h-12"
-							placeholderTextColor={getThemeColor('text-primary', 0.7)}
+							placeholderTextColor={themeStyles.textPrimary(0.7)}
 							placeholder="Nombre de la carpeta"
 							onChange={(e) => {
 								setError(null)
 								setTextInput(e.nativeEvent.text)
 							}}
 							style={{
-								color: getThemeColor('text-primary')
+								color: themeStyles.textPrimary()
 							}}
 						/>
 					</View>
@@ -84,7 +85,7 @@ export function FolderModal() {
 					<Text
 						className={twMerge('mt-1 text-sm hidden', error && 'block')}
 						style={{
-							color: getThemeColor('danger')
+							color: themeStyles.danger()
 						}}
 					>
 						{error}

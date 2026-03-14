@@ -2,7 +2,7 @@ import { IconPencilPlus } from '@tabler/icons-react-native'
 import * as Haptics from 'expo-haptics'
 import { router, Stack } from 'expo-router'
 import type { ExtendedStackNavigationOptions } from 'expo-router/build/layouts/StackClient'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { Text, ToastAndroid, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import type { SvgProps } from 'react-native-svg'
@@ -16,7 +16,7 @@ import { Input } from '@/components/layout/Input'
 import { Screen } from '@/components/layout/Screen'
 import { StyledPressable } from '@/components/layout/StyledPressable'
 import type { ThemeKeys } from '@/types/themeColorsEditor'
-import { getThemeColor, saveTheme, useThemeStyles } from '@/utils/theme'
+import { saveTheme, useThemeStyles } from '@/utils/theme'
 import { zodParse } from '@/utils/zod'
 import { createThemeSchema } from '@/zod-schemes/theme'
 
@@ -30,6 +30,8 @@ interface Errors {
 }
 
 export default function CreateTheme() {
+	const themeStyles = useThemeStyles()
+
 	const [themeInfo, setThemeInfo] = useState<ThemeInfo>({
 		name: '',
 		variant: ''
@@ -42,15 +44,18 @@ export default function CreateTheme() {
 	})
 	const scrollViewRef = useRef<ScrollView>(null)
 
-	const screenOptions = useThemeStyles<ExtendedStackNavigationOptions>(() => ({
-		headerShown: true,
-		title: 'Creador de temas',
-		headerTitleAlign: 'center',
-		headerStyle: {
-			backgroundColor: getThemeColor('surface')
-		},
-		headerTintColor: getThemeColor('text-primary')
-	}))
+	const screenOptions = useMemo<ExtendedStackNavigationOptions>(
+		() => ({
+			headerShown: true,
+			title: 'Creador de temas',
+			headerTitleAlign: 'center',
+			headerStyle: {
+				backgroundColor: themeStyles.surface()
+			},
+			headerTintColor: themeStyles.textPrimary()
+		}),
+		[themeStyles]
+	)
 
 	const handleCreateTheme = useCallback(async () => {
 		if (!theme) return
@@ -90,7 +95,7 @@ export default function CreateTheme() {
 					<Text
 						className="text-base mb-1"
 						style={{
-							color: getThemeColor('text-secondary')
+							color: themeStyles.textSecondary()
 						}}
 					>
 						Nombre del tema
@@ -109,7 +114,7 @@ export default function CreateTheme() {
 					<Text
 						className="text-base mb-1"
 						style={{
-							color: getThemeColor('text-secondary')
+							color: themeStyles.textSecondary()
 						}}
 					>
 						Variante
@@ -129,7 +134,7 @@ export default function CreateTheme() {
 					<Text
 						className="text-base mb-2"
 						style={{
-							color: getThemeColor('text-secondary')
+							color: themeStyles.textSecondary()
 						}}
 					>
 						Modo de creación

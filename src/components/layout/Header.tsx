@@ -4,12 +4,13 @@ import { twMerge } from 'tailwind-merge'
 import { StyledPressable } from '@/components/layout/StyledPressable'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function Header() {
 	const { folders } = useFolder()
 	const { openModal } = useModal()
 	const thereIsFolders = folders.length > 0
+	const themeStyles = useThemeStyles()
 
 	const openCreateFolderModal = useCallback(() => {
 		openModal('folder')
@@ -21,7 +22,7 @@ export function Header() {
 				<Text
 					className="text-3xl text-center"
 					style={{
-						color: getThemeColor('text-primary')
+						color: themeStyles.textPrimary()
 					}}
 				>
 					Mis Carpetas

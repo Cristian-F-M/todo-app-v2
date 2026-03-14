@@ -1,6 +1,6 @@
 import { View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function CheckboxIcon({
 	isChecked,
@@ -9,12 +9,14 @@ export function CheckboxIcon({
 	isChecked: boolean
 	size: number
 }) {
+	const themeStyles = useThemeStyles()
+
 	return (
 		<View
 			style={{
 				width: size,
 				height: size,
-				backgroundColor: getThemeColor('primary', 0.5)
+				backgroundColor: themeStyles.primary(0.5)
 			}}
 			className={twMerge(
 				'rounded-full transition-opacity opacity-0',

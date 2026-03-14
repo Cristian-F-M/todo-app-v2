@@ -17,12 +17,13 @@ import { useConfig } from '@/state/config'
 import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import type { Folder as FolderType } from '@/types/folder'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function FolderItem({ folder }: { folder: FolderType }) {
 	const { openModal, setItem } = useModal()
 	const { delete: deleteFolder } = useFolder()
 	const { configs } = useConfig()
+	const themeStyles = useThemeStyles()
 
 	const openEditModal = useCallback(() => {
 		setItem({ type: 'FOLDER', data: folder })
@@ -46,8 +47,8 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 			asChild
 			className="flex flex-row px-4 py-4 mb-3 h-16 rounded-lg justify-between border"
 			style={{
-				backgroundColor: getThemeColor('surface'),
-				borderColor: getThemeColor('border')
+				backgroundColor: themeStyles.surface(),
+				borderColor: themeStyles.border()
 			}}
 		>
 			<Pressable className="w-full flex flex-row items-center">
@@ -58,17 +59,17 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 					exiting={FadeOut}
 				>
 					<View className="flex flex-row gap-x-2 items-center justify-center">
-						<IconFolder color={getThemeColor('text-muted')} />
+						<IconFolder color={themeStyles.textMuted()} />
 						<View className="flex flex-col">
 							<Text
 								className="text-lg tracking-wider leading-tight items-center justify-center"
-								style={{ color: getThemeColor('text-primary') }}
+								style={{ color: themeStyles.textPrimary() }}
 							>
 								{folder.name}
 							</Text>
 							<Text
 								className="text-xs leading-tight"
-								style={{ color: getThemeColor('text-muted') }}
+								style={{ color: themeStyles.textMuted() }}
 							>
 								{folder.taskCount} tareas
 							</Text>
@@ -93,7 +94,7 @@ export function FolderItem({ folder }: { folder: FolderType }) {
 						]}
 					>
 						<View className="active:bg-primary-pressed p-1 rounded-lg">
-							<IconDotsVertical color={getThemeColor('text-primary')} />
+							<IconDotsVertical color={themeStyles.textPrimary()} />
 						</View>
 					</ContextMenu>
 				</Animated.View>

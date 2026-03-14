@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { Text, View } from 'react-native'
 import { Checkbox } from '@/components/Checkbox/Checkbox'
 import type { NotificationType } from '@/types/modal'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 interface CheckboxNotificationGroupProps {
 	notificationType: NotificationType
@@ -13,6 +13,7 @@ export function CheckboxNotificationGroup({
 	notificationType,
 	onChange
 }: CheckboxNotificationGroupProps) {
+	const themeStyles = useThemeStyles()
 	const handleChangeNotificationType = useCallback(
 		(type: NotificationType) => {
 			if (type === notificationType) return
@@ -22,7 +23,7 @@ export function CheckboxNotificationGroup({
 		[notificationType, onChange]
 	)
 
-	const textColor = getThemeColor('text-primary')
+	const textColor = themeStyles.textPrimary()
 
 	return (
 		<View className="w-full flex-col gap-2">

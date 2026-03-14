@@ -3,6 +3,7 @@ import { StatusBar, type StatusBarStyle } from 'expo-status-bar'
 import { View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import '../global.css'
+import type { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import * as Notifications from 'expo-notifications'
 import * as SplashScreen from 'expo-splash-screen'
 import * as SystemUI from 'expo-system-ui'
@@ -26,7 +27,7 @@ import useTask from '@/state/Task'
 import { useTheme } from '@/state/theme'
 import type { Theme } from '@/types/theme'
 import { migrateDB, removeNotificationId } from '@/utils/database'
-import { getThemeColor, useThemeStyles } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 // This is the default configuration
 configureReanimatedLogger({
@@ -57,6 +58,7 @@ export default function RootLayout() {
 	const taskModalRef = useRef<Modalize>(null)
 	const folderModalRef = useRef<Modalize>(null)
 	const deleteModalRef = useRef<Modalize>(null)
+	const themeStyles = useThemeStyles()
 
 	const themeVars = useMemo(() => {
 		const entries = Object.entries(themes[theme as Theme].colors).map(
@@ -68,8 +70,8 @@ export default function RootLayout() {
 		return Object.fromEntries(entries)
 	}, [theme, themes])
 
-	const statusBarProps = useThemeStyles(() => {
-		const backgroundColor = getThemeColor('background')
+	const statusBarProps = useMemo(() => {
+		const backgroundColor = themeStyles.background()
 		const style: StatusBarStyle = colorKit.isDark(backgroundColor)
 			? 'light'
 			: 'dark'
@@ -78,7 +80,17 @@ export default function RootLayout() {
 			backgroundColor,
 			style
 		}
-	})
+	}, [themeStyles])
+
+	const stackScreenOptions = useMemo<NativeStackNavigationOptions>(() => {
+		return {
+			headerShown: false,
+			animation: 'slide_from_right',
+			contentStyle: {
+				backgroundColor: themeStyles.background()
+			}
+		}
+	}, [themeStyles])
 
 	useLayoutEffect(() => {
 		async function init() {
@@ -114,7 +126,7 @@ export default function RootLayout() {
 					style={[
 						vars(themeVars),
 						{
-							backgroundColor: getThemeColor('background')
+							backgroundColor: themeStyles.background()
 						}
 					]}
 					className="flex-1"
@@ -124,15 +136,7 @@ export default function RootLayout() {
 						backgroundColor={statusBarProps.backgroundColor}
 						translucent={false}
 					/>
-					<Stack
-						screenOptions={{
-							headerShown: false,
-							animation: 'slide_from_right',
-							contentStyle: {
-								backgroundColor: getThemeColor('background')
-							}
-						}}
-					/>
+					<Stack screenOptions={stackScreenOptions} />
 				</View>
 
 				<Modal modalRef={taskModalRef}>

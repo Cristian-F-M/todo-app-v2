@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native'
 import { colorKit } from 'reanimated-color-picker'
 import type { SingleColorEditorProps } from '@/types/themeColorsEditor'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import { ColorSquare } from '../ColorSquare'
 
 export function SingleColorEditor({
@@ -10,13 +10,15 @@ export function SingleColorEditor({
 	editable = false,
 	onPress
 }: SingleColorEditorProps) {
+	const themeStyles = useThemeStyles()
+
 	return (
 		<View className="flex-row justify-between items-center">
 			<View>
 				<Text
 					className="text-sm "
 					style={{
-						color: getThemeColor('text-primary')
+						color: themeStyles.textPrimary()
 					}}
 				>
 					{name}
@@ -24,7 +26,7 @@ export function SingleColorEditor({
 				<Text
 					className="text-xs"
 					style={{
-						color: getThemeColor('text-secondary')
+						color: themeStyles.textSecondary()
 					}}
 				>
 					{name}
@@ -34,7 +36,7 @@ export function SingleColorEditor({
 				<Text
 					className="text-sm"
 					style={{
-						color: getThemeColor('text-muted')
+						color: themeStyles.textMuted()
 					}}
 				>
 					{colorKit.HEX(color)}

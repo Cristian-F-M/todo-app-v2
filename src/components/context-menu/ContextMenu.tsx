@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 import type { ContextMenuItemData } from '@/types/contextMenu'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import { ContextMenuItem } from './ContextMenuItem'
 
 export const CONTEXT_MENU_OFFSET = 12
@@ -44,6 +44,7 @@ export function ContextMenu({
 	title,
 	...props
 }: ContextMenuProps) {
+	const themeStyles = useThemeStyles()
 	const [isShowed, setIsShowed] = useState(false)
 	const [triggerMeta, setTriggerMeta] =
 		useState<Partial<typeof DEFAULT_META>>(DEFAULT_META)
@@ -135,9 +136,9 @@ export function ContextMenu({
 							{
 								top: contextMenuMeta.y,
 								left: contextMenuMeta.x,
-								backgroundColor: getThemeColor('surface-soft'),
+								backgroundColor: themeStyles.surfaceSoft(),
 								borderWidth: 1,
-								borderColor: getThemeColor('border')
+								borderColor: themeStyles.border()
 							},
 							style
 						]}
@@ -149,7 +150,7 @@ export function ContextMenu({
 									<Text
 										className="text-center text-xs"
 										style={{
-											color: getThemeColor('text-muted')
+											color: themeStyles.textMuted()
 										}}
 									>
 										{title}
@@ -159,7 +160,7 @@ export function ContextMenu({
 									className="w-full"
 									style={{
 										height: 1,
-										backgroundColor: getThemeColor('border')
+										backgroundColor: themeStyles.border()
 									}}
 								/>
 							</>
@@ -173,7 +174,7 @@ export function ContextMenu({
 									className="w-full"
 									style={{
 										height: 1,
-										backgroundColor: getThemeColor('border')
+										backgroundColor: themeStyles.border()
 									}}
 								/>
 							)}
@@ -197,7 +198,7 @@ export function ContextMenu({
 								<Text
 									className="text-center text-xs"
 									style={{
-										color: getThemeColor('text-muted')
+										color: themeStyles.textMuted()
 									}}
 								>
 									No hay acciones

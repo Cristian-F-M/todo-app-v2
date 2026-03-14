@@ -12,7 +12,7 @@ import type { NotificationType } from '@/types/modal'
 import type { TimeValueType } from '@/types/timePicker'
 import { formatDateString, sumDate } from '@/utils/dateTime'
 import { removeNotification, sendNotification } from '@/utils/notifications'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import { zodParse } from '@/utils/zod'
 import { createTaskSchema } from '@/zod-schemes/task'
 import { DateTimePicker } from '../DateTimePicker/DateTimePicker'
@@ -32,6 +32,7 @@ export function TaskModal() {
 		minutes: 0
 	})
 	const [dateTimeValue, setDateTimeValue] = useState(new Date())
+	const themeStyles = useThemeStyles()
 
 	const thereIsItem = !!item
 	const modalTitle = thereIsItem ? 'Editar tarea' : 'Crear tarea'
@@ -136,7 +137,7 @@ export function TaskModal() {
 				<Text
 					className="text-start text-2xl font-semibold tracking-wider"
 					style={{
-						color: getThemeColor('text-primary')
+						color: themeStyles.textPrimary()
 					}}
 				>
 					{modalTitle}
@@ -149,8 +150,8 @@ export function TaskModal() {
 					<View
 						className="mt-6 rounded-lg border"
 						style={{
-							backgroundColor: getThemeColor('surface-soft'),
-							borderColor: getThemeColor('border')
+							backgroundColor: themeStyles.surfaceSoft(),
+							borderColor: themeStyles.border()
 						}}
 					>
 						{/* <View></View> */}
@@ -161,9 +162,9 @@ export function TaskModal() {
 							value={textInput}
 							className="px-3 min-h-12"
 							style={{
-								color: getThemeColor('text-primary')
+								color: themeStyles.textPrimary()
 							}}
-							placeholderTextColor={getThemeColor('text-secondary')}
+							placeholderTextColor={themeStyles.textSecondary()}
 							placeholder="Nombre de la tarea"
 							onChange={(e) => {
 								setError(null)
@@ -175,7 +176,7 @@ export function TaskModal() {
 					<Text
 						className={twMerge('mt-1 text-sm hidden', error && 'block')}
 						style={{
-							color: getThemeColor('danger')
+							color: themeStyles.danger()
 						}}
 					>
 						{error}
@@ -190,8 +191,8 @@ export function TaskModal() {
 						notificate && 'pb-4'
 					)}
 					style={{
-						backgroundColor: getThemeColor('surface'),
-						borderColor: getThemeColor('border')
+						backgroundColor: themeStyles.surface(),
+						borderColor: themeStyles.border()
 					}}
 				>
 					{/* <header /> */}
@@ -202,19 +203,19 @@ export function TaskModal() {
 						)}
 						style={{
 							backgroundColor: notificate
-								? getThemeColor('surface-soft')
+								? themeStyles.surfaceSoft()
 								: 'transparent'
 						}}
 					>
 						<View className="flex flex-row gap-2 items-center">
 							<IconBell
-								color={getThemeColor('text-muted')}
+								color={themeStyles.textMuted()}
 								width={18}
 								height={18}
 							/>
 							<Text
 								style={{
-									color: getThemeColor('text-primary')
+									color: themeStyles.textPrimary()
 								}}
 							>
 								Notificar
@@ -222,10 +223,10 @@ export function TaskModal() {
 						</View>
 						<Switch
 							trackColor={{
-								false: getThemeColor('text-secondary'),
-								true: getThemeColor('primary')
+								false: themeStyles.textSecondary(),
+								true: themeStyles.primary()
 							}}
-							thumbColor={getThemeColor('text-primary')}
+							thumbColor={themeStyles.textPrimary()}
 							value={notificate}
 							onValueChange={handleSetNotificate}
 						/>
@@ -237,7 +238,7 @@ export function TaskModal() {
 							<View
 								className="h-full w-1 rounded"
 								style={{
-									backgroundColor: getThemeColor('primary')
+									backgroundColor: themeStyles.primary()
 								}}
 							></View>
 							<View className="w-full flex-col pl-4 py-3 flex-1">
@@ -260,11 +261,11 @@ export function TaskModal() {
 								<View
 									className="mt-6 w-full flex flex-row gap-x-2 items-center px-3 py-2 rounded"
 									style={{
-										backgroundColor: getThemeColor('surface-soft')
+										backgroundColor: themeStyles.surfaceSoft()
 									}}
 								>
 									<IconBell
-										color={getThemeColor('text-muted')}
+										color={themeStyles.textMuted()}
 										width={18}
 										height={18}
 									/>
@@ -272,7 +273,7 @@ export function TaskModal() {
 									<Text
 										className="text-sm mt-px flex-1"
 										style={{
-											color: getThemeColor('text-primary')
+											color: themeStyles.textPrimary()
 										}}
 									>
 										{notificationText}

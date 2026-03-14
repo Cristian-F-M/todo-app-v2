@@ -18,13 +18,14 @@ import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import type { Task } from '@/types/task'
 import { removeNotification } from '@/utils/notifications'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function TaskItem({ task }: { task: Task }) {
 	const { openModal, setItem } = useModal()
 	const [isChecked, setIsChecked] = useState(task.isCompleted)
 	const { delete: deleteTask, update } = useTask()
 	const { configs } = useConfig()
+	const themeStyles = useThemeStyles()
 
 	const handleEditTask = useCallback(() => {
 		setItem({ type: 'TASK', data: task })
@@ -57,8 +58,8 @@ export function TaskItem({ task }: { task: Task }) {
 				isChecked && 'opacity-95'
 			)}
 			style={{
-				backgroundColor: getThemeColor('surface'),
-				borderColor: getThemeColor('border')
+				backgroundColor: themeStyles.surface(),
+				borderColor: themeStyles.border()
 			}}
 			layout={LinearTransition.stiffness(2).duration(150)}
 			entering={FadeIn}
@@ -79,7 +80,9 @@ export function TaskItem({ task }: { task: Task }) {
 						)}
 						onPress={handleCompleteTask}
 						style={{
-							color: getThemeColor(isChecked ? 'text-muted' : 'text-secondary')
+							color: isChecked
+								? themeStyles.textMuted()
+								: themeStyles.textSecondary()
 						}}
 					>
 						{task.name}
@@ -106,7 +109,7 @@ export function TaskItem({ task }: { task: Task }) {
 				]}
 			>
 				<View className="active:bg-primary-pressed  p-1 rounded-lg">
-					<IconDotsVertical color={getThemeColor('text-primary')} />
+					<IconDotsVertical color={themeStyles.textPrimary()} />
 				</View>
 			</ContextMenu>
 		</Animated.View>

@@ -5,7 +5,7 @@ import {
 import { useCallback, useState } from 'react'
 import { Text, TextInput, View } from 'react-native'
 import { WrapCaretIcon } from '@/components/TimePicker/WrapCaretIcon'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export interface SingleTimePickerProps {
 	text: string
@@ -24,6 +24,7 @@ export function SingleTimePicker({
 }: SingleTimePickerProps) {
 	let timeout: NodeJS.Timeout | undefined
 	const [localValue, setLocalValue] = useState<string | number>(value)
+	const themeStyles = useThemeStyles()
 
 	const handleChange = useCallback(
 		(value: number) => {
@@ -73,7 +74,7 @@ export function SingleTimePicker({
 			<View className="flex-row items-center rounded-lg p-1 gap-3">
 				<WrapCaretIcon className="justify-center" onPress={handleUp}>
 					<IconCaretUpFilled
-						color={getThemeColor('primary')}
+						color={themeStyles.primary()}
 						width={24}
 						height={24}
 					/>
@@ -81,14 +82,14 @@ export function SingleTimePicker({
 				<View
 					className="rounded-lg border h-12 w-12"
 					style={{
-						backgroundColor: getThemeColor('surface-soft'),
-						borderColor: getThemeColor('text-muted', 0.5)
+						backgroundColor: themeStyles.surfaceSoft(),
+						borderColor: themeStyles.textMuted(0.5)
 					}}
 				>
 					<TextInput
 						className="px-3 h-full text-center"
-						style={{ color: getThemeColor('text-primary') }}
-						placeholderTextColor={getThemeColor('text-primary', 0.5)}
+						style={{ color: themeStyles.textPrimary() }}
+						placeholderTextColor={themeStyles.textPrimary(0.5)}
 						placeholder="..."
 						maxLength={2}
 						onChangeText={handleTextChange}
@@ -98,13 +99,13 @@ export function SingleTimePicker({
 				</View>
 				<WrapCaretIcon className="justify-center" onPress={handleDown}>
 					<IconCaretDownFilled
-						color={getThemeColor('primary')}
+						color={themeStyles.primary()}
 						width={24}
 						height={24}
 					/>
 				</WrapCaretIcon>
 			</View>
-			<Text style={{ color: getThemeColor('text-secondary') }}>{text}</Text>
+			<Text style={{ color: themeStyles.textSecondary() }}>{text}</Text>
 		</View>
 	)
 }

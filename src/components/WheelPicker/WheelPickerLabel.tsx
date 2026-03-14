@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 import type { WheelPickerLabelProps } from '@/types/wheelPicker'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function WheelPickerLabel({
 	label,
@@ -9,6 +9,8 @@ export function WheelPickerLabel({
 	className,
 	...props
 }: WheelPickerLabelProps) {
+	const themeStyles = useThemeStyles()
+
 	if (!label) return null
 
 	return (
@@ -21,7 +23,7 @@ export function WheelPickerLabel({
 				className
 			)}
 			style={{
-				backgroundColor: getThemeColor('primary', 0.5)
+				backgroundColor: themeStyles.primary(0.5)
 			}}
 			{...props}
 		>

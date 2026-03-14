@@ -1,12 +1,13 @@
 import { View } from 'react-native'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function ConfigsSkeleton({
 	configsLength = 2
 }: {
 	configsLength?: number
 }) {
-	const textColor = getThemeColor('text-muted')
+	const themeStyles = useThemeStyles()
+	const textColor = themeStyles.textMuted()
 
 	return (
 		<View className="animate-pulse flex flex-col gap-y-16 w-[95%] mx-auto mt-6">
@@ -14,8 +15,8 @@ export function ConfigsSkeleton({
 				<View
 					className=" gap-x-3 gap-y-4 flex-col border-b pb-10"
 					style={{
-						backgroundColor: getThemeColor('surface-soft'),
-						borderColor: getThemeColor('border')
+						backgroundColor: themeStyles.surfaceSoft(),
+						borderColor: themeStyles.border()
 					}}
 					key={index}
 				>

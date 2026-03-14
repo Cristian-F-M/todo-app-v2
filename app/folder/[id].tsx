@@ -12,7 +12,7 @@ import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import type { Task } from '@/types/task'
-import { getThemeColor, useThemeStyles } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 type TaskRenderItem =
 	| Task
@@ -29,6 +29,7 @@ export default function Folder() {
 	const { openModal, setFolderId } = useModal()
 	const folderId = id as string
 	const folder = getById(folderId)
+	const themeStyles = useThemeStyles()
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: Is necessary add tasksFromContext to the dependency array to update the tasks when a new task is created
 	const tasks = useMemo(() => {
@@ -90,14 +91,17 @@ export default function Folder() {
 
 	const pageTitle = folder ? folder.name : 'Carpeta no encontrada'
 
-	const screenOptions = useThemeStyles(() => ({
-		headerShown: true,
-		title: pageTitle,
-		headerStyle: {
-			backgroundColor: getThemeColor('surface')
-		},
-		headerTintColor: getThemeColor('text-primary')
-	}))
+	const screenOptions = useMemo(
+		() => ({
+			headerShown: true,
+			title: pageTitle,
+			headerStyle: {
+				backgroundColor: themeStyles.surface()
+			},
+			headerTintColor: themeStyles.textPrimary()
+		}),
+		[pageTitle, themeStyles]
+	)
 
 	useLayoutEffect(() => {
 		setFolderId(folderId)
@@ -115,7 +119,7 @@ export default function Folder() {
 				return (
 					<Text
 						className="text-sm mb-4"
-						style={{ color: getThemeColor('text-muted') }}
+						style={{ color: themeStyles.textMuted() }}
 					>
 						{item.title}
 					</Text>
@@ -125,7 +129,7 @@ export default function Folder() {
 				return (
 					<Text
 						className="text-base my-1"
-						style={{ color: getThemeColor('text-secondary') }}
+						style={{ color: themeStyles.textSecondary() }}
 					>
 						{item.title}
 					</Text>
@@ -133,7 +137,7 @@ export default function Folder() {
 
 			return null
 		},
-		[]
+		[themeStyles]
 	)
 
 	if (!folder) return <Folder404 />
@@ -147,7 +151,7 @@ export default function Folder() {
 				<View className="flex flex-row items-center justify-between mt-3 px-2">
 					<Text
 						className="text-base"
-						style={{ color: getThemeColor('text-secondary') }}
+						style={{ color: themeStyles.textSecondary() }}
 					>
 						{folder.taskCount} tareas
 					</Text>

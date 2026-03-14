@@ -1,6 +1,6 @@
 import { Text, TextInput, type TextInputProps, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 interface InputProps extends TextInputProps {
 	value: string
@@ -9,24 +9,26 @@ interface InputProps extends TextInputProps {
 }
 
 export function Input({ value, onValueChange, error, ...props }: InputProps) {
+	const themeStyles = useThemeStyles()
+
 	return (
 		<View>
 			<TextInput
 				value={value}
 				onChangeText={onValueChange}
 				className="border rounded-lg px-3 min-h-12"
-				placeholderTextColor={getThemeColor('text-secondary')}
+				placeholderTextColor={themeStyles.textSecondary()}
 				style={{
-					color: getThemeColor('text-primary'),
-					borderColor: getThemeColor('border'),
-					backgroundColor: getThemeColor('surface-soft')
+					color: themeStyles.textPrimary(),
+					borderColor: themeStyles.border(),
+					backgroundColor: themeStyles.surfaceSoft()
 				}}
 				{...props}
 			/>
 			<Text
 				className={twMerge('text-sm mt-1 opacity-0', error && 'opacity-100')}
 				style={{
-					color: getThemeColor('danger')
+					color: themeStyles.danger()
 				}}
 			>
 				{error}

@@ -1,28 +1,34 @@
 import type { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs'
 import { IconHomeFilled, IconSettingsFilled } from '@tabler/icons-react-native'
 import { Tabs } from 'expo-router'
-import { getThemeColor, useThemeStyles } from '@/utils/theme'
+import { useMemo } from 'react'
+import { useThemeStyles } from '@/utils/theme'
 
 type ScreeOptions = BottomTabNavigationOptions
 
 export default function TabsLayout() {
-	const screenOptions = useThemeStyles<ScreeOptions>(() => ({
-		animation: 'fade',
-		headerShown: false,
-		headerStyle: {
-			backgroundColor: getThemeColor('background')
-		},
-		headerTintColor: getThemeColor('text-primary'),
-		tabBarStyle: {
-			backgroundColor: getThemeColor('surface-soft'),
-			borderColor: getThemeColor('border')
-		},
-		tabBarActiveTintColor: getThemeColor('primary'),
-		tabBarInactiveTintColor: getThemeColor('text-secondary'),
-		sceneStyle: {
-			backgroundColor: getThemeColor('background')
-		}
-	}))
+	const themeStyles = useThemeStyles()
+
+	const screenOptions = useMemo<ScreeOptions>(
+		() => ({
+			animation: 'fade',
+			headerShown: false,
+			headerStyle: {
+				backgroundColor: themeStyles.background()
+			},
+			headerTintColor: themeStyles.textPrimary(),
+			tabBarStyle: {
+				backgroundColor: themeStyles.surfaceSoft(),
+				borderColor: themeStyles.border()
+			},
+			tabBarActiveTintColor: themeStyles.primary(),
+			tabBarInactiveTintColor: themeStyles.textSecondary(),
+			sceneStyle: {
+				backgroundColor: themeStyles.background()
+			}
+		}),
+		[themeStyles]
+	)
 
 	return (
 		<Tabs screenOptions={screenOptions}>

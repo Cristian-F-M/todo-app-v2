@@ -1,7 +1,7 @@
 import { Text } from 'react-native'
 import Animated, { useAnimatedStyle } from 'react-native-reanimated'
 import type { WheelItemProps } from '@/types/wheelPicker'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function WheelItem({
 	label,
@@ -15,6 +15,7 @@ export function WheelItem({
 	const half = visibleItems
 	const shouldRender =
 		index > currentIndex - half && index < currentIndex + half
+	const themeStyles = useThemeStyles()
 
 	const animatedStyle = useAnimatedStyle(() => {
 		if (index < currentIndex - half || index > currentIndex + half) {
@@ -42,7 +43,7 @@ export function WheelItem({
 		>
 			<Text
 				className="font-medium text-lg"
-				style={{ color: getThemeColor('text-primary') }}
+				style={{ color: themeStyles.textPrimary() }}
 			>
 				{label}
 			</Text>

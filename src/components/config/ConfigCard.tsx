@@ -1,5 +1,6 @@
+import type React from 'react'
 import { Text, View } from 'react-native'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 
 export function ConfigCard({
 	title,
@@ -8,15 +9,17 @@ export function ConfigCard({
 	title: string
 	children: React.ReactNode
 }) {
+	const themeStyles = useThemeStyles()
+
 	return (
 		<View
 			className="border-b py-4 px-0 mx-auto w-full"
-			style={{ borderColor: getThemeColor('text-muted') }}
+			style={{ borderColor: themeStyles.textMuted() }}
 		>
 			<View className="mb-4">
 				<Text
 					className="text-xl font-bold"
-					style={{ color: getThemeColor('primary') }}
+					style={{ color: themeStyles.primary() }}
 				>
 					{title}
 				</Text>

@@ -1,7 +1,7 @@
 import { IconExternalLink } from '@tabler/icons-react-native'
 import { Link, Stack } from 'expo-router'
 import type { ExtendedStackNavigationOptions } from 'expo-router/build/layouts/StackClient'
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { Dimensions, Pressable, ScrollView, View } from 'react-native'
 import type { Modalize } from 'react-native-modalize'
 import { ConfigCard } from '@/components/config/ConfigCard'
@@ -12,22 +12,23 @@ import { ChangeThemeModalContent } from '@/components/theme/ChangeThemeModalCont
 import { useConfigModal } from '@/constants/changeTheme'
 import { useConfig } from '@/state/config'
 import { type Configs as ConfigsType, saveAllConfigs } from '@/utils/settings'
-import { getThemeColor, useThemeStyles } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import { useDebounce } from '@/utils/useDebounce'
 
 export default function ConfigPage() {
 	const { configs, setConfigs } = useConfig()
 	const debouncedConfigs = useDebounce<ConfigsType>(configs, 500)
 	const { height: windowHeight } = Dimensions.get('window')
+	const themeStyles = useThemeStyles()
 
-	const screenOptions = useThemeStyles<ExtendedStackNavigationOptions>(() => ({
+	const screenOptions = useMemo<ExtendedStackNavigationOptions>(() => ({
 		headerShown: true,
 		headerTitleAlign: 'center',
 		headerStyle: {
-			backgroundColor: getThemeColor('surface')
+			backgroundColor: themeStyles.surface()
 		},
-		headerTintColor: getThemeColor('text-primary')
-	}))
+		headerTintColor: themeStyles.textPrimary()
+	}), [themeStyles])
 
 	useEffect(() => {
 		saveAllConfigs(debouncedConfigs)
@@ -82,10 +83,10 @@ export default function ConfigPage() {
 								className="p-2 rounded-lg active:bg-primary-pressed w-12 items-center justify-center self-end mr-1"
 								onPress={() => modalRef.current?.open()}
 								style={{
-									backgroundColor: getThemeColor('primary')
+									backgroundColor: themeStyles.primary()
 								}}
 							>
-								<IconExternalLink color={getThemeColor('text-primary')} />
+								<IconExternalLink color={themeStyles.textPrimary()} />
 							</Pressable>
 						</View>
 					</ConfigRow>
@@ -102,10 +103,10 @@ export default function ConfigPage() {
 							className="p-2 rounded-lg active:bg-primary-pressed w-12 items-center justify-center self-end mr-1"
 							onPress={() => pickerTimeTypeRef.current?.open()}
 							style={{
-								backgroundColor: getThemeColor('primary')
+								backgroundColor: themeStyles.primary()
 							}}
 						>
-							<IconExternalLink color={getThemeColor('text-primary')} />
+							<IconExternalLink color={themeStyles.textPrimary()} />
 						</Pressable>
 					</ConfigRow>
 				</ConfigCard>
@@ -154,10 +155,10 @@ export default function ConfigPage() {
 							<Pressable
 								className="p-2 rounded-lg active:bg-primary-pressed w-12 items-center justify-center self-end mr-1"
 								style={{
-									backgroundColor: getThemeColor('primary')
+									backgroundColor: themeStyles.primary()
 								}}
 							>
-								<IconExternalLink color={getThemeColor('text-primary')} />
+								<IconExternalLink color={themeStyles.textPrimary()} />
 							</Pressable>
 						</Link>
 					</ConfigRow>

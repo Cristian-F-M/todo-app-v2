@@ -5,13 +5,14 @@ import useFolder from '@/state/Folder'
 import { useModal } from '@/state/modal'
 import useTask from '@/state/Task'
 import { removeNotification } from '@/utils/notifications'
-import { getThemeColor } from '@/utils/theme'
+import { useThemeStyles } from '@/utils/theme'
 import { StyledPressable } from '../layout/StyledPressable'
 
 export function DeleteModal() {
 	const { item, closeModal, setItem } = useModal()
 	const { delete: deleteTask } = useTask()
 	const { delete: deleteFolder } = useFolder()
+	const themeStyles = useThemeStyles()
 
 	const handleDeleteItem = useCallback(() => {
 		if (!item) return
@@ -40,14 +41,14 @@ export function DeleteModal() {
 		<View className="w-full px-6 py-5 flex-col items-center justify-center">
 			<View className="relative w-full flex-row items-center gap-x-3">
 				<IconAlertTriangle
-					stroke={getThemeColor('warning')}
+					stroke={themeStyles.warning()}
 					width={25}
 					height={25}
 				/>
 				<Text
 					className="text-2xl font-semibold"
 					style={{
-						color: getThemeColor('text-primary')
+						color: themeStyles.textPrimary()
 					}}
 				>
 					{modalTitle}
@@ -56,15 +57,11 @@ export function DeleteModal() {
 					<Pressable
 						className="p-1 rounded-lg"
 						style={{
-							backgroundColor: getThemeColor('surface-soft')
+							backgroundColor: themeStyles.surfaceSoft()
 						}}
 						onPress={() => closeModal('delete')}
 					>
-						<IconX
-							stroke={getThemeColor('text-primary')}
-							width={24}
-							height={24}
-						/>
+						<IconX stroke={themeStyles.textPrimary()} width={24} height={24} />
 					</Pressable>
 				</View>
 			</View>
@@ -72,14 +69,14 @@ export function DeleteModal() {
 				<Text
 					className="text-base"
 					style={{
-						color: getThemeColor('text-primary')
+						color: themeStyles.textPrimary()
 					}}
 				>
 					¿Estás seguro de que deseas eliminar la {modalType}{' '}
 					<Text
 						className="font-semibold"
 						style={{
-							color: getThemeColor('text-secondary')
+							color: themeStyles.textSecondary()
 						}}
 					>
 						"{item?.data.name}"
@@ -94,7 +91,7 @@ export function DeleteModal() {
 					style={{
 						backgroundColor: 'transparent',
 						borderWidth: 1,
-						borderColor: getThemeColor('border')
+						borderColor: themeStyles.border()
 					}}
 					onPress={handleCancel}
 				/>
