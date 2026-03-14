@@ -50,7 +50,7 @@ Notifications.setNotificationHandler({
 })
 
 export default function RootLayout() {
-	const { theme, themes, load } = useTheme()
+	const { theme, themes, load: loadThemes } = useTheme()
 	const { load: loadConfigs } = useConfig()
 	const { load: loadFolders } = useFolder()
 	const { load: loadTasks } = useTask()
@@ -99,12 +99,11 @@ export default function RootLayout() {
 			loadFolders()
 			loadTasks()
 			await loadConfigs()
-			await load()
-
+			await loadThemes()
 			SplashScreen.hideAsync()
 		}
 		init()
-	}, [loadFolders, loadTasks, loadConfigs, load])
+	}, [loadFolders, loadTasks, loadConfigs, loadThemes])
 
 	const getModalFns = useCallback((ref: React.RefObject<Modalize | null>) => {
 		return {
