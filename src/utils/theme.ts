@@ -20,7 +20,8 @@ export function getThemeColor(color: ThemeKeys, alpha?: number) {
 }
 
 export function RGBA(c: string, alpha = 1) {
-	return `rgb(${c} / ${alpha})`
+	const color = c.replace(/\s/g, ', ')
+	return `rgba(${color}, ${alpha})`
 }
 
 function getColorFNName(colorName: string) {
@@ -44,16 +45,15 @@ export function getColorFn(value: string) {
 
 export function useThemeStyles() {
 	const { theme, themes } = useTheme()
-	const firstTheme = Object.values(themes)[0].colors
 
 	const finalTheme = useMemo(() => {
-		const entries = Object.entries(themes[theme]?.colors ?? firstTheme)
+		const entries = Object.entries(themes[theme].colors)
 		const result = entries.map(([key, color]) => {
 			return [getColorFNName(key), getColorFn(color)]
 		}) as [ThemeColorVariableNames, (a?: number) => string][]
 
 		return Object.fromEntries(result) as useThemeStyleReturnType
-	}, [firstTheme, theme, themes])
+	}, [theme, themes])
 
 	return finalTheme
 }
@@ -207,4 +207,12 @@ export async function removeTheme(themeId: string) {
 	setThemes(newThemes)
 	await saveItem({ name: 'themes', value: newThemes })
 	ToastAndroid.show('Tema eliminado', ToastAndroid.SHORT)
+}
+
+
+export function getRandomTheme() {
+	const { themes } = useTheme.getState()
+	const themeIds = Object.keys(themes)
+	const randomThemeId = themeIds[Math.floor(Math.random() * themeIds.length)]
+	return randomThemeId
 }
