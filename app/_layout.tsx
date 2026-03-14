@@ -94,12 +94,10 @@ export default function RootLayout() {
 
 	useLayoutEffect(() => {
 		async function init() {
-			await migrateDB()
-
 			loadFolders()
 			loadTasks()
-			await loadConfigs()
-			await loadThemes()
+
+			await Promise.all([migrateDB(), loadConfigs(), loadThemes()])
 			SplashScreen.hideAsync()
 		}
 		init()
