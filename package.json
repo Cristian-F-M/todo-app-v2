@@ -1,6 +1,6 @@
 {
 	"name": "todo-v2",
-	"version": "1.14.2",
+	"version": "1.14.3",
 	"main": "expo-router/entry",
 	"author": {
 		"email": "cfmorales.diaz@gmail.com",
@@ -54,6 +54,7 @@
 		"@react-native-picker/picker": "2.11.1",
 		"@tabler/icons-react-native": "3.37.1",
 		"expo": "^54.0.33",
+		"expo-blur": "~15.0.8",
 		"expo-clipboard": "~8.0.8",
 		"expo-constants": "^18.0.13",
 		"expo-dev-client": "~6.0.20",
