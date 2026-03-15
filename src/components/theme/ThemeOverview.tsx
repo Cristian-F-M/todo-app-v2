@@ -1,5 +1,4 @@
-import { Marquee } from '@animatereactnative/marquee'
-import { Text, View } from 'react-native'
+import { FlatList, Text, View } from 'react-native'
 import { twMerge } from 'tailwind-merge'
 import type { Theme, ThemeParsedObject } from '@/types/theme'
 import { useThemeStyles } from '@/utils/theme'
@@ -37,23 +36,23 @@ export function ThemeOverview({
 			</View>
 			<View className="w-1/12 h-full" />
 			<View className="w-6/12">
-				<Marquee
-					speed={0.5}
-					style={{
-						overflow: 'hidden'
-					}}
-					spacing={4}
-				>
-					<View className="flex-row gap-x-1">
-						{Object.entries(theme.colors).map(([key, value]) => (
-							<View
-								key={key}
-								className="w-10 h-10 rounded-md"
-								style={{ backgroundColor: `rgb(${value})` }}
-							/>
-						))}
-					</View>
-				</Marquee>
+				<FlatList
+					indicatorStyle="white"
+					horizontal
+					showsHorizontalScrollIndicator={false}
+					nestedScrollEnabled
+					data={Object.values(theme.colors)}
+					renderItem={({ item }) => (
+						<View
+							className="w-10 h-10 mr-1 rounded-md"
+							style={{ backgroundColor: `rgb(${item})` }}
+						/>
+					)}
+					initialNumToRender={5}
+					maxToRenderPerBatch={3}
+					windowSize={3}
+					removeClippedSubviews={true}
+				/>
 			</View>
 		</View>
 	)
