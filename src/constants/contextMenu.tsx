@@ -1,7 +1,17 @@
-import { IconCheckbox, IconEdit, IconTrash } from '@tabler/icons-react-native'
+import {
+	IconCheckbox,
+	IconEdit,
+	IconEye,
+	IconTrash
+} from '@tabler/icons-react-native'
 import type { ContextMenuItemData } from '@/types/contextMenu'
 
 export const THEME_OVERVIEW_MENU_ACTIONS = [
+	{
+		id: 'see-theme',
+		text: 'Ver',
+		icon: () => <IconEye />
+	},
 	{
 		id: 'select-theme',
 		text: 'Seleccionar',
