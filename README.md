@@ -1,5 +1,8 @@
 # Todo App v2 🚀
 
+> [!WARNING]
+> ### The code has been moved to the v2 branch of the [Todo-CM](https://github.com/Cristian-F-M/Todo-CM) repository, and there you can find the updated code and app [releases](https://github.com/Cristian-F-M/Todo-CM/releases).
+
 Welcome to **Todo App v2**, a modern, highly customizable task management application built with React Native and Expo. 
 
 ## 🌟 Features
